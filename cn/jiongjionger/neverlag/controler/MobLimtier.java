@@ -19,20 +19,9 @@ import cn.jiongjionger.neverlag.NeverLag;
 
 public class MobLimtier implements Listener {
 
-	private NeverLag plg = NeverLag.getInstance();
 	private ConfigManager cm = ConfigManager.getInstance();
-	private int cacheMobCount = 0;
-
-	// 5秒统计一次实体数量，而不是每次调用都计算，节约开销
-	public MobLimtier() {
-		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {
-			public void run() {
-				if (cm.isLimitEntitySpawn()) {
-					countTotalEntity();
-				}
-			}
-		}, 100L, 100L);
-	}
+	private int cachedMobCount = 0;
+	private long lastCountTime = System.currentTimeMillis();
 
 	private void countTotalEntity() {
 		int count = 0;
@@ -43,7 +32,15 @@ public class MobLimtier implements Listener {
 				}
 			}
 		}
-		this.cacheMobCount = count;
+		this.cachedMobCount = count;
+	}
+
+	// 5秒统计一次实体数量，而不是每次调用都计算，节约开销
+	private int getMobCount() {
+		if (System.currentTimeMillis() - lastCountTime >= 5000L || cachedMobCount == 0) {
+			this.countTotalEntity();
+		}
+		return this.cachedMobCount;
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -64,11 +61,11 @@ public class MobLimtier implements Listener {
 		if (creature.getType() != EntityType.IRON_GOLEM && creature.getType() != EntityType.SNOWMAN && creature.getType() != EntityType.WITHER
 				&& e.getSpawnReason() != SpawnReason.SPAWNER_EGG && e.getSpawnReason() != SpawnReason.SPAWNER) {
 			if (creature instanceof Animals) {
-				if (this.cacheMobCount >= cm.getAnimalsSpawnLimit()) {
+				if (this.getMobCount() >= cm.getAnimalsSpawnLimit()) {
 					e.setCancelled(true);
 				}
 			} else if (creature instanceof Monster) {
-				if (this.cacheMobCount >= cm.getMobSpawnLimit()) {
+				if (this.getMobCount() >= cm.getMobSpawnLimit()) {
 					e.setCancelled(true);
 				}
 			}
