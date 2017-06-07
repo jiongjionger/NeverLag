@@ -232,6 +232,13 @@ public class ConfigManager {
 	private boolean removeSquidWhenChunkUnload;
 	private boolean removeAnimalsWhenChunkUnload;
 
+	// 是否限制实体穿越传送门，主要防止骷髅刷怪笼+流水+地狱门刷信标和发射器+地狱门使得区块永不被卸载都破坏平衡性的机制
+	private boolean isDisableEntityPortal;
+	private boolean isDisableDropItemPortal;
+	private boolean isDisableMonsterPortal;
+	private boolean isDisableAnimalsPortal;
+	private boolean isDisableProjectilePortal;
+	
 	// 当TPS过低的时候是否执行某些操作/命令
 	private boolean lowTPSAction;
 	private boolean lowTPSCleanItem;
@@ -250,7 +257,7 @@ public class ConfigManager {
 	private String commandGCNoEffectMessage;
 	private String commandInfoBaseMessage;
 	private String commandWorldInfoMessage;
-	
+
 	private final static class ConfigManagerHolder {
 		private final static ConfigManager cm = new ConfigManager();
 	}
@@ -269,8 +276,8 @@ public class ConfigManager {
 		this.noClearItemWorld.clear();
 		this.noClearItemWorld.addAll(config.getStringList("ClearItem.NoClearItemWorld"));
 	}
-	
-	public String translate(String input){
+
+	public String translate(String input) {
 		return input;
 	}
 
@@ -1228,6 +1235,46 @@ public class ConfigManager {
 
 	public void setCommandWorldInfoMessage(String commandWorldInfoMessage) {
 		this.commandWorldInfoMessage = commandWorldInfoMessage;
+	}
+
+	public boolean isDisableEntityPortal() {
+		return isDisableEntityPortal;
+	}
+
+	public void setDisableEntityPortal(boolean isDisableEntityPortal) {
+		this.isDisableEntityPortal = isDisableEntityPortal;
+	}
+
+	public boolean isDisableDropItemPortal() {
+		return isDisableDropItemPortal;
+	}
+
+	public void setDisableDropItemPortal(boolean isDisableDropItemPortal) {
+		this.isDisableDropItemPortal = isDisableDropItemPortal;
+	}
+
+	public boolean isDisableMonsterPortal() {
+		return isDisableMonsterPortal;
+	}
+
+	public void setDisableMonsterPortal(boolean isDisableMonsterPortal) {
+		this.isDisableMonsterPortal = isDisableMonsterPortal;
+	}
+
+	public boolean isDisableAnimalsPortal() {
+		return isDisableAnimalsPortal;
+	}
+
+	public void setDisableAnimalsPortal(boolean isDisableAnimalsPortal) {
+		this.isDisableAnimalsPortal = isDisableAnimalsPortal;
+	}
+
+	public boolean isDisableProjectilePortal() {
+		return isDisableProjectilePortal;
+	}
+
+	public void setDisableProjectilePortal(boolean isDisableProjectilePortal) {
+		this.isDisableProjectilePortal = isDisableProjectilePortal;
 	}
 
 }
