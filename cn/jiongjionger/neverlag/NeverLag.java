@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
+import cn.jiongjionger.neverlag.utils.PingUtils;
 
 public class NeverLag extends JavaPlugin implements Listener {
 
@@ -40,6 +41,8 @@ public class NeverLag extends JavaPlugin implements Listener {
 		// 开启主线程停顿检测线程
 		watchDog = new WatchDog();
 		watchDog.start();
+		// 初始化getPing的反射
+		PingUtils.init();
 		// TO DO 一堆new实例和配置文件
 	}
 

@@ -25,6 +25,7 @@ public class ProtocolLibUtils {
 				get().sendServerPacket(p, get().createPacket(PacketType.Play.Client.KEEP_ALIVE));
 			}
 		} catch (Exception ignore) {
+			// 忽略
 		}
 	}
 }
