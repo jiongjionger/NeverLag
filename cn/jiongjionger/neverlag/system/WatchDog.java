@@ -14,7 +14,7 @@ public class WatchDog extends Thread {
 
 	private long lastTickTime = System.currentTimeMillis();
 	private long lastSendTime = System.currentTimeMillis();
-	private NeverLag plg = NeverLag.getInstance();
+	private final NeverLag plg = NeverLag.getInstance();
 
 	public WatchDog() {
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {

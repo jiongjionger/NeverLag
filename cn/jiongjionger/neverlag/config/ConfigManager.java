@@ -257,7 +257,9 @@ public class ConfigManager {
 	private String commandGCNoEffectMessage;
 	private String commandInfoBaseMessage;
 	private String commandWorldInfoMessage;
-
+	private String commandStartBenchmark;
+	private String commandFinishBenchmark;
+	
 	private final static class ConfigManagerHolder {
 		private final static ConfigManager cm = new ConfigManager();
 	}
@@ -1275,6 +1277,22 @@ public class ConfigManager {
 
 	public void setDisableProjectilePortal(boolean isDisableProjectilePortal) {
 		this.isDisableProjectilePortal = isDisableProjectilePortal;
+	}
+
+	public String getCommandStartBenchmark() {
+		return commandStartBenchmark;
+	}
+
+	public void setCommandStartBenchmark(String commandStartBenchmark) {
+		this.commandStartBenchmark = commandStartBenchmark;
+	}
+
+	public String getCommandFinishBenchmark() {
+		return commandFinishBenchmark;
+	}
+
+	public void setCommandFinishBenchmark(String commandFinishBenchmark) {
+		this.commandFinishBenchmark = commandFinishBenchmark;
 	}
 
 }

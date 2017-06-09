@@ -11,7 +11,7 @@ public class RedStoneCounter {
 
 	// 保存红石每触发的次数
 	private int syncRestoneCount;
-	private AtomicInteger asyncRestoneCount;
+	private AtomicInteger asyncRestoneCount = new AtomicInteger(0);
 	// 记录一分钟内的红石触发次数
 	private ConcurrentLinkedDeque<Integer> asyncOneMinutesRecord = new ConcurrentLinkedDeque<Integer>();
 	private LinkedList<Integer> syncOneMinutesRecord = new LinkedList<Integer>();
