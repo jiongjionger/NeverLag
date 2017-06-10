@@ -26,7 +26,7 @@ public class CommandBenchmark implements CommandExecutor {
 	private void cpuBenchmark(final CommandSender sender) {
 		plg.getServer().getScheduler().runTaskAsynchronously(plg, new Runnable() {
 			public void run() {
-				AtomicLong operationCount = new AtomicLong(0L);
+				long operationCount = 0L;
 				long startTime = System.nanoTime();
 				while (System.nanoTime() - startTime < 5000000000L) {
 					Math.pow(1024.0D * Math.random(), Math.random() / 1.024D);
@@ -34,10 +34,10 @@ public class CommandBenchmark implements CommandExecutor {
 					Math.cbrt(Math.random() + Math.random() * (Math.random() * 1024.0D));
 					Math.sin(Math.random() * 360 * Math.PI / 180);
 					Math.cos(Math.random() * 360 * Math.PI / 180);
-					operationCount.incrementAndGet();
+					operationCount = operationCount + 1L;
 				}
 				// 分数即为5秒内平均每毫秒计算的次数
-				String score = String.valueOf(Math.ceil(operationCount.get() / 5000));
+				String score = String.valueOf(Math.ceil(operationCount / 5000));
 				sender.sendMessage(cm.getCommandFinishBenchmark().replace("%SCORE%", score));
 			}
 		});
