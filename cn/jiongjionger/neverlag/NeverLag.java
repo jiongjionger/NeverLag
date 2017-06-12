@@ -4,12 +4,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import cn.jiongjionger.neverlag.command.CommandBase;
+import cn.jiongjionger.neverlag.command.CommandBenchmark;
+import cn.jiongjionger.neverlag.command.CommandGC;
+import cn.jiongjionger.neverlag.command.CommandHardWare;
+import cn.jiongjionger.neverlag.command.CommandTabComplete;
 import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
 import cn.jiongjionger.neverlag.utils.PingUtils;
 
 public class NeverLag extends JavaPlugin implements Listener {
 
+	@SuppressWarnings("unused")
+	private static final String OPENSOURCE_EN = "The plugin has been completely open source, you DO NOT have to decompile to see the source code, github here https://github.com/jiongjionger/NeverLag, it should be noted that if you use the plugin source, even if part of the plugin. You must also declare the source and completely opensource your software project!";
+	@SuppressWarnings("unused")
+	private static final String OPENSOURCE_CN = "本插件已经完全开源，你不必反编译来查看源代码，开源地址为：https://github.com/jiongjionger/NeverLag，需要注意的是，如果你使用了本插件的源码，哪怕是一部分，你也必须申明来源并且完全开源你的软件项目！";
 	private static NeverLag instance;
 	private static boolean isInstallProtocoLib;
 	private static WatchDog watchDog;
@@ -44,6 +53,7 @@ public class NeverLag extends JavaPlugin implements Listener {
 		// 初始化getPing的反射
 		PingUtils.init();
 		// TO DO 一堆new实例和配置文件
+		this.registerCommand();
 	}
 
 	@Override
@@ -51,5 +61,14 @@ public class NeverLag extends JavaPlugin implements Listener {
 		// 兼容PlugMan等插件
 		watchDog.interrupt();
 		Bukkit.getScheduler().cancelTasks(instance);
+	}
+
+	private void registerCommand() {
+		CommandBase baseCommandExecutor = new CommandBase();
+		getCommand("neverlag").setExecutor(baseCommandExecutor);
+		getCommand("neverlag").setTabCompleter(new CommandTabComplete());
+		baseCommandExecutor.registerSubCommand("benchmark", new CommandBenchmark());
+		baseCommandExecutor.registerSubCommand("hardware", new CommandHardWare());
+		baseCommandExecutor.registerSubCommand("gc", new CommandGC());
 	}
 }

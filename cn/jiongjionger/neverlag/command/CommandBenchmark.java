@@ -1,6 +1,6 @@
 package cn.jiongjionger.neverlag.command;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.text.DecimalFormat;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,7 +37,7 @@ public class CommandBenchmark implements CommandExecutor {
 					operationCount = operationCount + 1L;
 				}
 				// 分数即为5秒内平均每毫秒计算的次数
-				String score = String.valueOf(Math.ceil(operationCount / 5000));
+				String score = String.valueOf(new DecimalFormat("#").format(Math.ceil(operationCount / 5000)));
 				sender.sendMessage(cm.getCommandFinishBenchmark().replace("%SCORE%", score));
 			}
 		});

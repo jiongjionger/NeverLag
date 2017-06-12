@@ -1,15 +1,17 @@
 package cn.jiongjionger.neverlag.hardware;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class UnixCPUInfo {
 
 	public String getProcessorData() {
-		Stream<String> streamProcessorInfo = HardwareInfoUtils.readFile("/proc/cpuinfo");
+		List<String> streamProcessorInfo = HardwareInfoUtils.readFile("/proc/cpuinfo");
 		final StringBuilder buffer = new StringBuilder();
-		streamProcessorInfo.forEach((String line) -> buffer.append(line).append("\r\n"));
+		for (String line : streamProcessorInfo) {
+			buffer.append(line).append("\r\n");
+		}
 		return buffer.toString();
 	}
 

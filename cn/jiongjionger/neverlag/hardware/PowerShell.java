@@ -31,7 +31,7 @@ public class PowerShell {
 
 	private int maxThreads = 3;
 	private int waitPause = 10;
-	private long maxWait = 3000;
+	private long maxWait = 10000;
 	private boolean remoteMode = false;
 
 	private boolean scriptMode = false;

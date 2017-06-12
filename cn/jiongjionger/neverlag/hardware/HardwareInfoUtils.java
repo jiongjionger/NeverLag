@@ -1,39 +1,47 @@
 package cn.jiongjionger.neverlag.hardware;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class HardwareInfoUtils {
 
 	private static final String CRLF = "\r\n";
 	private static final String NOT_FOUND = "NOT_FOUND";
+	private static final Logger log = Logger.getLogger(HardwareInfoUtils.class.getName());
 
 	private HardwareInfoUtils() {
 	}
 
-	public static Stream<String> readFile(String filePath) {
+	public static List<String> readFile(String filePath) {
 		Path path = Paths.get(filePath);
-		Stream<String> fileLines = null;
-		try {
-			fileLines = Files.lines(path);
+		List<String> fileLines = new ArrayList<>();
+		try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
+			String line;
+			while (null != (line = reader.readLine())) {
+				fileLines.add(line);
+			}
 		} catch (IOException ex) {
-			Logger.getLogger(HardwareInfoUtils.class.getName()).log(Level.SEVERE, null, ex);
+			log.log(Level.SEVERE, "Unable to read file " + filePath, ex);
 		}
 		return fileLines;
 	}
 
 	public static String getSingleValueFromFile(String filePath) {
-		Stream<String> streamProcessorInfo = readFile(filePath);
-		return streamProcessorInfo.findFirst().get();
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+			return reader.readLine();
+		} catch (IOException ex) {
+			return null;
+		}
 	}
 
 	public static String executeCommand(String... command) {

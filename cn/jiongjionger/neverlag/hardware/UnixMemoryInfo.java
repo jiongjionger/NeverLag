@@ -1,14 +1,16 @@
 package cn.jiongjionger.neverlag.hardware;
 
 import java.util.HashMap;
-import java.util.stream.Stream;
+import java.util.List;
 
 public class UnixMemoryInfo {
 
 	private String getMemoryData() {
-		Stream<String> streamMemoryInfo = HardwareInfoUtils.readFile("/proc/meminfo");
+		List<String> streamMemoryInfo = HardwareInfoUtils.readFile("/proc/meminfo");
 		final StringBuilder buffer = new StringBuilder();
-		streamMemoryInfo.forEach((String line) -> buffer.append(line).append("\r\n"));
+		for(String line:streamMemoryInfo){
+			buffer.append(line).append("\r\n");
+		}
 		return buffer.toString();
 	}
 

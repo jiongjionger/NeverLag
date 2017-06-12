@@ -36,41 +36,59 @@ public class HardWareInfo {
 		return sb.toString();
 	}
 
+	// 获取JVM参数
+	public static String getJVMArg() {
+		StringBuilder sb = new StringBuilder();
+		for (String arg : runtimeMXBean.getInputArguments()) {
+			sb.append(arg).append(" ");
+		}
+		return sb.toString();
+	}
+
 	// 获取操作系统信息
 	public static String getSystemInfo() {
+		String arch = operatingSystemMXBean.getArch();
+		if (arch.contains("64")) {
+			arch = "x64";
+		} else if (arch.contains("86")) {
+			arch = "x86";
+		}
+
 		StringBuilder sb = new StringBuilder();
 		sb.append(operatingSystemMXBean.getName())
-				.append(" ")
+				.append(" version ")
 				.append(operatingSystemMXBean.getVersion())
 				.append(" ")
-				.append(operatingSystemMXBean.getArch());
+				.append(arch);
 		return sb.toString();
 	}
 
 	// 获取CPU信息（类似Intel(R) Xeon(R) CPU E5-2679V4 @ 3.2GHz 20 cores B0 stepping）
 	public static String getCPUInfo() {
 		try {
-			if (isWindows()) {
-				if (cpuInfoMap.isEmpty()) {
-					WindowsCPUInfo cpuInfo = new WindowsCPUInfo();
-					cpuInfoMap = cpuInfo.parseInfo();
+			synchronized (cpuInfoMap) {
+				if (isWindows()) {
+					if (cpuInfoMap.isEmpty()) {
+						WindowsCPUInfo cpuInfo = new WindowsCPUInfo();
+						cpuInfoMap = cpuInfo.parseInfo();
+					}
+				} else if (isUnix()) {
+					if (cpuInfoMap.isEmpty()) {
+						UnixCPUInfo cpuInfo = new UnixCPUInfo();
+						cpuInfoMap = cpuInfo.parseInfo();
+					}
+				} else {
+					return null;
 				}
-			} else if (isUnix()) {
-				if (cpuInfoMap.isEmpty()) {
-					UnixCPUInfo cpuInfo = new UnixCPUInfo();
-					cpuInfoMap = cpuInfo.parseInfo();
-				}
-			} else {
-				return null;
+				StringBuilder sb = new StringBuilder();
+				sb.append(cpuInfoMap.get("model name"))
+						.append(" ")
+						.append(cpuInfoMap.get("cpu cores"))
+						.append(" cores ")
+						.append(cpuInfoMap.get("stepping"))
+						.append(" stepping");
+				return sb.toString();
 			}
-			StringBuilder sb = new StringBuilder();
-			sb.append(cpuInfoMap.get("model name"))
-					.append(" ")
-					.append(cpuInfoMap.get("cpu cores"))
-					.append(" cores ")
-					.append(cpuInfoMap.get("stepping"))
-					.append(" stepping");
-			return sb.toString();
 		} catch (Exception e) {
 			return null;
 		}
@@ -89,11 +107,21 @@ public class HardWareInfo {
 			} else {
 				return null;
 			}
-			int totalMemory = Integer.parseInt(String.valueOf(Long.parseLong(memoryInfoMap.get("MemTotal")) / 1024));
-			int freeMemory = Integer.parseInt(String.valueOf(Long.parseLong(memoryInfoMap.get("MemFree")) / 1024));
-			int usedMemory = totalMemory - freeMemory;
+
+			String totalMemory = "";
+			String freeMemory = "";
+			if (memoryInfoMap.get("MemTotal") != null) {
+				totalMemory = String.valueOf(Long.parseLong(memoryInfoMap.get("MemTotal")) / 1024);
+			} else {
+				totalMemory = "Unknown";
+			}
+			if (memoryInfoMap.get("MemFree") != null) {
+				freeMemory = String.valueOf(Long.parseLong(memoryInfoMap.get("MemFree")) / 1024);
+			} else {
+				freeMemory = "Unknown";
+			}
 			StringBuilder sb = new StringBuilder();
-			sb.append(usedMemory).append("MB / ").append(totalMemory).append("MB");
+			sb.append(freeMemory).append("MB / ").append(totalMemory).append("MB");
 			return sb.toString();
 		} catch (Exception e) {
 			return null;

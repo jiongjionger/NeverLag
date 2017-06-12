@@ -257,8 +257,15 @@ public class ConfigManager {
 	private String commandGCNoEffectMessage;
 	private String commandInfoBaseMessage;
 	private String commandWorldInfoMessage;
-	private String commandStartBenchmark;
-	private String commandFinishBenchmark;
+	private String commandStartBenchmark = "开始对CPU单线程性能进行测试..请稍等";
+	private String commandFinishBenchmark = "测试完毕，单线程性能分数：%SCORE%";
+	private String commandStartFetchHardWareInfo = "正在开始读取服务器硬件信息，请稍等...";
+	private String commandHardWareJVMInfo = "JVM信息: %JVMINFO%";
+	private String commandHardWareJVMArg = "JVM参数: %JVMARG%";
+	private String commandHardWareCPUInfo = "CPU信息: %CPUINFO%";
+	private String commandHardWareMemoryInfo = "内存信息 (剩余/总量): %MEMORYINFO%";
+	private String commandHardWareSystemInfo = "系统信息: %SYSTEMINFO%";
+	private String commandNoFinishFetchHardWareInfo = "已经收到你的硬件信息查询请求，在查询完成前，请不要重复使用！";
 	
 	private final static class ConfigManagerHolder {
 		private final static ConfigManager cm = new ConfigManager();
@@ -1293,6 +1300,62 @@ public class ConfigManager {
 
 	public void setCommandFinishBenchmark(String commandFinishBenchmark) {
 		this.commandFinishBenchmark = commandFinishBenchmark;
+	}
+
+	public String getCommandStartFetchHardWareInfo() {
+		return commandStartFetchHardWareInfo;
+	}
+
+	public void setCommandStartFetchHardWareInfo(String commandStartFetchHardWareInfo) {
+		this.commandStartFetchHardWareInfo = commandStartFetchHardWareInfo;
+	}
+
+	public String getCommandHardWareJVMInfo() {
+		return commandHardWareJVMInfo;
+	}
+
+	public void setCommandHardWareJVMInfo(String commandHardWareJVMInfo) {
+		this.commandHardWareJVMInfo = commandHardWareJVMInfo;
+	}
+
+	public String getCommandHardWareMemoryInfo() {
+		return commandHardWareMemoryInfo;
+	}
+
+	public void setCommandHardWareMemoryInfo(String commandHardWareMemoryInfo) {
+		this.commandHardWareMemoryInfo = commandHardWareMemoryInfo;
+	}
+
+	public String getCommandHardWareCPUInfo() {
+		return commandHardWareCPUInfo;
+	}
+
+	public void setCommandHardWareCPUInfo(String commandHardWareCPUInfo) {
+		this.commandHardWareCPUInfo = commandHardWareCPUInfo;
+	}
+
+	public String getCommandHardWareSystemInfo() {
+		return commandHardWareSystemInfo;
+	}
+
+	public void setCommandHardWareSystemInfo(String commandHardWareSystemInfo) {
+		this.commandHardWareSystemInfo = commandHardWareSystemInfo;
+	}
+
+	public String getCommandNoFinishFetchHardWareInfo() {
+		return commandNoFinishFetchHardWareInfo;
+	}
+
+	public void setCommandNoFinishFetchHardWareInfo(String commandNoFinishFetchHardWareInfo) {
+		this.commandNoFinishFetchHardWareInfo = commandNoFinishFetchHardWareInfo;
+	}
+
+	public String getCommandHardWareJVMArg() {
+		return commandHardWareJVMArg;
+	}
+
+	public void setCommandHardWareJVMArg(String commandHardWareJVMArg) {
+		this.commandHardWareJVMArg = commandHardWareJVMArg;
 	}
 
 }

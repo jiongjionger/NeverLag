@@ -32,7 +32,8 @@ public class PingUtils {
 			isInit = false;
 		}
 	}
-
+	
+	// 获取玩家网络延迟
 	public static int getPing(Player p) {
 		if (!isInit) {
 			return -1;
