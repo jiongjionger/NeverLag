@@ -6,11 +6,12 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
 
-public class AntiQuickShopBigChest {
+public class AntiQuickShopBigChest implements Listener {
 	
 	private ConfigManager cm = ConfigManager.getInstance();
 	private final BlockFace[] BLOCKFACE = { BlockFace.EAST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST };

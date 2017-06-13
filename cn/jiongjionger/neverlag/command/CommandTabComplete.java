@@ -8,7 +8,6 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 public class CommandTabComplete implements TabCompleter {
@@ -18,19 +17,19 @@ public class CommandTabComplete implements TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		if (!(sender instanceof Player) || args == null || command == null) {
+		if (args == null || command == null) {
 			return null;
 		}
 		// 返回的结果
-		List<String> completions = new ArrayList<>();
+		List<String> completions = new ArrayList<String>();
 		switch (args.length) {
 		case 1:
-			List<String> commands = new ArrayList<>(Arrays.asList(COMMANDS));
+			List<String> commands = new ArrayList<String>(Arrays.asList(COMMANDS));
 			StringUtil.copyPartialMatches(args[0], commands, completions);
 			break;
 		case 2:
 			if (args[0].equalsIgnoreCase("clear")) {
-				List<String> cleartype = new ArrayList<>(Arrays.asList(CLEARTYPE));
+				List<String> cleartype = new ArrayList<String>(Arrays.asList(CLEARTYPE));
 				StringUtil.copyPartialMatches(args[1], cleartype, completions);
 				break;
 			}

@@ -22,7 +22,7 @@ public class PingUtils {
 	private static MethodInvoker method_getHandle = null;
 	private static FieldAccessor<Integer> field_ping = null;
 	private static boolean isInit = false;
-
+	
 	public static void init() {
 		try {
 			method_getHandle = Reflection.getMethod(Reflection.getCraftBukkitClass("entity.CraftEntity"), "getHandle");
@@ -32,7 +32,7 @@ public class PingUtils {
 			isInit = false;
 		}
 	}
-	
+
 	// 获取玩家网络延迟
 	public static int getPing(Player p) {
 		if (!isInit) {
@@ -40,7 +40,7 @@ public class PingUtils {
 		}
 		return field_ping.get(method_getHandle.invoke(p));
 	}
-	
+
 	// 获取全服玩家的延迟并且排序
 	public static LinkedHashMap<String, Integer> getPingAndSort() {
 		if (!isInit) {
@@ -56,6 +56,9 @@ public class PingUtils {
 	}
 
 	private static LinkedHashMap<String, Integer> sortMapByValues(HashMap<String, Integer> map) {
+		if (map.isEmpty()) {
+			return null;
+		}
 		Set<Entry<String, Integer>> entries = map.entrySet();
 		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(entries);
 		Collections.sort(list, new Comparator<Entry<String, Integer>>() {
@@ -70,7 +73,7 @@ public class PingUtils {
 		}
 		return sortMap;
 	}
-	
+
 	// 给延迟标注颜色
 	public static String colorPing(int ping) {
 		StringBuilder sb = new StringBuilder();
@@ -83,7 +86,7 @@ public class PingUtils {
 		} else if (ping > 165) {
 			sb.append(ChatColor.RED);
 		}
-		sb.append(ping);
+		sb.append(ping).append("ms");
 		return sb.toString();
 	}
 }

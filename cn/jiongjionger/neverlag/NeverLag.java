@@ -8,7 +8,9 @@ import cn.jiongjionger.neverlag.command.CommandBase;
 import cn.jiongjionger.neverlag.command.CommandBenchmark;
 import cn.jiongjionger.neverlag.command.CommandGC;
 import cn.jiongjionger.neverlag.command.CommandHardWare;
+import cn.jiongjionger.neverlag.command.CommandPing;
 import cn.jiongjionger.neverlag.command.CommandTabComplete;
+import cn.jiongjionger.neverlag.gui.GUISortPingListener;
 import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
 import cn.jiongjionger.neverlag.utils.PingUtils;
@@ -54,6 +56,8 @@ public class NeverLag extends JavaPlugin implements Listener {
 		PingUtils.init();
 		// TO DO 一堆new实例和配置文件
 		this.registerCommand();
+		this.registerListener();
+
 	}
 
 	@Override
@@ -70,5 +74,10 @@ public class NeverLag extends JavaPlugin implements Listener {
 		baseCommandExecutor.registerSubCommand("benchmark", new CommandBenchmark());
 		baseCommandExecutor.registerSubCommand("hardware", new CommandHardWare());
 		baseCommandExecutor.registerSubCommand("gc", new CommandGC());
+		baseCommandExecutor.registerSubCommand("ping", new CommandPing());
+	}
+
+	private void registerListener() {
+		Bukkit.getServer().getPluginManager().registerEvents(new GUISortPingListener(), this);
 	}
 }

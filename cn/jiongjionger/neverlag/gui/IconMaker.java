@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 public class IconMaker {
 	private ItemStack item;
@@ -87,6 +88,17 @@ public class IconMaker {
 			m.setLore(colorLore);
 			this.item.setItemMeta(m);
 			return this;
+		}
+		return this;
+	}
+
+	// 设置头颅
+	public IconMaker setOwner(String username) {
+		if (this.item != null && this.item.getType().equals(Material.SKULL_ITEM)) {
+			this.item.setDurability((short) 3);
+			SkullMeta sm = (SkullMeta) item.getItemMeta();
+			sm.setOwner(username);
+			item.setItemMeta(sm);
 		}
 		return this;
 	}

@@ -266,6 +266,15 @@ public class ConfigManager {
 	private String commandHardWareMemoryInfo = "内存信息 (剩余/总量): %MEMORYINFO%";
 	private String commandHardWareSystemInfo = "系统信息: %SYSTEMINFO%";
 	private String commandNoFinishFetchHardWareInfo = "已经收到你的硬件信息查询请求，在查询完成前，请不要重复使用！";
+	private String commandNoPlayerOnline = "没有任何玩家在线";
+	
+	// GUI部分
+	private String guiPingTitle = "玩家网络延迟列表";
+	private String guiPingItemDisplay = "%NAME%";
+	private String guiPingItemLore = "延迟: %PING%";
+	private String guiPreItemDisplay = "上一页";
+	private String guiNextItemDisplay = "下一页";
+	
 	
 	private final static class ConfigManagerHolder {
 		private final static ConfigManager cm = new ConfigManager();
@@ -1356,6 +1365,54 @@ public class ConfigManager {
 
 	public void setCommandHardWareJVMArg(String commandHardWareJVMArg) {
 		this.commandHardWareJVMArg = commandHardWareJVMArg;
+	}
+
+	public String getCommandNoPlayerOnline() {
+		return commandNoPlayerOnline;
+	}
+
+	public void setCommandNoPlayerOnline(String commandNoPlayerOnline) {
+		this.commandNoPlayerOnline = commandNoPlayerOnline;
+	}
+
+	public String getGuiPingTitle() {
+		return guiPingTitle;
+	}
+
+	public void setGuiPingTitle(String guiPingTitle) {
+		this.guiPingTitle = guiPingTitle;
+	}
+
+	public String getGuiPingItemDisplay() {
+		return guiPingItemDisplay;
+	}
+
+	public void setGuiPingItemDisplay(String guiPingItemDisplay) {
+		this.guiPingItemDisplay = guiPingItemDisplay;
+	}
+
+	public String getGuiPingItemLore() {
+		return guiPingItemLore;
+	}
+
+	public void setGuiPingItemLore(String guiPingItemLore) {
+		this.guiPingItemLore = guiPingItemLore;
+	}
+
+	public String getGuiPreItemDisplay() {
+		return guiPreItemDisplay;
+	}
+
+	public void setGuiPreItemDisplay(String guiPreItemDisplay) {
+		this.guiPreItemDisplay = guiPreItemDisplay;
+	}
+
+	public String getGuiNextItemDisplay() {
+		return guiNextItemDisplay;
+	}
+
+	public void setGuiNextItemDisplay(String guiNextItemDisplay) {
+		this.guiNextItemDisplay = guiNextItemDisplay;
 	}
 
 }
