@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -14,9 +13,10 @@ import cn.jiongjionger.neverlag.gui.GUISortPing;
 import cn.jiongjionger.neverlag.gui.GUISortPingHolder;
 import cn.jiongjionger.neverlag.utils.PingUtils;
 
-public class CommandPing implements CommandExecutor {
+public class CommandPing implements ISubCommandExecutor {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
+	private final String PERMNODE = "neverlag.command.ping";
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -57,6 +57,10 @@ public class CommandPing implements CommandExecutor {
 				sender.sendMessage(sb.toString());
 			}
 		}
+	}
+
+	public String getPermNode() {
+		return this.PERMNODE;
 	}
 
 }

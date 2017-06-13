@@ -253,6 +253,7 @@ public class ConfigManager {
 	private ArrayList<String> modMagicCode = new ArrayList<String>();
 
 	// 命令提示
+	private String commandNoPerm = "你没有权限执行这个指令！";
 	private String commandGCMessage;
 	private String commandGCNoEffectMessage;
 	private String commandInfoBaseMessage;
@@ -267,6 +268,8 @@ public class ConfigManager {
 	private String commandHardWareSystemInfo = "系统信息: %SYSTEMINFO%";
 	private String commandNoFinishFetchHardWareInfo = "已经收到你的硬件信息查询请求，在查询完成前，请不要重复使用！";
 	private String commandNoPlayerOnline = "没有任何玩家在线";
+	private String commandClearNoTypeArg = "请输入要清理的实体类型";
+	private String commandClearMessage = "已成功清理实体类型 %TYPE% ，清理数量为 %COUNT% 个。";
 	
 	// GUI部分
 	private String guiPingTitle = "玩家网络延迟列表";
@@ -1413,6 +1416,30 @@ public class ConfigManager {
 
 	public void setGuiNextItemDisplay(String guiNextItemDisplay) {
 		this.guiNextItemDisplay = guiNextItemDisplay;
+	}
+
+	public String getCommandClearNoTypeArg() {
+		return commandClearNoTypeArg;
+	}
+
+	public void setCommandClearNoTypeArg(String commandClearNoTypeArg) {
+		this.commandClearNoTypeArg = commandClearNoTypeArg;
+	}
+
+	public String getCommandClearMessage() {
+		return commandClearMessage;
+	}
+
+	public void setCommandClearMessage(String commandClearMessage) {
+		this.commandClearMessage = commandClearMessage;
+	}
+
+	public String getCommandNoPerm() {
+		return commandNoPerm;
+	}
+
+	public void setCommandNoPerm(String commandNoPerm) {
+		this.commandNoPerm = commandNoPerm;
 	}
 
 }

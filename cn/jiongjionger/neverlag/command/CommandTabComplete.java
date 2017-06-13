@@ -8,12 +8,26 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.EntityType;
 import org.bukkit.util.StringUtil;
 
 public class CommandTabComplete implements TabCompleter {
 
 	private static final String[] COMMANDS = { "benchmark", "hardware", "gc", "info", "ping", "chunkinfo", "clear" };
-	private static final String[] CLEARTYPE = { "dropitem", "animals", "monsters", "entity" };
+	private static final List<String> CLEARTYPE = new ArrayList<String>();
+
+	static {
+		for (EntityType type : EntityType.values()) {
+			@SuppressWarnings("deprecation")
+			String typeName = type.getName();
+			if(typeName != null && typeName.toLowerCase() != "player"){
+				CLEARTYPE.add(typeName);
+			}
+		}
+		CLEARTYPE.add("dropitem");
+		CLEARTYPE.add("animals");
+		CLEARTYPE.add("monsters");
+	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
@@ -29,8 +43,7 @@ public class CommandTabComplete implements TabCompleter {
 			break;
 		case 2:
 			if (args[0].equalsIgnoreCase("clear")) {
-				List<String> cleartype = new ArrayList<String>(Arrays.asList(CLEARTYPE));
-				StringUtil.copyPartialMatches(args[1], cleartype, completions);
+				StringUtil.copyPartialMatches(args[1], CLEARTYPE, completions);
 				break;
 			}
 		}

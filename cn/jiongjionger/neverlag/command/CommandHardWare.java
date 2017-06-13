@@ -1,17 +1,17 @@
 package cn.jiongjionger.neverlag.command;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.HardWareInfo;
 
-public class CommandHardWare implements CommandExecutor {
+public class CommandHardWare implements ISubCommandExecutor {
 
 	private final NeverLag plg = NeverLag.getInstance();
 	private final ConfigManager cm = ConfigManager.getInstance();
+	private final String PERMNODE = "neverlag.command.hardware";
 	private boolean isRun = false;
 
 	@Override
@@ -48,5 +48,9 @@ public class CommandHardWare implements CommandExecutor {
 				}
 			}
 		});
+	}
+	
+	public String getPermNode(){
+		return this.PERMNODE;
 	}
 }

@@ -1,14 +1,14 @@
 package cn.jiongjionger.neverlag.command;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
 
-public class CommandGC implements CommandExecutor {
+public class CommandGC implements ISubCommandExecutor {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
+	private final String PERMNODE = "neverlag.command.gc";
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -25,5 +25,9 @@ public class CommandGC implements CommandExecutor {
 			}
 		}
 		return true;
+	}
+	
+	public String getPermNode(){
+		return this.PERMNODE;
 	}
 }

@@ -1,17 +1,17 @@
 package cn.jiongjionger.neverlag.command;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.ServerInfo;
 import cn.jiongjionger.neverlag.utils.WorldInfo;
 
-public class CommandInfo implements CommandExecutor {
+public class CommandInfo implements ISubCommandExecutor {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
-
+	private final String PERMNODE = "neverlag.command.info";
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("info")) {
@@ -51,5 +51,9 @@ public class CommandInfo implements CommandExecutor {
 			}
 		}
 		return true;
+	}
+	
+	public String getPermNode(){
+		return this.PERMNODE;
 	}
 }

@@ -6,8 +6,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import cn.jiongjionger.neverlag.command.CommandBase;
 import cn.jiongjionger.neverlag.command.CommandBenchmark;
+import cn.jiongjionger.neverlag.command.CommandClear;
 import cn.jiongjionger.neverlag.command.CommandGC;
 import cn.jiongjionger.neverlag.command.CommandHardWare;
+import cn.jiongjionger.neverlag.command.CommandInfo;
 import cn.jiongjionger.neverlag.command.CommandPing;
 import cn.jiongjionger.neverlag.command.CommandTabComplete;
 import cn.jiongjionger.neverlag.gui.GUISortPingListener;
@@ -74,7 +76,9 @@ public class NeverLag extends JavaPlugin implements Listener {
 		baseCommandExecutor.registerSubCommand("benchmark", new CommandBenchmark());
 		baseCommandExecutor.registerSubCommand("hardware", new CommandHardWare());
 		baseCommandExecutor.registerSubCommand("gc", new CommandGC());
+		baseCommandExecutor.registerSubCommand("info", new CommandInfo());
 		baseCommandExecutor.registerSubCommand("ping", new CommandPing());
+		baseCommandExecutor.registerSubCommand("clear", new CommandClear());
 	}
 
 	private void registerListener() {
