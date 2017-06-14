@@ -14,7 +14,7 @@ public class AntiUseEggsChangeSpawnerType implements Listener {
 	private final ConfigManager cm = ConfigManager.getInstance();
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void onPlayerInteract(PlayerInteractEvent e) {
+	private void onPlayerInteract(PlayerInteractEvent e) {
 		if (!cm.isAntiUseEggsChangeSpawnerType()) {
 			return;
 		}

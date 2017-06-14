@@ -138,6 +138,12 @@ public class ConfigManager {
 	private String antiDoubleLoginMessage;
 	// 防止使用怪物蛋修改刷怪笼的类型
 	private boolean isAntiUseEggsChangeSpawnerType;
+	// 是否开启补救措施（自动清理非法类型的刷怪笼）
+	private boolean isAutoCleanIllegalTypeSpawner;
+	// 非法刷怪笼的类型（保存小写）
+	private HashSet<String> IllegalSpawnerTypeSet = new HashSet<String>();
+	// 清理模式 0：删除刷怪笼 1：自动修改为自然类型（骷髅、蜘蛛、僵尸）
+	private int IllegalTypeSpawnerCleanMode;
 
 	// 是否开启聊天和命令使用间隔控制
 	private boolean isCooldownChatAndCommand;
@@ -243,7 +249,7 @@ public class ConfigManager {
 	private boolean isDisableMonsterPortal;
 	private boolean isDisableAnimalsPortal;
 	private boolean isDisableProjectilePortal;
-	
+
 	// 当TPS过低的时候是否执行某些操作/命令
 	private boolean lowTPSAction;
 	private boolean lowTPSCleanItem;
@@ -275,15 +281,14 @@ public class ConfigManager {
 	private String commandNoPlayerOnline = "没有任何玩家在线";
 	private String commandClearNoTypeArg = "请输入要清理的实体类型";
 	private String commandClearMessage = "已成功清理实体类型 %TYPE% ，清理数量为 %COUNT% 个。";
-	
+
 	// GUI部分
 	private String guiPingTitle = "玩家网络延迟列表";
 	private String guiPingItemDisplay = "%NAME%";
 	private String guiPingItemLore = "延迟: %PING%";
 	private String guiPreItemDisplay = "上一页";
 	private String guiNextItemDisplay = "下一页";
-	
-	
+
 	private final static class ConfigManagerHolder {
 		private final static ConfigManager cm = new ConfigManager();
 	}
@@ -1469,6 +1474,30 @@ public class ConfigManager {
 
 	public void setAntiUseEggsChangeSpawnerType(boolean isAntiUseEggsChangeSpawnerType) {
 		this.isAntiUseEggsChangeSpawnerType = isAntiUseEggsChangeSpawnerType;
+	}
+
+	public boolean isAutoCleanIllegalTypeSpawner() {
+		return isAutoCleanIllegalTypeSpawner;
+	}
+
+	public void setAutoCleanIllegalTypeSpawner(boolean isAutoCleanIllegalTypeSpawner) {
+		this.isAutoCleanIllegalTypeSpawner = isAutoCleanIllegalTypeSpawner;
+	}
+
+	public HashSet<String> getIllegalSpawnerTypeSet() {
+		return IllegalSpawnerTypeSet;
+	}
+
+	public void setIllegalSpawnerTypeSet(HashSet<String> illegalSpawnerTypeSet) {
+		IllegalSpawnerTypeSet = illegalSpawnerTypeSet;
+	}
+
+	public int getIllegalTypeSpawnerCleanMode() {
+		return IllegalTypeSpawnerCleanMode;
+	}
+
+	public void setIllegalTypeSpawnerCleanMode(int illegalTypeSpawnerCleanMode) {
+		IllegalTypeSpawnerCleanMode = illegalTypeSpawnerCleanMode;
 	}
 
 }
