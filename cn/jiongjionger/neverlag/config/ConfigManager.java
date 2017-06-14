@@ -141,9 +141,13 @@ public class ConfigManager {
 	// 是否开启补救措施（自动清理非法类型的刷怪笼）
 	private boolean isAutoCleanIllegalTypeSpawner;
 	// 非法刷怪笼的类型（保存小写）
-	private HashSet<String> IllegalSpawnerTypeSet = new HashSet<String>();
+	private HashSet<String> illegalSpawnerTypeSet = new HashSet<String>();
 	// 清理模式 0：删除刷怪笼 1：自动修改为自然类型（骷髅、蜘蛛、僵尸）
-	private int IllegalTypeSpawnerCleanMode;
+	private int illegalTypeSpawnerCleanMode;
+	// 是否禁止村民交易
+	private boolean isAntiVillagerTrade;
+	// 禁止村民交易的世界
+	private HashSet<String> disableVillagerTradeWorldSet = new HashSet<String>();
 
 	// 是否开启聊天和命令使用间隔控制
 	private boolean isCooldownChatAndCommand;
@@ -1485,19 +1489,35 @@ public class ConfigManager {
 	}
 
 	public HashSet<String> getIllegalSpawnerTypeSet() {
-		return IllegalSpawnerTypeSet;
+		return illegalSpawnerTypeSet;
 	}
 
 	public void setIllegalSpawnerTypeSet(HashSet<String> illegalSpawnerTypeSet) {
-		IllegalSpawnerTypeSet = illegalSpawnerTypeSet;
+		this.illegalSpawnerTypeSet = illegalSpawnerTypeSet;
 	}
 
 	public int getIllegalTypeSpawnerCleanMode() {
-		return IllegalTypeSpawnerCleanMode;
+		return illegalTypeSpawnerCleanMode;
 	}
 
 	public void setIllegalTypeSpawnerCleanMode(int illegalTypeSpawnerCleanMode) {
-		IllegalTypeSpawnerCleanMode = illegalTypeSpawnerCleanMode;
+		this.illegalTypeSpawnerCleanMode = illegalTypeSpawnerCleanMode;
+	}
+
+	public boolean isAntiVillagerTrade() {
+		return isAntiVillagerTrade;
+	}
+
+	public void setAntiVillagerTrade(boolean isAntiVillagerTrade) {
+		this.isAntiVillagerTrade = isAntiVillagerTrade;
+	}
+
+	public HashSet<String> getDisableVillagerTradeWorldSet() {
+		return disableVillagerTradeWorldSet;
+	}
+
+	public void setDisableVillagerTradeWorldSet(HashSet<String> disableVillagerTradeWorldSet) {
+		this.disableVillagerTradeWorldSet = disableVillagerTradeWorldSet;
 	}
 
 }
