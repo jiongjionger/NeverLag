@@ -133,6 +133,9 @@ public class ConfigManager {
 	private String quickshopFlag;
 	// 提示语
 	private String antiQuickShopBigShopMessage;
+	// 防止大小写ID同时登录
+	private boolean isAntiDoubleLogin;
+	private String antiDoubleLoginMessage;
 
 	// 是否开启聊天和命令使用间隔控制
 	private boolean isCooldownChatAndCommand;
@@ -1440,6 +1443,22 @@ public class ConfigManager {
 
 	public void setCommandNoPerm(String commandNoPerm) {
 		this.commandNoPerm = commandNoPerm;
+	}
+
+	public String getAntiDoubleLoginMessage() {
+		return antiDoubleLoginMessage;
+	}
+
+	public void setAntiDoubleLoginMessage(String antiDoubleLoginMessage) {
+		this.antiDoubleLoginMessage = antiDoubleLoginMessage;
+	}
+
+	public boolean isAntiDoubleLogin() {
+		return isAntiDoubleLogin;
+	}
+
+	public void setAntiDoubleLogin(boolean isAntiDoubleLogin) {
+		this.isAntiDoubleLogin = isAntiDoubleLogin;
 	}
 
 }
