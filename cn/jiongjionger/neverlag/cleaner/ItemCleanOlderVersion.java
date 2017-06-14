@@ -14,16 +14,15 @@ import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.config.ConfigManager;
 
-public class ItemCleaner {
+public class ItemCleanOlderVersion {
 
 	private static ConfigManager cm = ConfigManager.getInstance();
 	private int preMessageTime = 0;
-	private int holoTime = 0;
 
-	public ItemCleaner() {
+	public ItemCleanOlderVersion() {
 		NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
 			public void run() {
 				doClean();
@@ -33,51 +32,11 @@ public class ItemCleaner {
 			NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
 				public void run() {
 					doPreMessage();
-					holoDisplay();
 				}
 			}, 20L, 20L);
 		}
 	}
-	
-	// 悬浮提醒
-	private void holoDisplay() {
-		if (!cm.isClearDropItem() || !cm.isClearItem() || !cm.isClearItemPreHoloMessage()) {
-			return;
-		}
-		this.holoTime++;
-		int remainTick = cm.getClearMobDelay() - holoTime;
-		if (remainTick <= 60 && remainTick > 0) {
-			String holoMessage = cm.getClearItemPreHoloMessage().replace("%TIME%", String.valueOf(remainTick));
-			this.setDropItemHolo(holoMessage);
-		}
-		if (remainTick <= 0) {
-			this.holoTime = 0;
-			this.setDropItemHolo("");
-		}
-	}
 
-	@SuppressWarnings("deprecation")
-	private void setDropItemHolo(String name) {
-		for (World world : Bukkit.getWorlds()) {
-			// 如果当前世界不在排除列表
-			if (!cm.getNoClearItemWorld().contains(world.getName())) {
-				for (Entity entity : world.getEntities()) {
-					if (entity == null) {
-						continue;
-					}
-					if (entity instanceof Item) {
-						Item item = (Item) entity;
-						// 判断是否在不清理的物品ID白名单
-						if (!cm.getNoClearItemId().contains(item.getItemStack().getTypeId())) {
-							item.setCustomName(name);
-							item.setCustomNameVisible(true);
-						}
-					}
-				}
-			}
-		}
-	}
-	
 	// 提前通知
 	private void doPreMessage() {
 		if (cm.isClearDropItem() && cm.isBroadcastClearItem()) {

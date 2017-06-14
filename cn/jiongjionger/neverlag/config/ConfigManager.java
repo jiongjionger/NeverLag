@@ -45,9 +45,9 @@ public class ConfigManager {
 	// 清理物品公告提前通知内容
 	private String clearItemBroadcastPreMessage;
 	// 是否开启清理前60秒在物品上显示悬浮的倒计时
-	// private boolean isClearItemPreHoloMessage = true;
+	private boolean isClearItemPreHoloMessage = true;
 	// 悬浮显示格式
-	// private String clearItemPreHoloMessage = "%TIME% 秒后将被清理";
+	private String clearItemPreHoloMessage = "%TIME% 秒后将被清理";
 
 	// 是否清理实体
 	private Boolean isClearEntity;
@@ -1526,19 +1526,21 @@ public class ConfigManager {
 		this.disableVillagerTradeWorldSet = disableVillagerTradeWorldSet;
 	}
 
-	/*
-	 * public boolean isClearItemPreHoloMessage() { return
-	 * isClearItemPreHoloMessage; }
-	 * 
-	 * public void setClearItemPreHoloMessage(boolean isClearItemPreHoloMessage)
-	 * { this.isClearItemPreHoloMessage = isClearItemPreHoloMessage; }
-	 * 
-	 * public String getClearItemPreHoloMessage() { return
-	 * clearItemPreHoloMessage; }
-	 * 
-	 * public void setClearItemPreHoloMessage(String clearItemPreHoloMessage) {
-	 * this.clearItemPreHoloMessage = clearItemPreHoloMessage; }
-	 */
+	public boolean isClearItemPreHoloMessage() {
+		return isClearItemPreHoloMessage;
+	}
+
+	public void setClearItemPreHoloMessage(boolean isClearItemPreHoloMessage) {
+		this.isClearItemPreHoloMessage = isClearItemPreHoloMessage;
+	}
+
+	public String getClearItemPreHoloMessage() {
+		return clearItemPreHoloMessage;
+	}
+
+	public void setClearItemPreHoloMessage(String clearItemPreHoloMessage) {
+		this.clearItemPreHoloMessage = clearItemPreHoloMessage;
+	}
 
 	public Boolean isClearDropItem() {
 		return isClearDropItem;
