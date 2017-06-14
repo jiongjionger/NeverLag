@@ -136,6 +136,8 @@ public class ConfigManager {
 	// 防止大小写ID同时登录
 	private boolean isAntiDoubleLogin;
 	private String antiDoubleLoginMessage;
+	// 防止使用怪物蛋修改刷怪笼的类型
+	private boolean isAntiUseEggsChangeSpawnerType;
 
 	// 是否开启聊天和命令使用间隔控制
 	private boolean isCooldownChatAndCommand;
@@ -1459,6 +1461,14 @@ public class ConfigManager {
 
 	public void setAntiDoubleLogin(boolean isAntiDoubleLogin) {
 		this.isAntiDoubleLogin = isAntiDoubleLogin;
+	}
+
+	public boolean isAntiUseEggsChangeSpawnerType() {
+		return isAntiUseEggsChangeSpawnerType;
+	}
+
+	public void setAntiUseEggsChangeSpawnerType(boolean isAntiUseEggsChangeSpawnerType) {
+		this.isAntiUseEggsChangeSpawnerType = isAntiUseEggsChangeSpawnerType;
 	}
 
 }
