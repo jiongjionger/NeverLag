@@ -20,7 +20,8 @@ import cn.jiongjionger.neverlag.NeverLag;
 public class ItemCleaner {
 
 	private static ConfigManager cm = ConfigManager.getInstance();
-	private int tick = 0;
+	private int preMessageTime = 0;
+	//private int holoTime = 0;
 
 	public ItemCleaner() {
 		NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
@@ -32,16 +33,58 @@ public class ItemCleaner {
 			NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
 				public void run() {
 					doPreMessage();
+					//holoDisplay();
 				}
 			}, 20L, 20L);
 		}
 	}
+	
+	/*
+	// 悬浮提醒
+	private void holoDisplay() {
+		if (!cm.isClearDropItem() || !cm.isClearItem() || !cm.isClearItemPreHoloMessage()) {
+			return;
+		}
+		this.holoTime++;
+		int remainTick = cm.getClearMobDelay() - holoTime;
+		if (remainTick <= 60 && remainTick > 0) {
+			String holoMessage = cm.getClearItemPreHoloMessage().replace("%TIME%", String.valueOf(remainTick));
+			this.setDropItemHolo(holoMessage);
+		}
+		if (remainTick <= 0) {
+			this.holoTime = 0;
+			this.setDropItemHolo("");
+		}
+	}
 
+	@SuppressWarnings("deprecation")
+	private void setDropItemHolo(String name) {
+		for (World world : Bukkit.getWorlds()) {
+			// 如果当前世界不在排除列表
+			if (!cm.getNoClearItemWorld().contains(world.getName())) {
+				for (Entity entity : world.getEntities()) {
+					if (entity == null) {
+						continue;
+					}
+					if (entity instanceof Item) {
+						Item item = (Item) entity;
+						// 判断是否在不清理的物品ID白名单
+						if (!cm.getNoClearItemId().contains(item.getItemStack().getTypeId())) {
+							item.setCustomName(name);
+							item.setCustomNameVisible(true);
+						}
+					}
+				}
+			}
+		}
+	}
+	*/
+	
 	// 提前通知
 	private void doPreMessage() {
-		if (cm.isClearItem() && cm.isBroadcastClearItem()) {
-			tick++;
-			int remainTick = cm.getClearItemDelay() - tick;
+		if (cm.isClearDropItem() && cm.isBroadcastClearItem()) {
+			this.preMessageTime++;
+			int remainTick = cm.getClearItemDelay() - this.preMessageTime;
 			switch (remainTick) {
 			case 60:
 				Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastPreMessage().replace("%TIME%", "60"));
@@ -56,14 +99,14 @@ public class ItemCleaner {
 				break;
 			}
 			if (remainTick <= 0) {
-				tick = 0;
+				this.preMessageTime = 0;
 			}
 		}
 	}
 
 	@SuppressWarnings("deprecation")
 	public static void doClean() {
-		if (!cm.isClearItem()) {
+		if (!cm.isClearDropItem()) {
 			return;
 		}
 		int count = 0;

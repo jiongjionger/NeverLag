@@ -8,6 +8,8 @@ import cn.jiongjionger.neverlag.NeverLag;
 public class ConfigManager {
 
 	private FileConfig config;
+	// 是否开启清理掉落物功能
+	private Boolean isClearDropItem;
 	// 不清除物品的世界列表
 	private HashSet<String> noClearItemWorld;
 	// 玩家在掉落物附近时是否还清理这个物品
@@ -42,6 +44,10 @@ public class ConfigManager {
 	private String clearItemBroadcastMessage;
 	// 清理物品公告提前通知内容
 	private String clearItemBroadcastPreMessage;
+	// 是否开启清理前60秒在物品上显示悬浮的倒计时
+	// private boolean isClearItemPreHoloMessage = true;
+	// 悬浮显示格式
+	// private String clearItemPreHoloMessage = "%TIME% 秒后将被清理";
 
 	// 是否清理实体
 	private Boolean isClearEntity;
@@ -1518,6 +1524,28 @@ public class ConfigManager {
 
 	public void setDisableVillagerTradeWorldSet(HashSet<String> disableVillagerTradeWorldSet) {
 		this.disableVillagerTradeWorldSet = disableVillagerTradeWorldSet;
+	}
+
+	/*
+	 * public boolean isClearItemPreHoloMessage() { return
+	 * isClearItemPreHoloMessage; }
+	 * 
+	 * public void setClearItemPreHoloMessage(boolean isClearItemPreHoloMessage)
+	 * { this.isClearItemPreHoloMessage = isClearItemPreHoloMessage; }
+	 * 
+	 * public String getClearItemPreHoloMessage() { return
+	 * clearItemPreHoloMessage; }
+	 * 
+	 * public void setClearItemPreHoloMessage(String clearItemPreHoloMessage) {
+	 * this.clearItemPreHoloMessage = clearItemPreHoloMessage; }
+	 */
+
+	public Boolean isClearDropItem() {
+		return isClearDropItem;
+	}
+
+	public void setClearDropItem(Boolean isClearDropItem) {
+		this.isClearDropItem = isClearDropItem;
 	}
 
 }

@@ -16,7 +16,7 @@ import cn.jiongjionger.neverlag.NeverLag;
 public class EntityCleaner {
 
 	private static ConfigManager cm = ConfigManager.getInstance();
-	private int tick = 0;
+	private int preMessageTime = 0;
 
 	public EntityCleaner() {
 		NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
@@ -36,8 +36,8 @@ public class EntityCleaner {
 	// 提前通知
 	private void doPreMessage() {
 		if (cm.isClearEntity() && cm.isBroadcastClearEntity()) {
-			tick++;
-			int remainTick = cm.getClearMobDelay() - tick;
+			this.preMessageTime++;
+			int remainTick = cm.getClearMobDelay() - this.preMessageTime;
 			switch (remainTick) {
 			case 60:
 				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "60"));
@@ -52,7 +52,7 @@ public class EntityCleaner {
 				break;
 			}
 			if (remainTick <= 0) {
-				tick = 0;
+				this.preMessageTime = 0;
 			}
 		}
 	}
@@ -89,7 +89,7 @@ public class EntityCleaner {
 					if (entity.hasMetadata("NPC") || entity.hasMetadata("MyPet") || cm.getClearEntityTypeWhiteList().contains(entity.getType().getName().toLowerCase())) {
 						continue;
 					}
-					if(!cm.isClearEntityPlayerNearby() && hasPlayerNearby(entity, cm.getClearEntityPlayerNearbyDistance())){
+					if (!cm.isClearEntityPlayerNearby() && hasPlayerNearby(entity, cm.getClearEntityPlayerNearbyDistance())) {
 						continue;
 					}
 					if (entity instanceof Animals) {
