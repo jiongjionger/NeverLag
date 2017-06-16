@@ -30,7 +30,7 @@ public class TilesLimiter implements Listener {
 			if (p.isOp()) {
 				return;
 			}
-			int limit = PermUtils.getMaxPerm(p, "NeverLag.LimitHopper.");
+			int limit = PermUtils.getMaxPerm(p, "neverLag.limit.hopper.");
 			if (limit <= 0) {
 				limit = cm.getLimitTilesHopperDefault();
 			}
@@ -59,7 +59,7 @@ public class TilesLimiter implements Listener {
 			checkType = Material.PISTON_STICKY_BASE;
 		}
 		if (checkType != null) {
-			int limit = PermUtils.getMaxPerm(p, "NeverLag.LimitPiston.");
+			int limit = PermUtils.getMaxPerm(p, "neverLag.limit.piston.");
 			if (limit <= 0) {
 				limit = cm.getLimitTilesPistonDefault();
 			}
@@ -81,7 +81,7 @@ public class TilesLimiter implements Listener {
 			if (p.isOp()) {
 				return;
 			}
-			int limit = PermUtils.getMaxPerm(p, "NeverLag.LimitDispenser.");
+			int limit = PermUtils.getMaxPerm(p, "neverLag.limit.dispenser.");
 			if (limit <= 0) {
 				limit = cm.getLimitTilesDispenserDefault();
 			}
@@ -103,7 +103,7 @@ public class TilesLimiter implements Listener {
 			if (p.isOp()) {
 				return;
 			}
-			int limit = PermUtils.getMaxPerm(p, "NeverLag.LimitDropper.");
+			int limit = PermUtils.getMaxPerm(p, "neverLag.limit.dropper.");
 			if (limit <= 0) {
 				limit = cm.getLimitTilesDropperDefault();
 			}
