@@ -18,7 +18,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 	// 保存红石频率信息，按周期判断并且清空
 	private HashMap<Location, Integer> syncRestoneRecord = new HashMap<Location, Integer>();
 	private ConcurrentHashMap<Location, Integer> asyncRestoneRecord = new ConcurrentHashMap<Location, Integer>();
-	
+
 	private ConfigManager cm = ConfigManager.getInstance();
 	private RedStoneCounter rc = RedStoneCounter.getInstance();
 	private NeverLag plg = NeverLag.getInstance();
@@ -112,7 +112,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 		});
 	}
 
-	private void breakRestone(Location loc, boolean isOnSync) {
+	private void breakRestone(final Location loc, boolean isOnSync) {
 		if (isOnSync) {
 			if (cm.isRedstoneDrop()) {
 				loc.getBlock().breakNaturally();
