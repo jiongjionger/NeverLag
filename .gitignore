@@ -1,0 +1,20 @@
+# From https://github.com/github/gitignore/
+
+# Netbeans Project
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+/nb-configuration.xml
+/nbactions.xml
+
+# Eclipse Project
+.metadata
+bin/
+tmp/
+local.properties
+.settings/
+.loadpath
+.recommenders
