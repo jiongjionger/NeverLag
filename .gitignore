@@ -1,0 +1,30 @@
+# From https://github.com/github/gitignore/
+
+# Maven Project
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Netbeans Project
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+/nb-configuration.xml
+/nbactions.xml
+
+# Eclipse Project
+.metadata
+bin/
+tmp/
+local.properties
+.settings/
+.loadpath
+.recommenders
