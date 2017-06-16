@@ -27,6 +27,7 @@ public class CommandGC implements ISubCommandExecutor {
 		return true;
 	}
 	
+	@Override
 	public String getPermNode(){
 		return this.PERMNODE;
 	}

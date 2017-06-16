@@ -113,12 +113,29 @@ public class HardWareInfo {
 			if (memoryInfoMap.get("MemTotal") != null) {
 				totalMemory = String.valueOf(Long.parseLong(memoryInfoMap.get("MemTotal")) / 1024);
 			} else {
-				totalMemory = "Unknown";
+				// 针对WIN10无法获取物理内存总量的补救措施
+				if(operatingSystemMXBean instanceof com.sun.management.OperatingSystemMXBean) {
+					com.sun.management.OperatingSystemMXBean nativeSystemMXBean = (com.sun.management.OperatingSystemMXBean) operatingSystemMXBean;
+					long nativeTotalMemory = nativeSystemMXBean.getTotalPhysicalMemorySize();
+					if(nativeTotalMemory != 0L){
+						totalMemory = String.valueOf(nativeTotalMemory / 1024 / 1024);
+					}
+				}else{
+					totalMemory = "Unknown";
+				}
 			}
 			if (memoryInfoMap.get("MemFree") != null) {
 				freeMemory = String.valueOf(Long.parseLong(memoryInfoMap.get("MemFree")) / 1024);
 			} else {
-				freeMemory = "Unknown";
+				if(operatingSystemMXBean instanceof com.sun.management.OperatingSystemMXBean) {
+					com.sun.management.OperatingSystemMXBean nativeSystemMXBean = (com.sun.management.OperatingSystemMXBean) operatingSystemMXBean;
+					long nativeFreeMemory = nativeSystemMXBean.getFreePhysicalMemorySize();
+					if(nativeFreeMemory != 0L){
+						freeMemory = String.valueOf(nativeFreeMemory / 1024 / 1024);
+					}
+				}else{
+					freeMemory = "Unknown";
+				}
 			}
 			StringBuilder sb = new StringBuilder();
 			sb.append(freeMemory).append("MB / ").append(totalMemory).append("MB");

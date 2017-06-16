@@ -50,6 +50,7 @@ public class CommandHardWare implements ISubCommandExecutor {
 		});
 	}
 	
+	@Override
 	public String getPermNode(){
 		return this.PERMNODE;
 	}

@@ -53,6 +53,7 @@ public class CommandInfo implements ISubCommandExecutor {
 		return true;
 	}
 	
+	@Override
 	public String getPermNode(){
 		return this.PERMNODE;
 	}

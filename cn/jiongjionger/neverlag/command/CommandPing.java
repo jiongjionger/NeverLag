@@ -58,7 +58,8 @@ public class CommandPing implements ISubCommandExecutor {
 			}
 		}
 	}
-
+	
+	@Override
 	public String getPermNode() {
 		return this.PERMNODE;
 	}
