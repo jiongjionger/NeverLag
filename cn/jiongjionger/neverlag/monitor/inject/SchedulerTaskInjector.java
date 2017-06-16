@@ -19,7 +19,7 @@ public class SchedulerTaskInjector implements Runnable {
 		this.plugin = plugin;
 		this.runnable = runnable;
 	}
-	
+
 	// 统计定时任务的耗时、次数、最大耗时
 	@Override
 	public void run() {
@@ -33,15 +33,15 @@ public class SchedulerTaskInjector implements Runnable {
 		this.totalTime = this.totalTime + useTime;
 		this.totalCount = this.totalCount + 1L;
 	}
-	
+
 	// 替换原本的Runnable为带性能统计的版本
-	public void inject() {
-		if (this.plugin != null) {
+	public static void inject(Plugin plg) {
+		if (plg != null) {
 			for (BukkitTask pendingTask : Bukkit.getScheduler().getPendingTasks()) {
-				if (pendingTask.isSync() && pendingTask.getOwner().equals(this.plugin)) {
+				if (pendingTask.isSync() && pendingTask.getOwner().equals(plg)) {
 					try {
 						FieldAccessor<Runnable> field = Reflection.getField(pendingTask.getClass(), "task", Runnable.class);
-						field.set(pendingTask, new SchedulerTaskInjector(this.plugin, field.get(pendingTask)));
+						field.set(pendingTask, new SchedulerTaskInjector(plg, field.get(pendingTask)));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -49,12 +49,12 @@ public class SchedulerTaskInjector implements Runnable {
 			}
 		}
 	}
-	
+
 	// 替换带性能统计版本的Runnable为原版本
-	public void uninject() {
-		if (this.plugin != null) {
+	public static void uninject(Plugin plg) {
+		if (plg != null) {
 			for (BukkitTask pendingTask : Bukkit.getScheduler().getPendingTasks()) {
-				if (pendingTask.isSync() && pendingTask.getOwner().equals(plugin)) {
+				if (pendingTask.isSync() && pendingTask.getOwner().equals(plg)) {
 					FieldAccessor<Runnable> field = Reflection.getField(pendingTask.getClass(), "task", Runnable.class);
 					Runnable runnable = field.get(pendingTask);
 					if (runnable instanceof SchedulerTaskInjector) {
@@ -67,5 +67,9 @@ public class SchedulerTaskInjector implements Runnable {
 
 	public Runnable getRunnable() {
 		return this.runnable;
+	}
+
+	public Plugin getPlugin() {
+		return this.plugin;
 	}
 }

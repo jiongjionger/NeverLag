@@ -58,16 +58,16 @@ public class CommandInjector implements TabExecutor {
 		return commandResult;
 	}
 
-	public void inject() {
-		if (this.plugin != null) {
+	public static void inject(Plugin plg) {
+		if (plg != null) {
 			SimpleCommandMap simpleCommandMap = Reflection.getField(SimplePluginManager.class, "commandMap", SimpleCommandMap.class).get(Bukkit.getPluginManager());
 			for (Command command : simpleCommandMap.getCommands()) {
 				if (command instanceof PluginCommand) {
 					PluginCommand pluginCommand = (PluginCommand) command;
-					if (this.plugin.equals(pluginCommand.getPlugin())) {
+					if (plg.equals(pluginCommand.getPlugin())) {
 						FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
 						FieldAccessor<TabCompleter> tabField = Reflection.getField(PluginCommand.class, "completer", TabCompleter.class);
-						CommandInjector commandInjector = new CommandInjector(this.plugin, commandField.get(pluginCommand), tabField.get(pluginCommand));
+						CommandInjector commandInjector = new CommandInjector(plg, commandField.get(pluginCommand), tabField.get(pluginCommand));
 						commandField.set(pluginCommand, commandInjector);
 						tabField.set(pluginCommand, commandInjector);
 					}
@@ -76,13 +76,13 @@ public class CommandInjector implements TabExecutor {
 		}
 	}
 
-	public void uninject() {
-		if (this.plugin != null) {
+	public static void uninject(Plugin plg) {
+		if (plg != null) {
 			SimpleCommandMap simpleCommandMap = Reflection.getField(SimplePluginManager.class, "commandMap", SimpleCommandMap.class).get(Bukkit.getPluginManager());
 			for (Command command : simpleCommandMap.getCommands()) {
 				if (command instanceof PluginCommand) {
 					PluginCommand pluginCommand = (PluginCommand) command;
-					if (this.plugin.equals(pluginCommand.getPlugin())) {
+					if (plg.equals(pluginCommand.getPlugin())) {
 						FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
 						FieldAccessor<TabCompleter> tabField = Reflection.getField(PluginCommand.class, "completer", TabCompleter.class);
 						CommandExecutor executor = commandField.get(pluginCommand);
@@ -105,5 +105,9 @@ public class CommandInjector implements TabExecutor {
 
 	public CommandExecutor getCommandExecutor() {
 		return this.commandExecutor;
+	}
+
+	public Plugin getPlugin() {
+		return this.plugin;
 	}
 }

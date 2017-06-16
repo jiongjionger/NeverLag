@@ -13,7 +13,7 @@ import cn.jiongjionger.neverlag.utils.Reflection;
 import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
 public class EventExecutorInjector implements EventExecutor {
-	
+
 	private final Plugin plugin;
 	private final EventExecutor eventExecutor;
 	private long totalCount = 0L;
@@ -44,15 +44,15 @@ public class EventExecutorInjector implements EventExecutor {
 	}
 
 	// 将监听器原本的EventExecutor替换成带性能统计的版本
-	public void inject() {
-		if (this.plugin != null) {
-			for (RegisteredListener listener : HandlerList.getRegisteredListeners(this.plugin)) {
+	public static void inject(Plugin plg) {
+		if (plg != null) {
+			for (RegisteredListener listener : HandlerList.getRegisteredListeners(plg)) {
 				try {
 					if (!(listener instanceof TimedRegisteredListener)) {
 						HandlerList.unregisterAll(listener.getListener());
 						FieldAccessor<EventExecutor> field = Reflection.getField(RegisteredListener.class, "executor", EventExecutor.class);
 						EventExecutor fieldEventExecutor = field.get(listener);
-						field.set(listener, new EventExecutorInjector(this.plugin, fieldEventExecutor));
+						field.set(listener, new EventExecutorInjector(plg, fieldEventExecutor));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,9 +62,9 @@ public class EventExecutorInjector implements EventExecutor {
 	}
 
 	// 将监听器带性能统计的版本替换回原始的EventExecutor版本
-	public void uninject() {
-		if (this.plugin != null) {
-			for (RegisteredListener listener : HandlerList.getRegisteredListeners(this.plugin)) {
+	public static void uninject(Plugin plg) {
+		if (plg != null) {
+			for (RegisteredListener listener : HandlerList.getRegisteredListeners(plg)) {
 				try {
 					if (!(listener instanceof TimedRegisteredListener)) {
 						FieldAccessor<EventExecutor> field = Reflection.getField(RegisteredListener.class, "executor", EventExecutor.class);
@@ -84,6 +84,10 @@ public class EventExecutorInjector implements EventExecutor {
 	// 获取原本的EventExecutor
 	public EventExecutor getEventExecutor() {
 		return this.eventExecutor;
+	}
+
+	public Plugin getPlugin() {
+		return this.plugin;
 	}
 
 }
