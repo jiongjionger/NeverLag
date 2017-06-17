@@ -27,12 +27,12 @@ public class HotChunkHolder implements Listener {
 	private WeakHashMap<ChunkInfo, Integer> hotChunkTryUnloadRecord = new WeakHashMap<ChunkInfo, Integer>();
 
 	public HotChunkHolder() {
-		NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
+		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 			public void run() {
 				doClean();
 			}
 		}, 300 * 20L, 300 * 20L);
-		NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
+		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 			public void run() {
 				removeLeastHotRecord();
 			}

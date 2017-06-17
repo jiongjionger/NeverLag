@@ -20,13 +20,13 @@ public class EntityCleaner {
 	private int preMessageTime = 0;
 
 	public EntityCleaner() {
-		NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
+		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 			public void run() {
 				doClean();
 			}
 		}, cm.getClearMobDelay() * 20L, cm.getClearMobDelay() * 20L);
 		if (cm.getClearMobDelay() > 60) {
-			NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
+			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 				public void run() {
 					doPreMessage();
 				}

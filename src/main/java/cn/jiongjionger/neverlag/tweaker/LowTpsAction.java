@@ -13,7 +13,7 @@ public class LowTpsAction {
 	private static ConfigManager cm = ConfigManager.getInstance();
 
 	public LowTpsAction() {
-		NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
+		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 			public void run() {
 				if (cm.isLowTPSAction() && NeverLag.getTpsWatcher().getAverageTPS() < cm.getLowTPSLimit() && lastActionTime + cm.getLowTPSActionTimeLimit() < System.currentTimeMillis()) {
 					doAction();

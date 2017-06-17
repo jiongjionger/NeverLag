@@ -25,13 +25,13 @@ public class ItemCleaner {
 	private int holoTime = 0;
 
 	public ItemCleaner() {
-		NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
+		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 			public void run() {
 				doClean();
 			}
 		}, cm.getClearItemDelay() * 20L, cm.getClearItemDelay() * 20L);
 		if (cm.getClearItemDelay() > 60) {
-			NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
+			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 				public void run() {
 					doPreMessage();
 					holoDisplay();
