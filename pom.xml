@@ -6,6 +6,13 @@
 	<version>2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>NeverLag</name>
+	
+	<licenses>
+		<license>
+			<name>General Public License 3.0</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0</url>
+		</license>
+	</licenses>
 
 	<dependencies>
 		<dependency>
