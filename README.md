@@ -1,5 +1,6 @@
-# NeverLag（尚未完工）
-一个专注于优化我的世界服务端性能、减少延迟、修复服务端/其他常用插件BUG、限制或禁用破坏多人游戏平衡的游戏机制的插件（A plugin that focuses on optimizing minecraft server performance, reducing server lag, fix server and popular plugin bug, limiting or disabling the game mechanism that hurt multiplayer balances.）
+# NeverLag (WIP)
+一个专注于优化我的世界服务端性能、减少延迟、修复服务端/其他常用插件BUG、限制或禁用破坏多人游戏平衡的游戏机制的插件。此插件尚未完工。   
+A plugin that focuses on optimizing Minecraft server performance, reducing server lag, fix server and popular plugin bug, limiting or disabling the game mechanism that hurt multiplayer balances.
 ## 主要功能
 #### 修复服务端/热门插件BUG
 - 修复老版本MOD服骨粉刷方块/物品的BUG
@@ -63,4 +64,4 @@
 - neverLag.limit.piston.数量
 - neverLag.limit.dropper.数量
 ## 联系方式
-Email: 17jiong#gmail.com （请手动替换#为@）
+Email: [17jiong@gmail.com](mailto:17jiong@gmail.com)
