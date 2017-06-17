@@ -15,7 +15,7 @@ public class AntiPlaceDoorDupe implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlace(BlockPlaceEvent e) {
 		if (!cm.isAntiPlaceDoorDupe()) {
 			return;

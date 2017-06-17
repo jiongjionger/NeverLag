@@ -16,7 +16,7 @@ public class IconMaker {
 		try {
 			Material m = Material.valueOf(type);
 			this.item = new ItemStack(m);
-		} catch (Exception e) {
+		} catch (IllegalArgumentException | NullPointerException e) {
 			this.item = new ItemStack(Material.STONE);
 		}
 	}
@@ -95,7 +95,7 @@ public class IconMaker {
 	// 设置头颅
 	public IconMaker setOwner(String username) {
 		if (this.item != null && this.item.getType().equals(Material.SKULL_ITEM)) {
-			this.item.setDurability((short) 3);
+			this.item.setDurability((short) 3); // 3: Player
 			SkullMeta sm = (SkullMeta) item.getItemMeta();
 			sm.setOwner(username);
 			item.setItemMeta(sm);

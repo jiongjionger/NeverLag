@@ -1,8 +1,6 @@
 package cn.jiongjionger.neverlag.fixer;
 
 import org.bukkit.Material;
-import org.bukkit.block.Dispenser;
-import org.bukkit.block.Dropper;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -13,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import org.bukkit.inventory.InventoryHolder;
 
 public class AntiNegativeItemDupe implements Listener {
 
@@ -25,17 +24,15 @@ public class AntiNegativeItemDupe implements Listener {
 			return;
 		}
 		Inventory content = null;
-		if (e.getBlock().getType().equals(Material.DROPPER)) {
-			content = ((Dropper) e.getBlock().getState()).getInventory();
-		} else if (e.getBlock().getType().equals(Material.DISPENSER)) {
-			content = ((Dispenser) e.getBlock().getState()).getInventory();
+		if (e.getBlock().getState() instanceof InventoryHolder) {
+			content = ((InventoryHolder) e.getBlock().getState()).getInventory();
 		}
 		if (content == null || content.getSize() == 0) {
 			return;
 		}
 		for (ItemStack item : content.getContents()) {
 			if (item != null && !item.getType().equals(Material.AIR)) {
-				if (item.getAmount() < 0) {
+				if (item.getAmount() <= 0) {
 					item.setType(Material.AIR);
 				}
 			}
@@ -54,14 +51,14 @@ public class AntiNegativeItemDupe implements Listener {
 		} else if (e.getCursor() != null && !e.getCursor().getType().equals(Material.AIR)) {
 			item = e.getCursor();
 		}
-		if (item != null && item.getAmount() < 0) {
+		if (item != null && item.getAmount() <= 0) {
 			item.setType(Material.AIR);
 		}
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onSpawn(ItemSpawnEvent e) {
-		if (cm.isAntiNegativeItemDupe() && e.getEntity() != null && e.getEntity().getItemStack() != null && e.getEntity().getItemStack().getAmount() < 0) {
+		if (cm.isAntiNegativeItemDupe() && e.getEntity() != null && e.getEntity().getItemStack() != null && e.getEntity().getItemStack().getAmount() <= 0) {
 			e.setCancelled(true);
 		}
 	}

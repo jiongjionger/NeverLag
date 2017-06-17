@@ -18,7 +18,7 @@ public class PermUtils {
 				if (number > maxLimit) {
 					maxLimit = number;
 				}
-			} catch (Exception e) {
+			} catch (NumberFormatException e) {
 				continue;
 			}
 		}
