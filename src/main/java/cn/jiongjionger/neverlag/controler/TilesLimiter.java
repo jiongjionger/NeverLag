@@ -20,7 +20,8 @@ public class TilesLimiter implements Listener {
 	private final ConfigManager cm = ConfigManager.getInstance();
 
 	// 限制漏斗
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	// 将优先级设为NORMAL以与各种小游戏插件兼容. LOWEST可能破坏一些小游戏的游戏机制
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlaceHopper(final BlockPlaceEvent e) {
 		if (!cm.isLimitTiles()) {
 			return;
@@ -42,7 +43,7 @@ public class TilesLimiter implements Listener {
 	}
 
 	// 限制活塞
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlacePistion(final BlockPlaceEvent e) {
 		if (!cm.isLimitTiles()) {
 			return;
@@ -71,7 +72,7 @@ public class TilesLimiter implements Listener {
 	}
 
 	// 限制发射器
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlaceDispenser(final BlockPlaceEvent e) {
 		if (!cm.isLimitTiles()) {
 			return;
@@ -93,7 +94,7 @@ public class TilesLimiter implements Listener {
 	}
 
 	// 限制投掷器
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlaceDropper(final BlockPlaceEvent e) {
 		if (!cm.isLimitTiles()) {
 			return;
@@ -115,7 +116,7 @@ public class TilesLimiter implements Listener {
 	}
 
 	// 判断是否密集
-	public Boolean isLimit(Location loc, Material type, int limit) {
+	public boolean isLimit(Location loc, Material type, int limit) {
 		int count = 0;
 		int[] offset = { -2, -1, 0, 1, 2 };
 		World world = loc.getWorld();
@@ -139,9 +140,6 @@ public class TilesLimiter implements Listener {
 				}
 			}
 		}
-		if (count >= limit) {
-			return true;
-		}
-		return false;
+		return count >= limit;
 	}
 }

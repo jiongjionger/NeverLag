@@ -11,6 +11,7 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class CommandClear implements ISubCommandExecutor {
 
@@ -28,7 +29,7 @@ public class CommandClear implements ISubCommandExecutor {
 			int count = 0;
 			for (World w : Bukkit.getWorlds()) {
 				for (Entity entity : w.getEntities()) {
-					if (entity.hasMetadata("NPC") || entity.hasMetadata("MyPet") || entity instanceof Player) {
+					if (EntityUtils.checkCustomNpc(entity) || entity instanceof Player) {
 						continue;
 					}
 					switch (args[1].toLowerCase()) {

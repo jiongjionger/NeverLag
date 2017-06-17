@@ -16,7 +16,7 @@ public class AntiDropItemDupe implements Listener {
 		if (!cm.isAntiDropItemDupe()) {
 			return;
 		}
-		if (e.getPlayer() == null || !e.getPlayer().isOnline()) {
+		if (e.getPlayer() == null || !e.getPlayer().isOnline() || !e.getPlayer().isValid()) {
 			e.setCancelled(true);
 		}
 	}

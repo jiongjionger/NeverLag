@@ -16,6 +16,7 @@ import org.bukkit.entity.Snowball;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class ItemCleaner {
 
@@ -163,7 +164,7 @@ public class ItemCleaner {
 	private static boolean hasPlayerNearby(Item item, int distance) {
 		for (Entity entity : item.getNearbyEntities(distance, distance, distance)) {
 			if (entity instanceof Player) {
-				if (!entity.hasMetadata("NPC")) {
+				if (!EntityUtils.checkCustomNpc(entity)) {
 					return true;
 				}
 			}

@@ -12,7 +12,7 @@ public class PermUtils {
 			if (!permission.startsWith("node")) {
 				continue;
 			}
-			String[] split = permission.split(".");
+			String[] split = permission.split("\\.");
 			try {
 				int number = Integer.parseInt(split[split.length - 1]);
 				if (number > maxLimit) {

@@ -54,7 +54,7 @@ public class RedStoneCounter {
 		}, 20L, 20L);
 	}
 
-	public void updateRedstoneCount(Boolean forceSync) {
+	public void updateRedstoneCount(boolean forceSync) {
 		if (forceSync) {
 			syncRestoneCount = syncRestoneCount + 1;
 		} else {
@@ -62,7 +62,7 @@ public class RedStoneCounter {
 		}
 	}
 
-	public int getRedstoneAvgCount(Boolean forceSync) {
+	public int getRedstoneAvgCount(boolean forceSync) {
 		if (forceSync) {
 			if (syncOneMinutesRecord.isEmpty()) {
 				return 0;
@@ -86,7 +86,7 @@ public class RedStoneCounter {
 		}
 	}
 
-	public int getRedstoneRealTimeCount(Boolean forceSync) {
+	public int getRedstoneRealTimeCount(boolean forceSync) {
 		if (forceSync) {
 			if (syncOneMinutesRecord.isEmpty()) {
 				return 0;

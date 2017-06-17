@@ -10,6 +10,7 @@ import org.bukkit.entity.Villager;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class MobFarmCleaner {
 
@@ -31,7 +32,7 @@ public class MobFarmCleaner {
 		for (World world : Bukkit.getWorlds()) {
 			for (LivingEntity entity : world.getLivingEntities()) {
 				if (entity instanceof Monster || entity instanceof Animals || entity instanceof Villager || entity.getType() == EntityType.SQUID) {
-					if (entity.hasMetadata("NPC") || entity.hasMetadata("MyPet")) {
+					if (EntityUtils.checkCustomNpc(entity)) {
 						continue;
 					}
 					if (entity.getNearbyEntities(2.25D, 4.5D, 2.25D).size() >= cm.getCheckMobFarmLooseLimit() || entity.getNearbyEntities(0.50D, 3.5D, 0.5D).size() >= cm.getCheckMobFarmTinyLimit()) {

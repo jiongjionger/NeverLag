@@ -33,6 +33,7 @@ public class MobLimtier implements Listener {
 			}
 		}
 		this.cachedMobCount = count;
+		this.lastCountTime = System.currentTimeMillis();
 	}
 
 	// 5秒统计一次实体数量，而不是每次调用都计算，节约开销
@@ -57,9 +58,10 @@ public class MobLimtier implements Listener {
 		if (creature.getCustomName() != null) {
 			return;
 		}
-		// 不限制刷怪蛋、刷怪笼刷出的实体和凋零、铁傀儡、雪人
+		// 不限制插件、刷怪蛋、刷怪笼刷出的实体和凋零、铁傀儡、雪人
 		if (creature.getType() != EntityType.IRON_GOLEM && creature.getType() != EntityType.SNOWMAN && creature.getType() != EntityType.WITHER
-				&& e.getSpawnReason() != SpawnReason.SPAWNER_EGG && e.getSpawnReason() != SpawnReason.SPAWNER) {
+				&& e.getSpawnReason() != SpawnReason.SPAWNER_EGG && e.getSpawnReason() != SpawnReason.SPAWNER
+				&& e.getSpawnReason() != SpawnReason.CUSTOM) {
 			if (creature instanceof Animals) {
 				if (this.getMobCount() >= cm.getAnimalsSpawnLimit()) {
 					e.setCancelled(true);
@@ -83,6 +85,7 @@ public class MobLimtier implements Listener {
 				}
 				if (count > cm.getSpawnerEntityCountPerChunkLimit()) {
 					e.setCancelled(true);
+					break;
 				}
 			}
 		}

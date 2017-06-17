@@ -55,7 +55,7 @@ public class CommandAndChatCooldown implements Listener {
 
 	// 限制聊天频率
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void OnChat(AsyncPlayerChatEvent e) {
+	public void onChat(AsyncPlayerChatEvent e) {
 		// 忽略OP
 		Player p = e.getPlayer();
 		if (p.isOp()) {
@@ -68,8 +68,8 @@ public class CommandAndChatCooldown implements Listener {
 		// 判断间隔时间
 		String username = p.getName();
 		long now = System.currentTimeMillis();
-		if (chatCoolDown.containsKey(username)) {
-			long lastChatTime = chatCoolDown.get(username);
+		Long lastChatTime;
+		if ((lastChatTime = chatCoolDown.get(username)) != null) {
 			if (now - lastChatTime <= cm.getChatCooldownTime()) {
 				e.setCancelled(true);
 				p.sendMessage(cm.getChatCooldownMessage());
@@ -82,7 +82,7 @@ public class CommandAndChatCooldown implements Listener {
 
 	@EventHandler
 	// 用户退出时清理出HashMap
-	public void OnQuit(PlayerQuitEvent e) {
+	public void onQuit(PlayerQuitEvent e) {
 		String username = e.getPlayer().getName();
 		commandCoolDown.remove(username);
 		chatCoolDown.remove(username);

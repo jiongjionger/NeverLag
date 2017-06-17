@@ -12,6 +12,7 @@ import org.bukkit.entity.Villager;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class EntityCleaner {
 
@@ -64,7 +65,7 @@ public class EntityCleaner {
 
 	// 清理实体任务
 	@SuppressWarnings("deprecation")
-	private static void doClean(Boolean forceclean) {
+	private static void doClean(boolean forceclean) {
 		if (!cm.isClearEntity()) {
 			return;
 		}
@@ -86,7 +87,7 @@ public class EntityCleaner {
 			if (!cm.getNoClearEntityWorld().contains(world.getName())) {
 				for (LivingEntity entity : world.getLivingEntities()) {
 					// 不清理NPC和Mypet宠物和白名单内的类型
-					if (entity.hasMetadata("NPC") || entity.hasMetadata("MyPet") || cm.getClearEntityTypeWhiteList().contains(entity.getType().getName().toLowerCase())) {
+					if (EntityUtils.checkCustomNpc(entity) || cm.getClearEntityTypeWhiteList().contains(entity.getType().getName().toLowerCase())) {
 						continue;
 					}
 					if (!cm.isClearEntityPlayerNearby() && hasPlayerNearby(entity, cm.getClearEntityPlayerNearbyDistance())) {
@@ -119,7 +120,7 @@ public class EntityCleaner {
 	private static boolean hasPlayerNearby(Entity ent, int distance) {
 		for (Entity entity : ent.getNearbyEntities(distance, distance, distance)) {
 			if (entity instanceof Player) {
-				if (!entity.hasMetadata("NPC")) {
+				if (!EntityUtils.checkCustomNpc(entity)) {
 					return true;
 				}
 			}

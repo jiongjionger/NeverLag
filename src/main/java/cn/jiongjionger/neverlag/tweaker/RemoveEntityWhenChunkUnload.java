@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class RemoveEntityWhenChunkUnload implements Listener {
 
@@ -23,7 +24,7 @@ public class RemoveEntityWhenChunkUnload implements Listener {
 			return;
 		}
 		for (Entity entity : e.getChunk().getEntities()) {
-			if (entity.hasMetadata("NPC") || entity.hasMetadata("MyPet")) {
+			if (EntityUtils.checkCustomNpc(entity)) {
 				continue;
 			}
 			if (entity instanceof Monster && cm.isRemoveMonsterWhenChunkUnload()) {

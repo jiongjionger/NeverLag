@@ -22,7 +22,7 @@ public class CommandTabComplete implements TabCompleter {
 		for (EntityType type : EntityType.values()) {
 			@SuppressWarnings("deprecation")
 			String typeName = type.getName();
-			if (typeName != null && typeName.toLowerCase() != "player") {
+			if (typeName != null && !"player".equals(typeName.toLowerCase())) {
 				CLEARTYPE.add(typeName);
 			}
 		}
