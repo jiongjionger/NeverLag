@@ -45,11 +45,11 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 	@EventHandler
 	// 当红石触发的时候，记录当前坐标红石事件的次数，超出阀值则清理
 	private void onBlockRedstone(BlockRedstoneEvent e) {
-		int typeId = e.getBlock().getTypeId();
+		final int typeId = e.getBlock().getTypeId();
 		if (!cm.getRedstoneClearType().contains(typeId)) {
 			return;
 		}
-		Location loc = e.getBlock().getLocation();
+		final Location loc = e.getBlock().getLocation();
 		if (cm.isCheckRedstoneOnAsync()) {
 			asyncCheckAndRecord(loc, typeId);
 		} else {
@@ -57,7 +57,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 		}
 	}
 
-	private void syncCheckAndRecord(Location loc, int typeId) {
+	private void syncCheckAndRecord(final Location loc, final int typeId) {
 		Integer count = syncRestoneRecord.get(loc);
 		if (count == null) {
 			syncRestoneRecord.put(loc, 1);
@@ -82,7 +82,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 		rc.updateRedstoneCount(true);
 	}
 
-	private void asyncCheckAndRecord(Location loc, int typeId) {
+	private void asyncCheckAndRecord(final Location loc, final int typeId) {
 		// 使用自带的任务调度而非Thead避免一些问题
 		plg.getServer().getScheduler().runTaskAsynchronously(plg, new Runnable() {
 			public void run() {

@@ -9,37 +9,37 @@ public class ConfigManager {
 
 	private FileConfig config;
 	// 是否开启清理掉落物功能
-	private Boolean isClearDropItem;
+	private boolean isClearDropItem;
 	// 不清除物品的世界列表
 	private HashSet<String> noClearItemWorld;
 	// 玩家在掉落物附近时是否还清理这个物品
-	private Boolean isClearItemPlayerNearby;
+	private boolean isClearItemPlayerNearby;
 	// 在玩家距离掉落物多少格距离的时候，不清理这个物品
 	private int clearItemPlayerNearbyDistance;
 	// 是否清除掉落物品
-	private Boolean isClearItem;
+	private boolean isClearItem;
 	// 掉落物清理周期
 	private int clearItemDelay;
 	// 不清理的物品ID
 	private HashSet<Integer> noClearItemId;
 	// 是否清除展示框
-	private Boolean isClearItemFrame;
+	private boolean isClearItemFrame;
 	// 是否清除船
-	private Boolean isClearBoat;
+	private boolean isClearBoat;
 	// 是否清除经验球
-	private Boolean isClearExpBall;
+	private boolean isClearExpBall;
 	// 是否清除正在掉落的物品
-	private Boolean isClearFallingBlock;
+	private boolean isClearFallingBlock;
 	// 是否清除画
-	private Boolean isClearPainting;
+	private boolean isClearPainting;
 	// 是否清理矿车
-	private Boolean isClearMinecart;
+	private boolean isClearMinecart;
 	// 是否清理地上的箭头
-	private Boolean isClearArrow;
+	private boolean isClearArrow;
 	// 是否清理地上的雪球
-	private Boolean isClearSnowBall;
+	private boolean isClearSnowBall;
 	// 清理物品的时候是否公告
-	private Boolean isBroadcastClearItem;
+	private boolean isBroadcastClearItem;
 	// 清理物品公告内容
 	private String clearItemBroadcastMessage;
 	// 清理物品公告提前通知内容
@@ -50,33 +50,33 @@ public class ConfigManager {
 	private String clearItemPreHoloMessage = "%TIME% 秒后将被清理";
 
 	// 是否清理实体
-	private Boolean isClearEntity;
+	private boolean isClearEntity;
 	// 不清除实体的世界列表
 	private HashSet<String> noClearEntityWorld;
 	// 玩家在实体附近时是否还清理这个实体
-	private Boolean isClearEntityPlayerNearby;
+	private boolean isClearEntityPlayerNearby;
 	// 在玩家距离实体多少格距离的时候，不清理这个实体
 	private int clearEntityPlayerNearbyDistance;
 	// 实体清理周期
 	private int clearMobDelay;
 	// 是否达到设置实体上限才清除
-	private Boolean isClearLimit;
+	private boolean isClearLimit;
 	// 实体清理阀值
 	private int clearEntityLimit;
 	// 是否清理动物
-	private Boolean isClearAnimals;
+	private boolean isClearAnimals;
 	// 是否清理怪物
-	private Boolean isClearMonster;
+	private boolean isClearMonster;
 	// 是否清理乌贼
-	private Boolean isClearSquid;
+	private boolean isClearSquid;
 	// 是否清理村民
-	private Boolean isClearVillager;
+	private boolean isClearVillager;
 	// 清理实体的黑名单
 	private HashSet<String> clearEntityTypeBlackList;
 	// 清理实体的白名单
 	private HashSet<String> clearEntityTypeWhiteList;
 	// 清理实体的时候是否公告
-	private Boolean isBroadcastClearEntity;
+	private boolean isBroadcastClearEntity;
 	// 清理实体公告内容
 	private String clearEntityBroadcastMessage;
 	// 清理实体公告提前通知内容
@@ -95,9 +95,9 @@ public class ConfigManager {
 	// 红石清理列表
 	private HashSet<Integer> redstoneClearType;
 	// 直接清理还是自然掉落
-	private Boolean isRedstoneDrop;
+	private boolean isRedstoneDrop;
 	// 红石消息是否开启
-	private Boolean isRedstoneMessage;
+	private boolean isRedstoneMessage;
 
 	// 是否开启实体密集检测
 	private boolean isCheckMobFarm;
