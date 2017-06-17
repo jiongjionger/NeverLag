@@ -12,6 +12,7 @@ import org.bukkit.event.world.ChunkUnloadEvent;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.ChunkInfo;
 import cn.jiongjionger.neverlag.NeverLag;
+import java.util.HashSet;
 
 public class HotChunkHolder implements Listener {
 
@@ -54,18 +55,20 @@ public class HotChunkHolder implements Listener {
 	// 定时清理多余的热点区块（先进先出）
 	private void removeLeastHotRecord() {
 		if (cm.isHotChunkHolder() && hotChunkRecord.size() > cm.getHotChunkHolderNum()) {
+			HashSet<ChunkInfo> removeSet = new HashSet<>();
 			for (ChunkInfo chunkInfo : hotChunkRecord) {
-				hotChunkRecord.remove(chunkInfo);
-				if (hotChunkRecord.size() <= cm.getHotChunkHolderNum()) {
+				removeSet.add(chunkInfo);
+				if (hotChunkRecord.size() - removeSet.size() <= cm.getHotChunkHolderNum()) {
 					break;
 				}
 			}
+			hotChunkRecord.removeAll(removeSet);
 
 		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	private void onChunkLoad(ChunkLoadEvent e) {
+	public void onChunkLoad(ChunkLoadEvent e) {
 		if (!cm.isHotChunkHolder() || e.isNewChunk()) {
 			return;
 		}
@@ -79,7 +82,7 @@ public class HotChunkHolder implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	private void onUnloadChunk(ChunkUnloadEvent e) {
+	public void onUnloadChunk(ChunkUnloadEvent e) {
 		if (!cm.isHotChunkHolder() || NeverLag.getTpsWatcher().getAverageTPS() < cm.getHotChunkHolderTpsLimit()) {
 			return;
 		}
@@ -91,7 +94,7 @@ public class HotChunkHolder implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	private void onUnloadChunkMonitor(ChunkUnloadEvent e) {
+	public void onUnloadChunkMonitor(ChunkUnloadEvent e) {
 		if (!cm.isHotChunkHolder() || NeverLag.getTpsWatcher().getAverageTPS() < cm.getHotChunkHolderTpsLimit()) {
 			return;
 		}
