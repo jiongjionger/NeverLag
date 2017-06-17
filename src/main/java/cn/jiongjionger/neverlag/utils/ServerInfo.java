@@ -37,7 +37,7 @@ public class ServerInfo {
 		this.avgTPS = NeverLag.getTpsWatcher().getAverageTPS();
 		this.realtimeRedstone = RedStoneCounter.getInstance().getRedstoneRealTimeCount(true);
 		this.avgRedstone = RedStoneCounter.getInstance().getRedstoneAvgCount(true);
-		this.setServerUpTime(DateUtils.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime()));
+		this.serverUpTime = DateUtils.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime());
 		for (World world : Bukkit.getWorlds()) {
 			worldInfo.add(new WorldInfo(world));
 		}

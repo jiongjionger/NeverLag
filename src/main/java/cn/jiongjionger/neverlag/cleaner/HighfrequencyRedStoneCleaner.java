@@ -44,8 +44,8 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	// 当红石触发的时候，记录当前坐标红石事件的次数，超出阀值则清理
-	private void onBlockRedstone(BlockRedstoneEvent e) {
-		final int typeId = e.getBlock().getTypeId();
+	public void onBlockRedstone(BlockRedstoneEvent e) {
+		int typeId = e.getBlock().getTypeId();
 		if (!cm.getRedstoneClearType().contains(typeId)) {
 			return;
 		}

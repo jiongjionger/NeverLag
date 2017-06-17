@@ -16,6 +16,7 @@ import org.bukkit.entity.Snowball;
 
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class ItemCleanOlderVersion {
 
@@ -23,13 +24,13 @@ public class ItemCleanOlderVersion {
 	private int preMessageTime = 0;
 
 	public ItemCleanOlderVersion() {
-		NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
+		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 			public void run() {
 				doClean();
 			}
 		}, cm.getClearItemDelay() * 20L, cm.getClearItemDelay() * 20L);
 		if (cm.getClearItemDelay() > 60) {
-			NeverLag.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(NeverLag.getInstance(), new Runnable() {
+			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 				public void run() {
 					doPreMessage();
 				}
@@ -122,7 +123,7 @@ public class ItemCleanOlderVersion {
 	private static boolean hasPlayerNearby(Item item, int distance) {
 		for (Entity entity : item.getNearbyEntities(distance, distance, distance)) {
 			if (entity instanceof Player) {
-				if (!entity.hasMetadata("NPC")) {
+				if (!EntityUtils.checkCustomNpc(entity)) {
 					return true;
 				}
 			}

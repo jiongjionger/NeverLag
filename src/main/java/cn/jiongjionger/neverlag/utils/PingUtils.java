@@ -15,7 +15,7 @@ public class PingUtils {
 
 	private static MethodInvoker method_getHandle = null;
 	private static FieldAccessor<Integer> field_ping = null;
-	private static boolean isInit = false;
+	private static volatile boolean isInit = false;
 
 	public static void init() {
 		try {

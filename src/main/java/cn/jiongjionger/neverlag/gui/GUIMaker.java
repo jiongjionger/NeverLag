@@ -2,16 +2,21 @@ package cn.jiongjionger.neverlag.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 public class GUIMaker {
 
-	private Inventory inv;
+	private final Inventory inv;
 
 	public GUIMaker(Inventory inv) {
-		this.inv = Bukkit.createInventory(inv.getHolder(), inv.getSize(), inv.getTitle());
+		if(inv.getType() == InventoryType.CHEST){  // 自定义大小的 Inventory
+			this.inv = Bukkit.createInventory(inv.getHolder(), inv.getSize(), inv.getTitle());
+		}else{  // 自定义类型的 Inventory
+			this.inv = Bukkit.createInventory(inv.getHolder(), inv.getType(), inv.getTitle());
+		}
 		this.inv.setContents(inv.getContents());
 	}
 

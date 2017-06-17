@@ -46,7 +46,7 @@ public class WorldInfo {
 
 	public WorldInfo(World world) {
 		this.worldName = world.getName();
-		this.setTotalOnline(world.getPlayers().size());
+		this.totalOnline = world.getPlayers().size();
 		for (Entity entity : world.getEntities()) {
 			this.totalEntity++;
 			if (entity instanceof Animals) {

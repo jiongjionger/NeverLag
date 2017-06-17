@@ -2,7 +2,6 @@ package cn.jiongjionger.neverlag.gui;
 
 import java.text.DecimalFormat;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import org.bukkit.Material;
@@ -10,20 +9,21 @@ import org.bukkit.inventory.Inventory;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.PingUtils;
+import java.util.Map;
 
 public class GUISortPing {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
 	private GUIMaker guiMaker;
 	private int slot = 0;
-	private LinkedHashMap<String, Integer> content;
+	private Map<String, Integer> content;
 	private int page;
 	private int maxPage;
 
-	public GUISortPing(LinkedHashMap<String, Integer> content) {
+	public GUISortPing(Map<String, Integer> content) {
 		this.content = content;
 		this.page = 1;
-		this.maxPage = Integer.parseInt(new DecimalFormat("#").format(content.size() / 45));
+		this.maxPage = Integer.parseInt(new DecimalFormat("#").format(content.size() / 45)); // 45: 5 rows
 	}
 
 	public void put(String username, String ping) {
@@ -40,11 +40,11 @@ public class GUISortPing {
 
 	private void drawPageGUI() {
 		this.guiMaker.fillItem(new IconMaker(Material.STAINED_GLASS_PANE)
-				.setDurability((short) 5)
+				.setDurability((short) 5)  // 5: Lime
 				.setDisplayName(cm.getGuiPreItemDisplay())
 				.getItem(), 1, 6);
 		this.guiMaker.fillItem(new IconMaker(Material.STAINED_GLASS_PANE)
-				.setDurability((short) 5)
+				.setDurability((short) 5)  // 5: Lime
 				.setDisplayName(cm.getGuiNextItemDisplay())
 				.getItem(), 9, 6);
 	}

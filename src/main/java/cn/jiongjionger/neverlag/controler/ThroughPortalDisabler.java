@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityPortalEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class ThroughPortalDisabler {
 
@@ -21,7 +22,7 @@ public class ThroughPortalDisabler {
 			return;
 		}
 		Entity entity = e.getEntity();
-		if (entity == null || entity.hasMetadata("NPC") || entity.hasMetadata("MyPet")) {
+		if (entity == null || EntityUtils.checkCustomNpc(entity)) {
 			return;
 		}
 		if (entity instanceof Monster && cm.isDisableMonsterPortal()) {

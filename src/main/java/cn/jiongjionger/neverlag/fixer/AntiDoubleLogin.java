@@ -16,7 +16,7 @@ public class AntiDoubleLogin implements Listener {
 	private final ConfigManager cm = ConfigManager.getInstance();
 
 	@EventHandler(priority = EventPriority.HIGH)
-	private void onLogin(AsyncPlayerPreLoginEvent e) {
+	public void onLogin(AsyncPlayerPreLoginEvent e) {
 		if (!cm.isAntiDoubleLogin()) {
 			return;
 		}

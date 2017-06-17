@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class AntiVillagerTrade implements Listener {
 
@@ -20,7 +21,7 @@ public class AntiVillagerTrade implements Listener {
 			return;
 		}
 		Entity entity = e.getRightClicked();
-		if (entity == null || entity.hasMetadata("NPC") || entity.hasMetadata("Mypet")) {
+		if (entity == null || EntityUtils.checkCustomNpc(entity)) {
 			return;
 		}
 		World world = entity.getWorld();

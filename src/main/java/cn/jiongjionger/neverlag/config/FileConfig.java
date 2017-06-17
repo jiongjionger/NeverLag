@@ -24,12 +24,13 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.representer.Representer;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import java.util.Objects;
 
 // FileConfig来自喵呜的开源项目，美滋滋
 public class FileConfig extends YamlConfiguration {
 
 	protected File file;
-	protected Logger loger;
+	protected Logger logger;
 	protected Plugin plugin;
 	protected final DumperOptions yamlOptions = new DumperOptions();
 	protected final Representer yamlRepresenter = new YamlRepresenter();
@@ -38,12 +39,12 @@ public class FileConfig extends YamlConfiguration {
 	private FileConfig(File file) {
 		Validate.notNull(file, "File cannot be null");
 		this.file = file;
-		loger = Bukkit.getLogger();
+		logger = Bukkit.getLogger();
 		init(file);
 	}
 
 	private FileConfig(InputStream stream) {
-		loger = Bukkit.getLogger();
+		logger = Bukkit.getLogger();
 		init(stream);
 	}
 
@@ -52,7 +53,7 @@ public class FileConfig extends YamlConfiguration {
 		Validate.notNull(plugin, "Plugin cannot be null");
 		this.plugin = plugin;
 		this.file = file;
-		loger = plugin.getLogger();
+		logger = plugin.getLogger();
 		check(file);
 		init(file);
 	}
@@ -68,7 +69,7 @@ public class FileConfig extends YamlConfiguration {
 			if (!file.exists()) {
 				if (stream == null) {
 					file.createNewFile();
-					loger.info("Config file " + filename + " create failed!");
+					logger.info("Config file " + filename + " create failed!");
 				} else {
 					plugin.saveResource(filename, true);
 				}
@@ -77,19 +78,19 @@ public class FileConfig extends YamlConfiguration {
 				FileConfig oldcfg = new FileConfig(file);
 				String newver = newcfg.getString("version");
 				String oldver = oldcfg.getString("version");
-				if (newver != null && newver != oldver) {
-					loger.warning("Config file " + filename + " version " + oldver + " is too old and is upgrading to the " + newver + " version..");
+				if (newver != null && Objects.equals(newver, oldver)) {
+					logger.warning("Config file " + filename + " version " + oldver + " is too old and is upgrading to the " + newver + " version..");
 					try {
 						oldcfg.save(new File(file.getParent(), filename + ".backup"));
 					} catch (IOException e) {
-						loger.warning("Config file " + filename + " backup failed!");
+						logger.warning("Config file " + filename + " backup failed!");
 					}
 					plugin.saveResource(filename, true);
-					loger.info("Config file " + filename + " upgrade success!");
+					logger.info("Config file " + filename + " upgrade success!");
 				}
 			}
 		} catch (IOException e) {
-			loger.info("Config file " + filename + " create failed!");
+			logger.info("Config file " + filename + " create failed!");
 		}
 	}
 
@@ -100,7 +101,7 @@ public class FileConfig extends YamlConfiguration {
 			stream = new FileInputStream(file);
 			init(stream);
 		} catch (FileNotFoundException e) {
-			loger.info("Config file " + file.getName() + " does not exist!");
+			logger.info("Config file " + file.getName() + " does not exist!");
 		}
 	}
 
@@ -109,9 +110,9 @@ public class FileConfig extends YamlConfiguration {
 		try {
 			this.load(new InputStreamReader(stream, Charsets.UTF_8));
 		} catch (IOException ex) {
-			loger.info("Config file " + file.getName() + " cannot touch!");
+			logger.info("Config file " + file.getName() + " cannot touch!");
 		} catch (InvalidConfigurationException ex) {
-			loger.info("Config file " + file.getName() + " is wrong encoding format!");
+			logger.info("Config file " + file.getName() + " is wrong encoding format!");
 		}
 	}
 
@@ -154,11 +155,8 @@ public class FileConfig extends YamlConfiguration {
 		Validate.notNull(file, "File cannot be null");
 		Files.createParentDirs(file);
 		String data = saveToString();
-		Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8);
-		try {
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)) {
 			writer.write(data);
-		} finally {
-			writer.close();
 		}
 	}
 

@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import org.bukkit.World;
 
 public class AntiNetherHopper implements Listener {
 
@@ -17,7 +18,9 @@ public class AntiNetherHopper implements Listener {
 		if (cm.isAntiNetherHopper()) {
 			if (e.getInitiator().getHolder() instanceof Hopper) {
 				Hopper hopper = (Hopper) e.getInitiator().getHolder();
-				if (hopper.getWorld().getName().equalsIgnoreCase("world_nether")) {
+				// 开玩笑吧...?!
+				// if (hopper.getWorld().getName().equalsIgnoreCase("world_nether")) {
+				if (hopper.getWorld().getEnvironment() == World.Environment.NETHER) {
 					e.setCancelled(true);
 				}
 			}

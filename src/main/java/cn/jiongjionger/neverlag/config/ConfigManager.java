@@ -83,9 +83,9 @@ public class ConfigManager {
 	private String clearEntityBroadcastPreMessage;
 
 	// 是否检测超频红石
-	private Boolean isCheckRedstone;
+	private boolean isCheckRedstone;
 	// 是否异步检测
-	private Boolean isCheckRedstoneOnAsync;
+	private boolean isCheckRedstoneOnAsync;
 	// 红石频率阀值
 	private int redstoneLimit;
 	// 红石中继器阀值
@@ -334,11 +334,11 @@ public class ConfigManager {
 		this.noClearItemWorld = noClearItemWorld;
 	}
 
-	public Boolean isClearItem() {
+	public boolean isClearItem() {
 		return isClearItem;
 	}
 
-	public void setClearItem(Boolean isClearItem) {
+	public void setClearItem(boolean isClearItem) {
 		this.isClearItem = isClearItem;
 	}
 
@@ -358,75 +358,75 @@ public class ConfigManager {
 		this.noClearItemId = noClearItemId;
 	}
 
-	public Boolean isClearItemFrame() {
+	public boolean isClearItemFrame() {
 		return isClearItemFrame;
 	}
 
-	public void setClearItemFrame(Boolean isClearItemFrame) {
+	public void setClearItemFrame(boolean isClearItemFrame) {
 		this.isClearItemFrame = isClearItemFrame;
 	}
 
-	public Boolean isClearBoat() {
+	public boolean isClearBoat() {
 		return isClearBoat;
 	}
 
-	public void setClearBoat(Boolean isClearBoat) {
+	public void setClearBoat(boolean isClearBoat) {
 		this.isClearBoat = isClearBoat;
 	}
 
-	public Boolean isClearExpBall() {
+	public boolean isClearExpBall() {
 		return isClearExpBall;
 	}
 
-	public void setClearExpBall(Boolean isClearExpBall) {
+	public void setClearExpBall(boolean isClearExpBall) {
 		this.isClearExpBall = isClearExpBall;
 	}
 
-	public Boolean isClearFallingBlock() {
+	public boolean isClearFallingBlock() {
 		return isClearFallingBlock;
 	}
 
-	public void setClearFallingBlock(Boolean isClearFallingBlock) {
+	public void setClearFallingBlock(boolean isClearFallingBlock) {
 		this.isClearFallingBlock = isClearFallingBlock;
 	}
 
-	public Boolean isClearPainting() {
+	public boolean isClearPainting() {
 		return isClearPainting;
 	}
 
-	public void setClearPainting(Boolean isClearPainting) {
+	public void setClearPainting(boolean isClearPainting) {
 		this.isClearPainting = isClearPainting;
 	}
 
-	public Boolean isClearMinecart() {
+	public boolean isClearMinecart() {
 		return isClearMinecart;
 	}
 
-	public void setClearMinecart(Boolean isClearMinecart) {
+	public void setClearMinecart(boolean isClearMinecart) {
 		this.isClearMinecart = isClearMinecart;
 	}
 
-	public Boolean isClearArrow() {
+	public boolean isClearArrow() {
 		return isClearArrow;
 	}
 
-	public void setClearArrow(Boolean isClearArrow) {
+	public void setClearArrow(boolean isClearArrow) {
 		this.isClearArrow = isClearArrow;
 	}
 
-	public Boolean isClearSnowBall() {
+	public boolean isClearSnowBall() {
 		return isClearSnowBall;
 	}
 
-	public void setClearSnowBall(Boolean isClearSnowBall) {
+	public void setClearSnowBall(boolean isClearSnowBall) {
 		this.isClearSnowBall = isClearSnowBall;
 	}
 
-	public Boolean isBroadcastClearItem() {
+	public boolean isBroadcastClearItem() {
 		return isBroadcastClearItem;
 	}
 
-	public void setBroadcastClearItem(Boolean isBroadcastClearItem) {
+	public void setBroadcastClearItem(boolean isBroadcastClearItem) {
 		this.isBroadcastClearItem = isBroadcastClearItem;
 	}
 
@@ -446,11 +446,11 @@ public class ConfigManager {
 		this.clearItemBroadcastPreMessage = clearItemBroadcastPreMessage;
 	}
 
-	public Boolean isClearEntity() {
+	public boolean isClearEntity() {
 		return isClearEntity;
 	}
 
-	public void setClearEntity(Boolean isClearEntity) {
+	public void setClearEntity(boolean isClearEntity) {
 		this.isClearEntity = isClearEntity;
 	}
 
@@ -470,11 +470,11 @@ public class ConfigManager {
 		this.clearMobDelay = clearMobDelay;
 	}
 
-	public Boolean isClearLimit() {
+	public boolean isClearLimit() {
 		return isClearLimit;
 	}
 
-	public void setClearLimit(Boolean isClearLimit) {
+	public void setClearLimit(boolean isClearLimit) {
 		this.isClearLimit = isClearLimit;
 	}
 
@@ -486,35 +486,35 @@ public class ConfigManager {
 		this.clearEntityLimit = clearEntityLimit;
 	}
 
-	public Boolean isClearAnimals() {
+	public boolean isClearAnimals() {
 		return isClearAnimals;
 	}
 
-	public void setClearAnimals(Boolean isClearAnimals) {
+	public void setClearAnimals(boolean isClearAnimals) {
 		this.isClearAnimals = isClearAnimals;
 	}
 
-	public Boolean isClearMonster() {
+	public boolean isClearMonster() {
 		return isClearMonster;
 	}
 
-	public void setClearMonster(Boolean isClearMonster) {
+	public void setClearMonster(boolean isClearMonster) {
 		this.isClearMonster = isClearMonster;
 	}
 
-	public Boolean isClearSquid() {
+	public boolean isClearSquid() {
 		return isClearSquid;
 	}
 
-	public void setClearSquid(Boolean isClearSquid) {
+	public void setClearSquid(boolean isClearSquid) {
 		this.isClearSquid = isClearSquid;
 	}
 
-	public Boolean isClearVillager() {
+	public boolean isClearVillager() {
 		return isClearVillager;
 	}
 
-	public void setClearVillager(Boolean isClearVillager) {
+	public void setClearVillager(boolean isClearVillager) {
 		this.isClearVillager = isClearVillager;
 	}
 
@@ -534,11 +534,11 @@ public class ConfigManager {
 		this.clearEntityTypeWhiteList = clearEntityTypeWhiteList;
 	}
 
-	public Boolean isBroadcastClearEntity() {
+	public boolean isBroadcastClearEntity() {
 		return isBroadcastClearEntity;
 	}
 
-	public void setBroadcastClearEntity(Boolean isBroadcastClearEntity) {
+	public void setBroadcastClearEntity(boolean isBroadcastClearEntity) {
 		this.isBroadcastClearEntity = isBroadcastClearEntity;
 	}
 
@@ -558,19 +558,19 @@ public class ConfigManager {
 		this.clearEntityBroadcastPreMessage = clearEntityBroadcastPreMessage;
 	}
 
-	public Boolean isCheckRedstone() {
+	public boolean isCheckRedstone() {
 		return isCheckRedstone;
 	}
 
-	public void setCheckRedstone(Boolean isCheckRedstone) {
+	public void setCheckRedstone(boolean isCheckRedstone) {
 		this.isCheckRedstone = isCheckRedstone;
 	}
 
-	public Boolean isCheckRedstoneOnAsync() {
+	public boolean isCheckRedstoneOnAsync() {
 		return isCheckRedstoneOnAsync;
 	}
 
-	public void setCheckredStoneOnAsync(Boolean isCheckredStoneOnAsync) {
+	public void setCheckredStoneOnAsync(boolean isCheckredStoneOnAsync) {
 		this.isCheckRedstoneOnAsync = isCheckredStoneOnAsync;
 	}
 
@@ -606,27 +606,27 @@ public class ConfigManager {
 		this.redstoneClearType = redstoneClearType;
 	}
 
-	public Boolean isRedstoneDrop() {
+	public boolean isRedstoneDrop() {
 		return isRedstoneDrop;
 	}
 
-	public void setRedstoneDrop(Boolean isRedstoneDrop) {
+	public void setRedstoneDrop(boolean isRedstoneDrop) {
 		this.isRedstoneDrop = isRedstoneDrop;
 	}
 
-	public Boolean isRedstoneMessage() {
+	public boolean isRedstoneMessage() {
 		return isRedstoneMessage;
 	}
 
-	public void setRedstoneMessage(Boolean isRedstoneMessage) {
+	public void setRedstoneMessage(boolean isRedstoneMessage) {
 		this.isRedstoneMessage = isRedstoneMessage;
 	}
 
-	public Boolean isClearItemPlayerNearby() {
+	public boolean isClearItemPlayerNearby() {
 		return isClearItemPlayerNearby;
 	}
 
-	public void setClearItemPlayerNearby(Boolean isClearItemPlayerNearby) {
+	public void setClearItemPlayerNearby(boolean isClearItemPlayerNearby) {
 		this.isClearItemPlayerNearby = isClearItemPlayerNearby;
 	}
 
@@ -638,11 +638,11 @@ public class ConfigManager {
 		this.clearItemPlayerNearbyDistance = clearItemPlayerNearbyDistance;
 	}
 
-	public Boolean isClearEntityPlayerNearby() {
+	public boolean isClearEntityPlayerNearby() {
 		return isClearEntityPlayerNearby;
 	}
 
-	public void setClearEntityPlayerNearby(Boolean isClearEntityPlayerNearby) {
+	public void setClearEntityPlayerNearby(boolean isClearEntityPlayerNearby) {
 		this.isClearEntityPlayerNearby = isClearEntityPlayerNearby;
 	}
 
@@ -1542,11 +1542,11 @@ public class ConfigManager {
 		this.clearItemPreHoloMessage = clearItemPreHoloMessage;
 	}
 
-	public Boolean isClearDropItem() {
+	public boolean isClearDropItem() {
 		return isClearDropItem;
 	}
 
-	public void setClearDropItem(Boolean isClearDropItem) {
+	public void setClearDropItem(boolean isClearDropItem) {
 		this.isClearDropItem = isClearDropItem;
 	}
 
