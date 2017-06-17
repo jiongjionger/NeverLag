@@ -9,14 +9,18 @@ import org.bukkit.entity.Player;
 
 import cn.jiongjionger.neverlag.utils.ProtocolLibUtils;
 import cn.jiongjionger.neverlag.NeverLag;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class WatchDog extends Thread {
+public class WatchDog extends TimerTask{
 
+	private final Timer timer = new Timer("NeverLag WatchDog", true);
 	private long lastTickTime = System.currentTimeMillis();
 	private long lastSendTime = System.currentTimeMillis();
 	private final NeverLag plg = NeverLag.getInstance();
 
 	public WatchDog() {
+		timer.scheduleAtFixedRate(this, 50L, 50L);
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {
 			public void run() {
 				lastTickTime = System.currentTimeMillis();
@@ -40,10 +44,9 @@ public class WatchDog extends Thread {
 				ProtocolLibUtils.sendKeepAlive(onlinePlayer);
 			}
 		}
-		try {
-			sleep(50);
-		} catch (InterruptedException ignore) {
-		}
 	}
 
+	public void stop(){
+		timer.cancel();
+	}
 }
