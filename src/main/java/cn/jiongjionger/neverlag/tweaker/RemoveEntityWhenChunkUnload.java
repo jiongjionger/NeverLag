@@ -19,7 +19,7 @@ public class RemoveEntityWhenChunkUnload implements Listener {
 	private final ConfigManager cm = ConfigManager.getInstance();
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-	private void onChunkUnload(ChunkUnloadEvent e) {
+	public void onChunkUnload(ChunkUnloadEvent e) {
 		if(!cm.isRemoveEntityWhenChunkUnload()){
 			return;
 		}

@@ -7,6 +7,11 @@ public class ChunkInfo {
 	private int chunkx;
 	private int chunkz;
 
+	/**
+	 * 警告: 此构造器中的 x, z 参数代表着方块坐标, 而并非区块坐标.
+	 * @param x 方块x坐标
+	 * @param z 方块z坐标
+	 */
 	public ChunkInfo(String world, int x, int z) {
 		this.world = world;
 		this.chunkx = x >> 4;
