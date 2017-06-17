@@ -13,8 +13,8 @@ public class RedStoneCounter {
 	private int syncRestoneCount;
 	private AtomicInteger asyncRestoneCount = new AtomicInteger(0);
 	// 记录一分钟内的红石触发次数
-	private ConcurrentLinkedDeque<Integer> asyncOneMinutesRecord = new ConcurrentLinkedDeque<Integer>();
-	private LinkedList<Integer> syncOneMinutesRecord = new LinkedList<Integer>();
+	private final ConcurrentLinkedDeque<Integer> asyncOneMinutesRecord = new ConcurrentLinkedDeque<Integer>();
+	private final LinkedList<Integer> syncOneMinutesRecord = new LinkedList<Integer>();
 
 	private NeverLag plg = NeverLag.getInstance();
 	private ConfigManager cm = ConfigManager.getInstance();
@@ -31,13 +31,14 @@ public class RedStoneCounter {
 		plg.getServer().getScheduler().runTaskTimerAsynchronously(plg, new Runnable() {
 			public void run() {
 				if (cm.isCheckRedstoneOnAsync()) {
-					synchronized (asyncOneMinutesRecord) {
-						if (asyncOneMinutesRecord.size() >= 60) {
-							asyncOneMinutesRecord.removeFirst();
+					if (asyncOneMinutesRecord.size() >= 60) {  // 双重检查锁定
+						synchronized (asyncOneMinutesRecord) {
+							if (asyncOneMinutesRecord.size() >= 60) {
+								asyncOneMinutesRecord.removeFirst();
+							}
 						}
 					}
-					asyncOneMinutesRecord.add(asyncRestoneCount.get());
-					asyncRestoneCount.set(0);
+					asyncOneMinutesRecord.add(asyncRestoneCount.getAndSet(0));
 				}
 			}
 		}, 20L, 20L);
