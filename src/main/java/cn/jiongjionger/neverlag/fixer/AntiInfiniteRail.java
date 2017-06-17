@@ -14,11 +14,25 @@ public class AntiInfiniteRail implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onBlockPhysics(BlockPhysicsEvent e) {
-		if (cm.isAntiInfiniteRail() && e.getChangedType().equals(Material.RAILS)) {
-			Material type = e.getBlock().getType();
-			if (type.equals(Material.DETECTOR_RAIL) || type.equals(Material.POWERED_RAIL) || type.equals(Material.ACTIVATOR_RAIL)) {
-				e.setCancelled(true);
-			}
+		if (cm.isAntiInfiniteRail() && this.isDupeBlock(e.getChangedType()) && this.isRails(e.getBlock().getType())) {
+			e.setCancelled(true);
 		}
+	}
+
+	private boolean isRails(Material type) {
+		if (Material.RAILS.equals(type) || Material.DETECTOR_RAIL.equals(type) || Material.POWERED_RAIL.equals(type) || Material.ACTIVATOR_RAIL.equals(type)) {
+			return true;
+		}
+		return false;
+	}
+
+	@SuppressWarnings("deprecation")
+	private boolean isDupeBlock(Material type) {
+		if (Material.PISTON_EXTENSION.equals(type) || Material.PISTON_STICKY_BASE.equals(type) || Material.PISTON_BASE.equals(type)
+				|| Material.PISTON_MOVING_PIECE.equals(type) || Material.PUMPKIN.equals(type) || Material.DISPENSER.equals(type)
+				|| Material.DROPPER.equals(type) || type.getId() == 165) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -12,6 +12,7 @@ import cn.jiongjionger.neverlag.command.CommandHardWare;
 import cn.jiongjionger.neverlag.command.CommandInfo;
 import cn.jiongjionger.neverlag.command.CommandPing;
 import cn.jiongjionger.neverlag.command.CommandTabComplete;
+import cn.jiongjionger.neverlag.fixer.AntiInfiniteRail;
 import cn.jiongjionger.neverlag.gui.GUISortPingListener;
 import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
