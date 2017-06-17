@@ -49,7 +49,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 		if (!cm.getRedstoneClearType().contains(typeId)) {
 			return;
 		}
-		Location loc = e.getBlock().getLocation();
+		final Location loc = e.getBlock().getLocation();
 		if (cm.isCheckRedstoneOnAsync()) {
 			asyncCheckAndRecord(loc, typeId);
 		} else {
@@ -57,7 +57,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 		}
 	}
 
-	private void syncCheckAndRecord(Location loc, int typeId) {
+	private void syncCheckAndRecord(final Location loc, final int typeId) {
 		Integer count = syncRestoneRecord.get(loc);
 		if (count == null) {
 			syncRestoneRecord.put(loc, 1);
