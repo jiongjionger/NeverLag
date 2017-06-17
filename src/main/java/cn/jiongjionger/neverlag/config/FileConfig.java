@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.representer.Representer;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import java.util.Objects;
 
 // FileConfig来自喵呜的开源项目，美滋滋
 public class FileConfig extends YamlConfiguration {
@@ -77,7 +78,7 @@ public class FileConfig extends YamlConfiguration {
 				FileConfig oldcfg = new FileConfig(file);
 				String newver = newcfg.getString("version");
 				String oldver = oldcfg.getString("version");
-				if (newver != null && newver != oldver) {
+				if (newver != null && Objects.equals(newver, oldver)) {
 					loger.warning("Config file " + filename + " version " + oldver + " is too old and is upgrading to the " + newver + " version..");
 					try {
 						oldcfg.save(new File(file.getParent(), filename + ".backup"));

@@ -82,7 +82,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 		rc.updateRedstoneCount(true);
 	}
 
-	private void asyncCheckAndRecord(Location loc, int typeId) {
+	private void asyncCheckAndRecord(final Location loc, final int typeId) {
 		// 使用自带的任务调度而非Thead避免一些问题
 		plg.getServer().getScheduler().runTaskAsynchronously(plg, new Runnable() {
 			public void run() {
