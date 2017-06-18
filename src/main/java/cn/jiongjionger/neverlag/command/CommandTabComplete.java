@@ -17,6 +17,7 @@ public class CommandTabComplete implements TabCompleter {
 	private static final List<String> CLEARTYPE = new ArrayList<String>();
 	private static final String[] CHUNKINFO_TYPE = { "entity", "tiles", "monsters", "animals", "dropitem", "player", "villager", "squid", "chest", "hopper",
 			"furnace", "dropper", "dispenser", "piston", "noteblock", "jukebox", "brewing", "cauldron", "armorstand", "skull" };
+	private static final String[] TIMINGS = { "on", "off", "lag", "event", "command", "task", "plugin" };
 
 	static {
 		for (EntityType type : EntityType.values()) {
@@ -49,6 +50,10 @@ public class CommandTabComplete implements TabCompleter {
 			}
 			if (args[0].equalsIgnoreCase("chunkinfo")) {
 				StringUtil.copyPartialMatches(args[1], Arrays.asList(CHUNKINFO_TYPE), completions);
+				break;
+			}
+			if (args[0].equalsIgnoreCase("timings")) {
+				StringUtil.copyPartialMatches(args[1], Arrays.asList(TIMINGS), completions);
 				break;
 			}
 		}

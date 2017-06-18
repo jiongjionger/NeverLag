@@ -7,6 +7,7 @@ import cn.jiongjionger.neverlag.NeverLag;
 import java.io.IOException;
 
 public class ConfigManager extends AbstractConfig{
+	
 	private final static class ConfigManagerHolder {
 		private final static ConfigManager cm = new ConfigManager();
 	}
@@ -14,6 +15,11 @@ public class ConfigManager extends AbstractConfig{
 	public final static ConfigManager getInstance() {
 		return ConfigManagerHolder.cm;
 	}
+	
+	/*
+	 * TO DO :
+	 * 修改配置文件获取的node
+	 */
 	
 	// 是否开启清理掉落物功能
 	@F("isClearDropItem") public boolean isClearDropItem;

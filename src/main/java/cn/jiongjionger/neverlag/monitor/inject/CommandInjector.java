@@ -1,6 +1,8 @@
 package cn.jiongjionger.neverlag.monitor.inject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -20,9 +22,9 @@ public class CommandInjector implements TabExecutor {
 	private final Plugin plugin;
 	private final CommandExecutor commandExecutor;
 	private final TabCompleter tabCompleter;
-	private long totalCount = 0L;
-	private long totalTime = 0L;
-	private long maxExecuteTime = 0L;
+	private Map<String, Long> totalCount = new HashMap<String, Long>();
+	private Map<String, Long> totalTime = new HashMap<String, Long>();
+	private Map<String, Long> maxExecuteTime = new HashMap<String, Long>();
 
 	public CommandInjector(Plugin plugin, CommandExecutor commandExecutor, TabCompleter tabCompleter) {
 		this.plugin = plugin;
@@ -32,16 +34,7 @@ public class CommandInjector implements TabExecutor {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		long startTime = System.nanoTime();
-		List<String> tabResult = this.tabCompleter.onTabComplete(sender, command, alias, args);
-		long endTime = System.nanoTime();
-		long useTime = endTime - startTime;
-		if (useTime > this.maxExecuteTime) {
-			this.maxExecuteTime = useTime;
-		}
-		this.totalTime = this.totalTime + useTime;
-		this.totalCount = this.totalCount + 1L;
-		return tabResult;
+		return this.tabCompleter.onTabComplete(sender, command, alias, args);
 	}
 
 	@Override
@@ -50,53 +43,101 @@ public class CommandInjector implements TabExecutor {
 		boolean commandResult = this.commandExecutor.onCommand(sender, command, label, args);
 		long endTime = System.nanoTime();
 		long useTime = endTime - startTime;
-		if (useTime > this.maxExecuteTime) {
-			this.maxExecuteTime = useTime;
-		}
-		this.totalTime = this.totalTime + useTime;
-		this.totalCount = this.totalCount + 1L;
+		String commandName = command.getName();
+		this.record("totalCount", commandName, 1L);
+		this.record("totalTime", commandName, useTime);
+		this.record("maxExecuteTime", commandName, useTime);
 		return commandResult;
+	}
+
+	private void record(String mapName, String key, long value) {
+		switch (mapName) {
+		case "totalCount":
+			Long count = this.totalCount.get(key);
+			if (count == null) {
+				this.totalCount.put(key, 1L);
+			} else {
+				this.totalCount.put(key, count + 1L);
+			}
+			break;
+		case "totalTime":
+			Long time = this.totalTime.get(key);
+			if (time == null) {
+				this.totalTime.put(key, value);
+			} else {
+				this.totalTime.put(key, time + value);
+			}
+			break;
+		case "maxExecuteTime":
+			Long maxTime = this.maxExecuteTime.get(key);
+			if (maxTime == null || value > maxTime.longValue()) {
+				this.maxExecuteTime.put(key, value);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 	public static void inject(Plugin plg) {
 		if (plg != null) {
-			SimpleCommandMap simpleCommandMap = Reflection.getField(SimplePluginManager.class, "commandMap", SimpleCommandMap.class).get(Bukkit.getPluginManager());
-			for (Command command : simpleCommandMap.getCommands()) {
-				if (command instanceof PluginCommand) {
-					PluginCommand pluginCommand = (PluginCommand) command;
-					if (plg.equals(pluginCommand.getPlugin())) {
-						FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
-						FieldAccessor<TabCompleter> tabField = Reflection.getField(PluginCommand.class, "completer", TabCompleter.class);
-						CommandInjector commandInjector = new CommandInjector(plg, commandField.get(pluginCommand), tabField.get(pluginCommand));
-						commandField.set(pluginCommand, commandInjector);
-						tabField.set(pluginCommand, commandInjector);
+			try {
+				SimpleCommandMap simpleCommandMap = Reflection.getField(SimplePluginManager.class, "commandMap", SimpleCommandMap.class).get(Bukkit.getPluginManager());
+				for (Command command : simpleCommandMap.getCommands()) {
+					if (command instanceof PluginCommand) {
+						PluginCommand pluginCommand = (PluginCommand) command;
+						if (plg.equals(pluginCommand.getPlugin())) {
+							FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
+							FieldAccessor<TabCompleter> tabField = Reflection.getField(PluginCommand.class, "completer", TabCompleter.class);
+							CommandInjector commandInjector = new CommandInjector(plg, commandField.get(pluginCommand), tabField.get(pluginCommand));
+							commandField.set(pluginCommand, commandInjector);
+							tabField.set(pluginCommand, commandInjector);
+						}
 					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
 	public static void uninject(Plugin plg) {
 		if (plg != null) {
-			SimpleCommandMap simpleCommandMap = Reflection.getField(SimplePluginManager.class, "commandMap", SimpleCommandMap.class).get(Bukkit.getPluginManager());
-			for (Command command : simpleCommandMap.getCommands()) {
-				if (command instanceof PluginCommand) {
-					PluginCommand pluginCommand = (PluginCommand) command;
-					if (plg.equals(pluginCommand.getPlugin())) {
-						FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
-						FieldAccessor<TabCompleter> tabField = Reflection.getField(PluginCommand.class, "completer", TabCompleter.class);
-						CommandExecutor executor = commandField.get(pluginCommand);
-						if (executor instanceof CommandInjector) {
-							commandField.set(pluginCommand, ((CommandInjector) executor).getCommandExecutor());
-						}
-						TabCompleter completer = tabField.get(pluginCommand);
-						if (completer instanceof CommandInjector) {
-							tabField.set(pluginCommand, ((CommandInjector) executor).getTabCompleter());
+			try {
+				SimpleCommandMap simpleCommandMap = Reflection.getField(SimplePluginManager.class, "commandMap", SimpleCommandMap.class).get(Bukkit.getPluginManager());
+				for (Command command : simpleCommandMap.getCommands()) {
+					if (command instanceof PluginCommand) {
+						PluginCommand pluginCommand = (PluginCommand) command;
+						if (plg.equals(pluginCommand.getPlugin())) {
+							FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
+							FieldAccessor<TabCompleter> tabField = Reflection.getField(PluginCommand.class, "completer", TabCompleter.class);
+							CommandExecutor executor = commandField.get(pluginCommand);
+							if (executor instanceof CommandInjector) {
+								commandField.set(pluginCommand, ((CommandInjector) executor).getCommandExecutor());
+							}
+							TabCompleter completer = tabField.get(pluginCommand);
+							if (completer instanceof CommandInjector) {
+								tabField.set(pluginCommand, ((CommandInjector) executor).getTabCompleter());
+							}
 						}
 					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+	}
+
+	public Map<String, Long> getTotalCount() {
+		return this.totalCount;
+	}
+
+	public Map<String, Long> getTotalTime() {
+		return this.totalTime;
+	}
+
+	public Map<String, Long> getMaxExecuteTime() {
+		return this.maxExecuteTime;
 	}
 
 	public TabCompleter getTabCompleter() {

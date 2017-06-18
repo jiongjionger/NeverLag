@@ -55,14 +55,30 @@ public class SchedulerTaskInjector implements Runnable {
 		if (plg != null) {
 			for (BukkitTask pendingTask : Bukkit.getScheduler().getPendingTasks()) {
 				if (pendingTask.isSync() && pendingTask.getOwner().equals(plg)) {
-					FieldAccessor<Runnable> field = Reflection.getField(pendingTask.getClass(), "task", Runnable.class);
-					Runnable runnable = field.get(pendingTask);
-					if (runnable instanceof SchedulerTaskInjector) {
-						field.set(pendingTask, ((SchedulerTaskInjector) runnable).getRunnable());
+					try {
+						FieldAccessor<Runnable> field = Reflection.getField(pendingTask.getClass(), "task", Runnable.class);
+						Runnable runnable = field.get(pendingTask);
+						if (runnable instanceof SchedulerTaskInjector) {
+							field.set(pendingTask, ((SchedulerTaskInjector) runnable).getRunnable());
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 			}
 		}
+	}
+
+	public long getTotalCount() {
+		return this.totalCount;
+	}
+
+	public long getTotalTime() {
+		return this.totalTime;
+	}
+
+	public long getMaxExecuteTime() {
+		return this.maxExecuteTime;
 	}
 
 	public Runnable getRunnable() {
