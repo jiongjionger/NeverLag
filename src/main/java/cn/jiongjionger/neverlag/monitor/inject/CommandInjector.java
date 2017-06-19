@@ -39,15 +39,19 @@ public class CommandInjector implements TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		long startTime = System.nanoTime();
-		boolean commandResult = this.commandExecutor.onCommand(sender, command, label, args);
-		long endTime = System.nanoTime();
-		long useTime = endTime - startTime;
-		String commandName = command.getName();
-		this.record("totalCount", commandName, 1L);
-		this.record("totalTime", commandName, useTime);
-		this.record("maxExecuteTime", commandName, useTime);
-		return commandResult;
+		if (Bukkit.isPrimaryThread()) {
+			long startTime = System.nanoTime();
+			boolean commandResult = this.commandExecutor.onCommand(sender, command, label, args);
+			long endTime = System.nanoTime();
+			long useTime = endTime - startTime;
+			String commandName = command.getName();
+			this.record("totalCount", commandName, 1L);
+			this.record("totalTime", commandName, useTime);
+			this.record("maxExecuteTime", commandName, useTime);
+			return commandResult;
+		} else {
+			return this.commandExecutor.onCommand(sender, command, label, args);
+		}
 	}
 
 	private void record(String mapName, String key, long value) {
