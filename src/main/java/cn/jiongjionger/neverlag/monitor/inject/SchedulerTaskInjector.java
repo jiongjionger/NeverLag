@@ -8,18 +8,22 @@ import cn.jiongjionger.neverlag.utils.Reflection;
 import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
 public class SchedulerTaskInjector extends AbstractInjector implements Runnable {
+
 	// 统计定时任务的耗时、次数、最大耗时
 	@Override
 	public void run() {
 		long startTime = System.nanoTime();
-		this.runnable.run();
-		long endTime = System.nanoTime();
-		long useTime = endTime - startTime;
-		if (useTime > this.maxExecuteTime) {
-			this.maxExecuteTime = useTime;
+		try {
+			this.runnable.run();
+		} finally {
+			long endTime = System.nanoTime();
+			long useTime = endTime - startTime;
+			if (useTime > this.maxExecuteTime) {
+				this.maxExecuteTime = useTime;
+			}
+			this.totalTime = this.totalTime + useTime;
+			this.totalCount = this.totalCount + 1L;
 		}
-		this.totalTime = this.totalTime + useTime;
-		this.totalCount = this.totalCount + 1L;
 	}
 
 	// 替换原本的Runnable为带性能统计的版本
@@ -56,7 +60,7 @@ public class SchedulerTaskInjector extends AbstractInjector implements Runnable 
 			}
 		}
 	}
-	
+
 	private final Runnable runnable;
 	private long totalCount = 0L;
 	private long totalTime = 0L;
