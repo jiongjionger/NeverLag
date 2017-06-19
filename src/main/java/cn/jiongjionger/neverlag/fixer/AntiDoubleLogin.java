@@ -29,13 +29,6 @@ public class AntiDoubleLogin implements Listener {
 		}
 	}
 
-	/*
-	 * 判断玩家是否在线
-	 * 
-	 * @param username 玩家名字
-	 * 
-	 * @return 是否在线
-	 */
 	private boolean checkOnline(String username) {
 		try {
 			for (World w : Bukkit.getWorlds()) {

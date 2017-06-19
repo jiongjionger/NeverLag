@@ -63,11 +63,7 @@ public class EntityCleaner {
 		doClean(true);
 	}
 
-	/*
-	 * 清理实体任务
-	 * 
-	 * @param forceclean 是否强制清理，无视实体总量是否达到阀值
-	 */
+	// 清理实体任务
 	@SuppressWarnings("deprecation")
 	private static void doClean(boolean forceclean) {
 		if (!cm.isClearEntity()) {
@@ -121,15 +117,6 @@ public class EntityCleaner {
 		}
 	}
 
-	/*
-	 * 判断实体附近有没有玩家
-	 * 
-	 * @param ent 实体
-	 * 
-	 * @param distance 判断距离
-	 * 
-	 * @return 是否存在玩家
-	 */
 	private static boolean hasPlayerNearby(Entity ent, int distance) {
 		for (Entity entity : ent.getNearbyEntities(distance, distance, distance)) {
 			if (entity instanceof Player) {

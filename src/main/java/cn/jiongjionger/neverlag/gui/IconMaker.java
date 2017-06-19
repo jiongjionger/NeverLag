@@ -29,13 +29,7 @@ public class IconMaker {
 		this.item = item.clone();
 	}
 
-	/*
-	 * 设置物品的显示名称
-	 * 
-	 * @param name 显示名称
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
+	// 设置显示名称
 	public IconMaker setDisplayName(String name) {
 		ItemMeta m = this.item.getItemMeta();
 		m.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
@@ -43,13 +37,7 @@ public class IconMaker {
 		return this;
 	}
 
-	/*
-	 * 设置物品的lore
-	 * 
-	 * @param lore 被设置的lore
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
+	// 设置Lore
 	public IconMaker setLore(List<String> lore) {
 		List<String> colorLore = new ArrayList<String>();
 		for (String l : lore) {
@@ -61,13 +49,7 @@ public class IconMaker {
 		return this;
 	}
 
-	/*
-	 * 设置物品的lore
-	 * 
-	 * @param lore 被设置的lore
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
+	// 设置Lore
 	public IconMaker setLore(String... lore) {
 		List<String> colorLore = new ArrayList<String>();
 		for (String l : lore) {
@@ -79,39 +61,19 @@ public class IconMaker {
 		return this;
 	}
 
-	/*
-	 * 设置物品的耐久度、羊毛等可以利用这个设置颜色
-	 * 
-	 * @param d 耐久度
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
+	// 设置耐久度，羊毛等通过这个设置颜色
 	public IconMaker setDurability(short d) {
 		this.item.setDurability(d);
 		return this;
 	}
 
-	/*
-	 * 设置物品的数量
-	 * 
-	 * @param amount 数量
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
+	// 设置数量
 	public IconMaker setAmount(int amount) {
 		this.item.setAmount(amount);
 		return this;
 	}
 
-	/*
-	 * 替换物品的Lore
-	 * 
-	 * @param oldlore 需要被替换的lore
-	 * 
-	 * @param newlore 新的lore
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
+	// 替换Lore的内容
 	public IconMaker replaceLore(String oldlore, String newlore) {
 		if (this.item != null && this.item.hasItemMeta() && this.item.getItemMeta().hasLore()) {
 			oldlore = ChatColor.translateAlternateColorCodes('&', oldlore);
@@ -130,13 +92,7 @@ public class IconMaker {
 		return this;
 	}
 
-	/*
-	 * 设置头颅的名称以显示皮肤
-	 * 
-	 * @param username 玩家名字
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
+	// 设置头颅
 	public IconMaker setOwner(String username) {
 		if (this.item != null && this.item.getType().equals(Material.SKULL_ITEM)) {
 			this.item.setDurability((short) 3); // 3: Player
@@ -147,11 +103,7 @@ public class IconMaker {
 		return this;
 	}
 
-	/*
-	 * 获取ItemStack实例
-	 * 
-	 * @return 返回物品
-	 */
+	// 获取Item
 	public ItemStack getItem() {
 		return this.item;
 	}

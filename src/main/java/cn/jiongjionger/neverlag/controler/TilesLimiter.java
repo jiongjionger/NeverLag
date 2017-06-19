@@ -115,17 +115,7 @@ public class TilesLimiter implements Listener {
 		}
 	}
 
-	/*
-	 * 判断某个方块类型在某个坐标附近区块内是否密集
-	 * 
-	 * @param loc 需要判断的位置
-	 * 
-	 * @param type 需要判断的方块类型
-	 * 
-	 * @int limit 密集限制阀值
-	 * 
-	 * @return 是否密集
-	 */
+	// 判断是否密集
 	public boolean isLimit(Location loc, Material type, int limit) {
 		int count = 0;
 		int[] offset = { -2, -1, 0, 1, 2 };

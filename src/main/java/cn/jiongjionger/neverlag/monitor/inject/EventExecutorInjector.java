@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
+import org.bukkit.plugin.TimedRegisteredListener;
 
 import cn.jiongjionger.neverlag.utils.Reflection;
 import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
@@ -17,9 +18,12 @@ public class EventExecutorInjector extends AbstractMultipleInjector implements E
 		if (plg != null) {
 			for (RegisteredListener listener : HandlerList.getRegisteredListeners(plg)) {
 				try {
-					FieldAccessor<EventExecutor> field = Reflection.getField(RegisteredListener.class, "executor", EventExecutor.class);
-					EventExecutor fieldEventExecutor = field.get(listener);
-					field.set(listener, new EventExecutorInjector(plg, fieldEventExecutor));
+					if (!(listener instanceof TimedRegisteredListener)) {
+						HandlerList.unregisterAll(listener.getListener());
+						FieldAccessor<EventExecutor> field = Reflection.getField(RegisteredListener.class, "executor", EventExecutor.class);
+						EventExecutor fieldEventExecutor = field.get(listener);
+						field.set(listener, new EventExecutorInjector(plg, fieldEventExecutor));
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -32,10 +36,13 @@ public class EventExecutorInjector extends AbstractMultipleInjector implements E
 		if (plg != null) {
 			for (RegisteredListener listener : HandlerList.getRegisteredListeners(plg)) {
 				try {
-					FieldAccessor<EventExecutor> field = Reflection.getField(RegisteredListener.class, "executor", EventExecutor.class);
-					EventExecutor executor = field.get(listener);
-					if (executor instanceof EventExecutorInjector) {
-						field.set(listener, ((EventExecutorInjector) executor).getEventExecutor());
+					if (!(listener instanceof TimedRegisteredListener)) {
+						FieldAccessor<EventExecutor> field = Reflection.getField(RegisteredListener.class, "executor", EventExecutor.class);
+						EventExecutor executor = field.get(listener);
+						if (executor instanceof EventExecutorInjector) {
+							HandlerList.unregisterAll(listener.getListener());
+							field.set(listener, ((EventExecutorInjector) executor).getEventExecutor());
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

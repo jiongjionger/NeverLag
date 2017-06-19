@@ -12,9 +12,7 @@ import cn.jiongjionger.neverlag.command.CommandHardWare;
 import cn.jiongjionger.neverlag.command.CommandInfo;
 import cn.jiongjionger.neverlag.command.CommandPing;
 import cn.jiongjionger.neverlag.command.CommandTabComplete;
-import cn.jiongjionger.neverlag.command.CommandTimings;
 import cn.jiongjionger.neverlag.gui.GUISortPingListener;
-import cn.jiongjionger.neverlag.monitor.MonitorUtils;
 import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
 import cn.jiongjionger.neverlag.utils.PingUtils;
@@ -68,7 +66,6 @@ public class NeverLag extends JavaPlugin implements Listener {
 		// 兼容PlugMan等插件
 		watchDog.stop();
 		Bukkit.getScheduler().cancelTasks(instance);
-		MonitorUtils.disable();
 	}
 
 	private void registerCommand() {
@@ -81,7 +78,6 @@ public class NeverLag extends JavaPlugin implements Listener {
 		baseCommandExecutor.registerSubCommand("info", new CommandInfo());
 		baseCommandExecutor.registerSubCommand("ping", new CommandPing());
 		baseCommandExecutor.registerSubCommand("clear", new CommandClear());
-		baseCommandExecutor.registerSubCommand("timings", new CommandTimings());
 	}
 
 	private void registerListener() {

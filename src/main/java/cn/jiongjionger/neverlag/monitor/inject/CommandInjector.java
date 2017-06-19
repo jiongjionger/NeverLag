@@ -106,12 +106,4 @@ public class CommandInjector extends AbstractMultipleInjector implements TabExec
 	public CommandExecutor getCommandExecutor() {
 		return this.commandExecutor;
 	}
-<<<<<<< HEAD
-
-	public Plugin getPlugin() {
-		return this.plugin;
-	}
 }
-=======
-}
->>>>>>> bd1dd8ebc51fabee19d28ae40bec49593e79a7a2
