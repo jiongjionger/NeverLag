@@ -1,8 +1,6 @@
 package cn.jiongjionger.neverlag.monitor.inject;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -18,71 +16,7 @@ import org.bukkit.plugin.SimplePluginManager;
 import cn.jiongjionger.neverlag.utils.Reflection;
 import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
-public class CommandInjector implements TabExecutor {
-	private final Plugin plugin;
-	private final CommandExecutor commandExecutor;
-	private final TabCompleter tabCompleter;
-	private Map<String, Long> totalCount = new HashMap<String, Long>();
-	private Map<String, Long> totalTime = new HashMap<String, Long>();
-	private Map<String, Long> maxExecuteTime = new HashMap<String, Long>();
-
-	public CommandInjector(Plugin plugin, CommandExecutor commandExecutor, TabCompleter tabCompleter) {
-		this.plugin = plugin;
-		this.commandExecutor = commandExecutor;
-		this.tabCompleter = tabCompleter;
-	}
-
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		return this.tabCompleter.onTabComplete(sender, command, alias, args);
-	}
-
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (Bukkit.isPrimaryThread()) {
-			long startTime = System.nanoTime();
-			boolean commandResult = this.commandExecutor.onCommand(sender, command, label, args);
-			long endTime = System.nanoTime();
-			long useTime = endTime - startTime;
-			String commandName = command.getName();
-			this.record("totalCount", commandName, 1L);
-			this.record("totalTime", commandName, useTime);
-			this.record("maxExecuteTime", commandName, useTime);
-			return commandResult;
-		} else {
-			return this.commandExecutor.onCommand(sender, command, label, args);
-		}
-	}
-
-	private void record(String mapName, String key, long value) {
-		switch (mapName) {
-		case "totalCount":
-			Long count = this.totalCount.get(key);
-			if (count == null) {
-				this.totalCount.put(key, 1L);
-			} else {
-				this.totalCount.put(key, count + 1L);
-			}
-			break;
-		case "totalTime":
-			Long time = this.totalTime.get(key);
-			if (time == null) {
-				this.totalTime.put(key, value);
-			} else {
-				this.totalTime.put(key, time + value);
-			}
-			break;
-		case "maxExecuteTime":
-			Long maxTime = this.maxExecuteTime.get(key);
-			if (maxTime == null || value > maxTime.longValue()) {
-				this.maxExecuteTime.put(key, value);
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
+public class CommandInjector extends AbstractMultipleInjector implements TabExecutor {
 	public static void inject(Plugin plg) {
 		if (plg != null) {
 			try {
@@ -131,17 +65,38 @@ public class CommandInjector implements TabExecutor {
 			}
 		}
 	}
+	
+	private final CommandExecutor commandExecutor;
+	private final TabCompleter tabCompleter;
 
-	public Map<String, Long> getTotalCount() {
-		return this.totalCount;
+	public CommandInjector(Plugin plugin, CommandExecutor commandExecutor, TabCompleter tabCompleter) {
+		super(plugin);
+		this.commandExecutor = commandExecutor;
+		this.tabCompleter = tabCompleter;
 	}
 
-	public Map<String, Long> getTotalTime() {
-		return this.totalTime;
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (Bukkit.isPrimaryThread()) {
+			long startTime = System.nanoTime();
+			boolean commandResult;
+			try{
+				commandResult = this.commandExecutor.onCommand(sender, command, label, args);
+			}finally{
+				long endTime = System.nanoTime();
+				long useTime = endTime - startTime;
+				this.record(command.getName(), useTime);
+			}
+			return commandResult;
+		} else {
+			return this.commandExecutor.onCommand(sender, command, label, args);
+		}
 	}
-
-	public Map<String, Long> getMaxExecuteTime() {
-		return this.maxExecuteTime;
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		if(tabCompleter == null) return null;  // onTabComplete 返回 null 表示使用默认 completer
+		return this.tabCompleter.onTabComplete(sender, command, alias, args);
 	}
 
 	public TabCompleter getTabCompleter() {
@@ -150,9 +105,5 @@ public class CommandInjector implements TabExecutor {
 
 	public CommandExecutor getCommandExecutor() {
 		return this.commandExecutor;
-	}
-
-	public Plugin getPlugin() {
-		return this.plugin;
 	}
 }
