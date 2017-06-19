@@ -120,6 +120,15 @@ public class ItemCleanOlderVersion {
 		}
 	}
 
+	/*
+	 * 判断掉落物附近有没有玩家
+	 * 
+	 * @param item 掉落物
+	 * 
+	 * @param distance 判断距离
+	 * 
+	 * @return 是否存在玩家
+	 */
 	private static boolean hasPlayerNearby(Item item, int distance) {
 		for (Entity entity : item.getNearbyEntities(distance, distance, distance)) {
 			if (entity instanceof Player) {

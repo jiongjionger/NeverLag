@@ -12,13 +12,13 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class AntiQuickShopBigChest implements Listener {
-	
+
 	private ConfigManager cm = ConfigManager.getInstance();
 	private final BlockFace[] BLOCKFACE = { BlockFace.EAST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST };
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlaceChest(BlockPlaceEvent e) {
-		if(!cm.isAntiQuickShopBigShop()){
+		if (!cm.isAntiQuickShopBigShop()) {
 			return;
 		}
 		Block block = e.getBlock();
@@ -34,6 +34,13 @@ public class AntiQuickShopBigChest implements Listener {
 		}
 	}
 
+	/*
+	 * 判断某个方块附近是否存在商店箱子方块
+	 * 
+	 * @param b 需要判断的方块
+	 * 
+	 * @return 是否存在箱子方块
+	 */
 	private boolean isShopBlockNearby(Block b) {
 		if (b == null) {
 			return false;
@@ -59,7 +66,15 @@ public class AntiQuickShopBigChest implements Listener {
 		return false;
 	}
 
-	// 判断某个方块附近是否有对应的某种方块（东南西北方向）
+	/*
+	 * 判断某个方块附近是否有对应的某种方块（东南西北方向）
+	 * 
+	 * @param b 需要判断的方块
+	 * 
+	 * @param type 需要判断的方块类型
+	 * 
+	 * @return 附近的方块，没有返回null
+	 */
 	private Block getBlockNearby(Block b, Material type) {
 		Block relativeBlock = null;
 		for (BlockFace face : BLOCKFACE) {

@@ -3,10 +3,10 @@ package cn.jiongjionger.neverlag.controler;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import org.bukkit.event.block.BlockExplodeEvent;
 
 public class ExplodeDisabler implements Listener {
 

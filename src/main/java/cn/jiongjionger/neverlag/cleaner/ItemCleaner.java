@@ -39,7 +39,7 @@ public class ItemCleaner {
 			}, 20L, 20L);
 		}
 	}
-	
+
 	// 悬浮提醒
 	private void holoDisplay() {
 		if (!cm.isClearDropItem() || !cm.isClearItem() || !cm.isClearItemPreHoloMessage()) {
@@ -57,6 +57,11 @@ public class ItemCleaner {
 		}
 	}
 
+	/*
+	 * 设置掉落物的自定义名字和显示以实现悬浮显示效果
+	 * 
+	 * @param name 自定义显示的名字（倒计时）
+	 */
 	@SuppressWarnings("deprecation")
 	private void setDropItemHolo(String name) {
 		for (World world : Bukkit.getWorlds()) {
@@ -78,7 +83,7 @@ public class ItemCleaner {
 			}
 		}
 	}
-	
+
 	// 提前通知
 	private void doPreMessage() {
 		if (cm.isClearDropItem() && cm.isBroadcastClearItem()) {
@@ -161,6 +166,15 @@ public class ItemCleaner {
 		}
 	}
 
+	/*
+	 * 判断掉落物附近有没有玩家
+	 * 
+	 * @param item 掉落物
+	 * 
+	 * @param distance 判断距离
+	 * 
+	 * @return 是否存在玩家
+	 */
 	private static boolean hasPlayerNearby(Item item, int distance) {
 		for (Entity entity : item.getNearbyEntities(distance, distance, distance)) {
 			if (entity instanceof Player) {

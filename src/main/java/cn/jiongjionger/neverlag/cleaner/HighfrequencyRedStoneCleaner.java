@@ -57,6 +57,14 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 		}
 	}
 
+	/*
+	 * 同步方法统计某个位置的红石时间次数，并且在达到阀值以后采取措施
+	 * 
+	 * @param loc 需要检查阀值和统计的位置
+	 * 
+	 * @param typeid 触发红石时间的方块类型id
+	 * 
+	 */
 	private void syncCheckAndRecord(final Location loc, final int typeId) {
 		Integer count = syncRestoneRecord.get(loc);
 		if (count == null) {
@@ -82,6 +90,14 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 		rc.updateRedstoneCount(true);
 	}
 
+	/*
+	 * 异步方法统计某个位置的红石时间次数，并且在达到阀值以后采取措施
+	 * 
+	 * @param loc 需要检查阀值和统计的位置
+	 * 
+	 * @param typeid 触发红石时间的方块类型id
+	 * 
+	 */
 	private void asyncCheckAndRecord(final Location loc, final int typeId) {
 		// 使用自带的任务调度而非Thead避免一些问题
 		plg.getServer().getScheduler().runTaskAsynchronously(plg, new Runnable() {
@@ -111,7 +127,14 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 			}
 		});
 	}
-
+	
+	/*
+	 * 破坏达到阀值的红石方块
+	 * 
+	 * @param loc 需要破坏的方块位置
+	 * 
+	 * @param isOnSync 是否同步方法破坏
+	 */
 	private void breakRestone(final Location loc, boolean isOnSync) {
 		if (isOnSync) {
 			if (cm.isRedstoneDrop()) {

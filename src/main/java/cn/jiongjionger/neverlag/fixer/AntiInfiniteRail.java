@@ -19,6 +19,13 @@ public class AntiInfiniteRail implements Listener {
 		}
 	}
 
+	/*
+	 * 判断是否为铁轨材质
+	 * 
+	 * @param type 材质类型
+	 * 
+	 * @return 是否为铁轨材质
+	 */
 	private boolean isRails(Material type) {
 		if (Material.RAILS.equals(type) || Material.DETECTOR_RAIL.equals(type) || Material.POWERED_RAIL.equals(type) || Material.ACTIVATOR_RAIL.equals(type)) {
 			return true;
@@ -26,6 +33,13 @@ public class AntiInfiniteRail implements Listener {
 		return false;
 	}
 
+	/*
+	 * 判断是否为可以刷铁轨的材质
+	 * 
+	 * @param type 材质类型
+	 * 
+	 * @return 是否为可以刷铁轨的材质
+	 */
 	@SuppressWarnings("deprecation")
 	private boolean isDupeBlock(Material type) {
 		if (Material.PISTON_EXTENSION.equals(type) || Material.PISTON_STICKY_BASE.equals(type) || Material.PISTON_BASE.equals(type)
