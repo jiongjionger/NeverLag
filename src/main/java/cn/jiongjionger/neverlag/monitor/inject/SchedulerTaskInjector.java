@@ -7,19 +7,7 @@ import org.bukkit.scheduler.BukkitTask;
 import cn.jiongjionger.neverlag.utils.Reflection;
 import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
-public class SchedulerTaskInjector implements Runnable {
-
-	private final Plugin plugin;
-	private Runnable runnable;
-	private long totalCount = 0L;
-	private long totalTime = 0L;
-	private long maxExecuteTime = 0L;
-
-	public SchedulerTaskInjector(Plugin plugin, Runnable runnable) {
-		this.plugin = plugin;
-		this.runnable = runnable;
-	}
-
+public class SchedulerTaskInjector extends AbstractInjector implements Runnable {
 	// 统计定时任务的耗时、次数、最大耗时
 	@Override
 	public void run() {
@@ -68,6 +56,16 @@ public class SchedulerTaskInjector implements Runnable {
 			}
 		}
 	}
+	
+	private final Runnable runnable;
+	private long totalCount = 0L;
+	private long totalTime = 0L;
+	private long maxExecuteTime = 0L;
+
+	public SchedulerTaskInjector(Plugin plugin, Runnable runnable) {
+		super(plugin);
+		this.runnable = runnable;
+	}
 
 	public long getTotalCount() {
 		return this.totalCount;
@@ -83,9 +81,5 @@ public class SchedulerTaskInjector implements Runnable {
 
 	public Runnable getRunnable() {
 		return this.runnable;
-	}
-
-	public Plugin getPlugin() {
-		return this.plugin;
 	}
 }
