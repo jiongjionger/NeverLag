@@ -1,6 +1,7 @@
 package cn.jiongjionger.neverlag.monitor.inject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -9,24 +10,31 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 
 import cn.jiongjionger.neverlag.utils.Reflection;
 import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
-public class CommandInjector implements CommandExecutor {
-
+public class CommandInjector implements TabExecutor {
 	private final Plugin plugin;
 	private final CommandExecutor commandExecutor;
+	private final TabCompleter tabCompleter;
 	private Map<String, Long> totalCount = new HashMap<String, Long>();
 	private Map<String, Long> totalTime = new HashMap<String, Long>();
 	private Map<String, Long> maxExecuteTime = new HashMap<String, Long>();
 
-	public CommandInjector(Plugin plugin, CommandExecutor commandExecutor) {
+	public CommandInjector(Plugin plugin, CommandExecutor commandExecutor, TabCompleter tabCompleter) {
 		this.plugin = plugin;
 		this.commandExecutor = commandExecutor;
+		this.tabCompleter = tabCompleter;
+	}
 
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		return this.tabCompleter.onTabComplete(sender, command, alias, args);
 	}
 
 	@Override
@@ -46,16 +54,6 @@ public class CommandInjector implements CommandExecutor {
 		}
 	}
 
-	/*
-	 * 记录某个map的值 totalCount 总执行次数为自增 totalTime 总执行时间为累加 maxExecuteTime
-	 * 最大执行时间为只保存最大值
-	 * 
-	 * @param mapName map名字
-	 * 
-	 * @param key 命令名称
-	 * 
-	 * @param value 执行时间
-	 */
 	private void record(String mapName, String key, long value) {
 		switch (mapName) {
 		case "totalCount":
@@ -94,8 +92,10 @@ public class CommandInjector implements CommandExecutor {
 						PluginCommand pluginCommand = (PluginCommand) command;
 						if (plg.equals(pluginCommand.getPlugin())) {
 							FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
-							CommandInjector commandInjector = new CommandInjector(plg, commandField.get(pluginCommand));
+							FieldAccessor<TabCompleter> tabField = Reflection.getField(PluginCommand.class, "completer", TabCompleter.class);
+							CommandInjector commandInjector = new CommandInjector(plg, commandField.get(pluginCommand), tabField.get(pluginCommand));
 							commandField.set(pluginCommand, commandInjector);
+							tabField.set(pluginCommand, commandInjector);
 						}
 					}
 				}
@@ -114,9 +114,14 @@ public class CommandInjector implements CommandExecutor {
 						PluginCommand pluginCommand = (PluginCommand) command;
 						if (plg.equals(pluginCommand.getPlugin())) {
 							FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
+							FieldAccessor<TabCompleter> tabField = Reflection.getField(PluginCommand.class, "completer", TabCompleter.class);
 							CommandExecutor executor = commandField.get(pluginCommand);
 							if (executor instanceof CommandInjector) {
 								commandField.set(pluginCommand, ((CommandInjector) executor).getCommandExecutor());
+							}
+							TabCompleter completer = tabField.get(pluginCommand);
+							if (completer instanceof CommandInjector) {
+								tabField.set(pluginCommand, ((CommandInjector) executor).getTabCompleter());
 							}
 						}
 					}
@@ -137,6 +142,10 @@ public class CommandInjector implements CommandExecutor {
 
 	public Map<String, Long> getMaxExecuteTime() {
 		return this.maxExecuteTime;
+	}
+
+	public TabCompleter getTabCompleter() {
+		return this.tabCompleter;
 	}
 
 	public CommandExecutor getCommandExecutor() {
