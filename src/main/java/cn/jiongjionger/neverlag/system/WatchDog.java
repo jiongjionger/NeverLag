@@ -32,7 +32,7 @@ public class WatchDog extends TimerTask{
 	public void run() {
 		// 服务端卡顿超过了500ms就向所有在线玩家发送KeepAlive防止掉线
 		long now = System.currentTimeMillis();
-		if (now - this.lastTickTime >= 500L) {
+		if (now - this.lastTickTime >= 1000L) {
 			// 安装了ProtocoLib前置插件且间隔3秒才发送新的心跳包
 			if (NeverLag.isInstallProtocoLib() && now - this.lastSendTime >= 3000L) {
 				this.lastSendTime = now;
