@@ -22,9 +22,9 @@ public class CommandInjector implements TabExecutor {
 	private final Plugin plugin;
 	private final CommandExecutor commandExecutor;
 	private final TabCompleter tabCompleter;
-	private Map<String, Long> totalCount = new HashMap<String, Long>();
-	private Map<String, Long> totalTime = new HashMap<String, Long>();
-	private Map<String, Long> maxExecuteTime = new HashMap<String, Long>();
+	private final Map<String, Long> totalCount = new HashMap<String, Long>();
+	private final Map<String, Long> totalTime = new HashMap<String, Long>();
+	private final Map<String, Long> maxExecuteTime = new HashMap<String, Long>();
 
 	public CommandInjector(Plugin plugin, CommandExecutor commandExecutor, TabCompleter tabCompleter) {
 		this.plugin = plugin;
@@ -41,13 +41,17 @@ public class CommandInjector implements TabExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (Bukkit.isPrimaryThread()) {
 			long startTime = System.nanoTime();
-			boolean commandResult = this.commandExecutor.onCommand(sender, command, label, args);
-			long endTime = System.nanoTime();
-			long useTime = endTime - startTime;
-			String commandName = command.getName();
-			this.record("totalCount", commandName, 1L);
-			this.record("totalTime", commandName, useTime);
-			this.record("maxExecuteTime", commandName, useTime);
+			boolean commandResult;
+			try{
+				commandResult = this.commandExecutor.onCommand(sender, command, label, args);
+			}finally{
+				long endTime = System.nanoTime();
+				long useTime = endTime - startTime;
+				String commandName = command.getName();
+				this.record("totalCount", commandName, 1L);
+				this.record("totalTime", commandName, useTime);
+				this.record("maxExecuteTime", commandName, useTime);
+			}
 			return commandResult;
 		} else {
 			return this.commandExecutor.onCommand(sender, command, label, args);
@@ -74,7 +78,7 @@ public class CommandInjector implements TabExecutor {
 			break;
 		case "maxExecuteTime":
 			Long maxTime = this.maxExecuteTime.get(key);
-			if (maxTime == null || value > maxTime.longValue()) {
+			if (maxTime == null || value > maxTime) {
 				this.maxExecuteTime.put(key, value);
 			}
 			break;

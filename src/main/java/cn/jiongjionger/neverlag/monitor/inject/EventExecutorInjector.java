@@ -19,9 +19,9 @@ public class EventExecutorInjector implements EventExecutor {
 
 	private final Plugin plugin;
 	private final EventExecutor eventExecutor;
-	private Map<String, Long> totalCount = new HashMap<String, Long>();
-	private Map<String, Long> totalTime = new HashMap<String, Long>();
-	private Map<String, Long> maxExecuteTime = new HashMap<String, Long>();
+	private final Map<String, Long> totalCount = new HashMap<String, Long>();
+	private final Map<String, Long> totalTime = new HashMap<String, Long>();
+	private final Map<String, Long> maxExecuteTime = new HashMap<String, Long>();
 
 	public EventExecutorInjector(Plugin plugin, EventExecutor eventExecutor) {
 		this.plugin = plugin;
@@ -35,13 +35,16 @@ public class EventExecutorInjector implements EventExecutor {
 			this.eventExecutor.execute(listener, e);
 		} else {
 			long startTime = System.nanoTime();
-			this.eventExecutor.execute(listener, e);
-			long endTime = System.nanoTime();
-			long executeTime = endTime - startTime;
-			String eventName = e.getEventName();
-			this.record("totalCount", eventName, 1L);
-			this.record("totalTime", eventName, executeTime);
-			this.record("maxExecuteTime", eventName, executeTime);
+			try{
+				this.eventExecutor.execute(listener, e);
+			}finally{
+				long endTime = System.nanoTime();
+				long executeTime = endTime - startTime;
+				String eventName = e.getEventName();
+				this.record("totalCount", eventName, 1L);
+				this.record("totalTime", eventName, executeTime);
+				this.record("maxExecuteTime", eventName, executeTime);
+			}
 		}
 	}
 
@@ -65,7 +68,7 @@ public class EventExecutorInjector implements EventExecutor {
 			break;
 		case "maxExecuteTime":
 			Long maxTime = this.maxExecuteTime.get(key);
-			if (maxTime == null || value > maxTime.longValue()) {
+			if (maxTime == null || value > maxTime) {
 				this.maxExecuteTime.put(key, value);
 			}
 			break;
