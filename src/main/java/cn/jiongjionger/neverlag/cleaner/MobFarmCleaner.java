@@ -1,8 +1,12 @@
 package cn.jiongjionger.neverlag.cleaner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -35,11 +39,34 @@ public class MobFarmCleaner {
 					if (EntityUtils.checkCustomNpc(entity)) {
 						continue;
 					}
-					if (entity.getNearbyEntities(2.25D, 4.5D, 2.25D).size() >= cm.getCheckMobFarmLooseLimit() || entity.getNearbyEntities(0.50D, 3.5D, 0.5D).size() >= cm.getCheckMobFarmTinyLimit()) {
+					if (this.getNearbyEntityCount(entity, false) >= cm.getCheckMobFarmLooseLimit() || this.getNearbyEntityCount(entity, true) >= cm.getCheckMobFarmTinyLimit()) {
 						entity.remove();
 					}
 				}
 			}
 		}
+	}
+
+	/*
+	 * 统计实体附近特定实体类型的数量
+	 * 
+	 * @param isTiny 是否为狭窄检测模式
+	 * 
+	 * @return 附近实体数量
+	 */
+	private int getNearbyEntityCount(LivingEntity entity, boolean isTiny) {
+		List<Entity> entityList = new ArrayList<Entity>();
+		if (isTiny) {
+			entityList = entity.getNearbyEntities(0.50D, 3.5D, 0.5D);
+		} else {
+			entityList = entity.getNearbyEntities(2.25D, 4.5D, 2.25D);
+		}
+		int count = 0;
+		for (Entity ent : entityList) {
+			if (ent instanceof Monster || ent instanceof Animals || ent instanceof Villager || ent.getType() == EntityType.SQUID) {
+				count++;
+			}
+		}
+		return count;
 	}
 }
