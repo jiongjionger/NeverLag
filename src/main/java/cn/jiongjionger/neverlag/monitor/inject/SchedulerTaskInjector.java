@@ -10,7 +10,7 @@ import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 public class SchedulerTaskInjector implements Runnable {
 
 	private final Plugin plugin;
-	private Runnable runnable;
+	private final Runnable runnable;
 	private long totalCount = 0L;
 	private long totalTime = 0L;
 	private long maxExecuteTime = 0L;
@@ -24,14 +24,17 @@ public class SchedulerTaskInjector implements Runnable {
 	@Override
 	public void run() {
 		long startTime = System.nanoTime();
-		this.runnable.run();
-		long endTime = System.nanoTime();
-		long useTime = endTime - startTime;
-		if (useTime > this.maxExecuteTime) {
-			this.maxExecuteTime = useTime;
+		try{
+			this.runnable.run();
+		}finally{
+			long endTime = System.nanoTime();
+			long useTime = endTime - startTime;
+			if (useTime > this.maxExecuteTime) {
+				this.maxExecuteTime = useTime;
+			}
+			this.totalTime = this.totalTime + useTime;
+			this.totalCount = this.totalCount + 1L;
 		}
-		this.totalTime = this.totalTime + useTime;
-		this.totalCount = this.totalCount + 1L;
 	}
 
 	// 替换原本的Runnable为带性能统计的版本
