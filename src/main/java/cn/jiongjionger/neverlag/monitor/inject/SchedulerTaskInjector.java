@@ -21,8 +21,8 @@ public class SchedulerTaskInjector extends AbstractInjector implements Runnable 
 			if (useTime > this.maxExecuteTime) {
 				this.maxExecuteTime = useTime;
 			}
-			this.totalTime = this.totalTime + useTime;
-			this.totalCount = this.totalCount + 1L;
+			this.totalTime += useTime;
+			this.totalCount += 1L;
 		}
 	}
 
@@ -83,7 +83,12 @@ public class SchedulerTaskInjector extends AbstractInjector implements Runnable 
 		return this.maxExecuteTime;
 	}
 
+	public long getAvgExecuteTime(){
+		return this.totalTime / this.totalCount;
+	}
+	
 	public Runnable getRunnable() {
 		return this.runnable;
 	}
+	
 }

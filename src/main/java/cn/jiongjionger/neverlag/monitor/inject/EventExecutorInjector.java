@@ -11,14 +11,24 @@ import org.bukkit.plugin.RegisteredListener;
 import cn.jiongjionger.neverlag.utils.Reflection;
 import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
-public class EventExecutorInjector extends AbstractMultipleInjector implements EventExecutor {
+public class EventExecutorInjector extends AbstractInjector implements EventExecutor {
+
+	private final EventExecutor eventExecutor;
+	private String eventName;
+	private long totalCount = 0L;
+	private long totalTime = 0L;
+	private long maxExecuteTime = 0L;
+
+	public EventExecutorInjector(Plugin plugin, EventExecutor eventExecutor) {
+		super(plugin);
+		this.eventExecutor = eventExecutor;
+	}
 
 	// 将监听器原本的EventExecutor替换成带性能统计的版本
 	public static void inject(Plugin plg) {
 		if (plg != null) {
 			for (RegisteredListener listener : HandlerList.getRegisteredListeners(plg)) {
 				try {
-					HandlerList.unregisterAll(listener.getListener());
 					FieldAccessor<EventExecutor> field = Reflection.getField(RegisteredListener.class, "executor", EventExecutor.class);
 					EventExecutor fieldEventExecutor = field.get(listener);
 					field.set(listener, new EventExecutorInjector(plg, fieldEventExecutor));
@@ -37,7 +47,6 @@ public class EventExecutorInjector extends AbstractMultipleInjector implements E
 					FieldAccessor<EventExecutor> field = Reflection.getField(RegisteredListener.class, "executor", EventExecutor.class);
 					EventExecutor executor = field.get(listener);
 					if (executor instanceof EventExecutorInjector) {
-						HandlerList.unregisterAll(listener.getListener());
 						field.set(listener, ((EventExecutorInjector) executor).getEventExecutor());
 					}
 				} catch (Exception e) {
@@ -45,13 +54,6 @@ public class EventExecutorInjector extends AbstractMultipleInjector implements E
 				}
 			}
 		}
-	}
-
-	private final EventExecutor eventExecutor;
-
-	public EventExecutorInjector(Plugin plugin, EventExecutor eventExecutor) {
-		super(plugin);
-		this.eventExecutor = eventExecutor;
 	}
 
 	@Override
@@ -69,6 +71,33 @@ public class EventExecutorInjector extends AbstractMultipleInjector implements E
 				this.record(e.getEventName(), executeTime);
 			}
 		}
+	}
+
+	private void record(String eventName, long executeTime) {
+		if (this.eventName == null) {
+			this.eventName = eventName;
+		}
+		this.totalTime += executeTime;
+		this.totalCount += 1L;
+		if (executeTime > this.maxExecuteTime) {
+			this.maxExecuteTime = executeTime;
+		}
+	}
+
+	public long getTotalCount() {
+		return this.totalCount;
+	}
+
+	public long getTotalTime() {
+		return this.totalTime;
+	}
+
+	public long getMaxExecuteTime() {
+		return this.maxExecuteTime;
+	}
+
+	public long getAvgExecuteTime() {
+		return this.totalTime / this.totalCount;
 	}
 
 	// 获取原本的EventExecutor

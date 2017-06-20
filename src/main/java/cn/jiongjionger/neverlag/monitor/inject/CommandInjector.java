@@ -17,6 +17,7 @@ import cn.jiongjionger.neverlag.utils.Reflection;
 import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
 public class CommandInjector extends AbstractMultipleInjector implements TabExecutor {
+
 	public static void inject(Plugin plg) {
 		if (plg != null) {
 			try {
@@ -65,7 +66,7 @@ public class CommandInjector extends AbstractMultipleInjector implements TabExec
 			}
 		}
 	}
-	
+
 	private final CommandExecutor commandExecutor;
 	private final TabCompleter tabCompleter;
 
@@ -80,9 +81,9 @@ public class CommandInjector extends AbstractMultipleInjector implements TabExec
 		if (Bukkit.isPrimaryThread()) {
 			long startTime = System.nanoTime();
 			boolean commandResult;
-			try{
+			try {
 				commandResult = this.commandExecutor.onCommand(sender, command, label, args);
-			}finally{
+			} finally {
 				long endTime = System.nanoTime();
 				long useTime = endTime - startTime;
 				this.record(command.getName(), useTime);
@@ -92,10 +93,11 @@ public class CommandInjector extends AbstractMultipleInjector implements TabExec
 			return this.commandExecutor.onCommand(sender, command, label, args);
 		}
 	}
-	
+
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		if(tabCompleter == null) return null;  // onTabComplete 返回 null 表示使用默认 completer
+		if (tabCompleter == null)
+			return null; // onTabComplete 返回 null 表示使用默认 completer
 		return this.tabCompleter.onTabComplete(sender, command, alias, args);
 	}
 

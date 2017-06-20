@@ -3,6 +3,7 @@ package cn.jiongjionger.neverlag.monitor;
 import java.util.Objects;
 
 public class MonitorRecord {
+	
 	private final String name;
 	private long totalCount = 0L;
 	private long totalTime = 0L;

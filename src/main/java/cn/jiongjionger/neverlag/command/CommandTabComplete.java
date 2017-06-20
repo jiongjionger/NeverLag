@@ -17,7 +17,7 @@ import org.bukkit.util.StringUtil;
 
 public class CommandTabComplete implements TabCompleter {
 
-	private static final String[] COMMANDS = { "benchmark", "hardware", "gc", "info", "ping", "chunkinfo", "clear" };
+	private static final String[] COMMANDS = { "benchmark", "hardware", "gc", "info", "ping", "chunkinfo", "clear", "timings" };
 	private static final List<String> CLEARTYPE = new ArrayList<String>();
 	private static final String[] CHUNKINFO_TYPE = { "entity", "tiles", "monsters", "animals", "dropitem", "player", "villager", "squid", "chest", "hopper",
 			"furnace", "dropper", "dispenser", "piston", "noteblock", "jukebox", "brewing", "cauldron", "armorstand", "skull" };
