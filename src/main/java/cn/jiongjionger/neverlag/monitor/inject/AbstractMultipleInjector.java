@@ -23,6 +23,10 @@ public abstract class AbstractMultipleInjector extends AbstractInjector implemen
 		record.update(time);
 	}
 
+	public Map<String, MonitorRecord> getMonitorRecordMap() {
+		return this.map;
+	}
+
 	public Map<String, MonitorRecord> getRecords() {
 		return Collections.unmodifiableMap(map);
 	}

@@ -97,7 +97,14 @@ public class EventExecutorInjector extends AbstractInjector implements EventExec
 	}
 
 	public long getAvgExecuteTime() {
+		if(this.totalCount == 0){
+			return 0;
+		}
 		return this.totalTime / this.totalCount;
+	}
+
+	public String getEventName() {
+		return this.eventName;
 	}
 
 	// 获取原本的EventExecutor

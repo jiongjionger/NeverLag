@@ -84,6 +84,9 @@ public class SchedulerTaskInjector extends AbstractInjector implements Runnable 
 	}
 
 	public long getAvgExecuteTime(){
+		if(this.totalCount == 0){
+			return 0;
+		}
 		return this.totalTime / this.totalCount;
 	}
 	
