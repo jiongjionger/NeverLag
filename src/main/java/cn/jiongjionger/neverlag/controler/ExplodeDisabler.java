@@ -1,21 +1,45 @@
 package cn.jiongjionger.neverlag.controler;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
+import org.bukkit.event.EventException;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.plugin.EventExecutor;
 
+import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.Reflection;
+import java.util.Collection;
 
 public class ExplodeDisabler implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
-
-	// 将优先级设为NORMAL以与各种小游戏插件兼容. LOWEST可能破坏一些小游戏的游戏机制
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void onExplosion(EntityExplodeEvent e) {
-		if (cm.isDisableExplode()) {
-			e.blockList().clear();
+	final EventExecutor executor = new EventExecutor() {
+		@Override
+		public void execute(Listener listener, Event event) throws EventException {
+			if (cm.isDisableExplode()) {
+				((Collection) Reflection.getMethod(event.getClass(), "blockList")
+					.invoke(event)).clear();
+			}
 		}
+	};
+	
+	public ExplodeDisabler(){
+		registerEvent(EntityExplodeEvent.class);
+		
+		Class<? extends Event> clazz;
+		try{
+			clazz = (Class<? extends Event>) Class.forName("org.bukkit.event.block.BlockExplodeEvent");
+			registerEvent(clazz);
+		}catch(ClassNotFoundException ex){
+			// ignore
+		}
+	}
+	
+	private void registerEvent(Class<? extends Event> clazz){
+		Bukkit.getPluginManager().registerEvent(clazz, this, EventPriority.NORMAL, 
+			executor, NeverLag.getInstance(), true);
 	}
 }
