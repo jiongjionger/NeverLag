@@ -20,26 +20,26 @@ public class ExplodeDisabler implements Listener {
 		@Override
 		public void execute(Listener listener, Event event) throws EventException {
 			if (cm.isDisableExplode()) {
-				((Collection) Reflection.getMethod(event.getClass(), "blockList")
-					.invoke(event)).clear();
+				((Collection<?>) Reflection.getMethod(event.getClass(), "blockList")
+						.invoke(event)).clear();
 			}
 		}
 	};
-	
-	public ExplodeDisabler(){
+
+	@SuppressWarnings("unchecked")
+	public ExplodeDisabler() {
 		registerEvent(EntityExplodeEvent.class);
-		
 		Class<? extends Event> clazz;
-		try{
+		try {
 			clazz = (Class<? extends Event>) Class.forName("org.bukkit.event.block.BlockExplodeEvent");
 			registerEvent(clazz);
-		}catch(ClassNotFoundException ex){
+		} catch (ClassNotFoundException ex) {
 			// ignore
 		}
 	}
-	
-	private void registerEvent(Class<? extends Event> clazz){
-		Bukkit.getPluginManager().registerEvent(clazz, this, EventPriority.NORMAL, 
-			executor, NeverLag.getInstance(), true);
+
+	private void registerEvent(Class<? extends Event> clazz) {
+		Bukkit.getPluginManager().registerEvent(clazz, this, EventPriority.NORMAL,
+				executor, NeverLag.getInstance(), true);
 	}
 }
