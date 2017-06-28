@@ -18,8 +18,6 @@ public class AntiNetherHopper implements Listener {
 		if (cm.isAntiNetherHopper()) {
 			if (e.getInitiator().getHolder() instanceof Hopper) {
 				Hopper hopper = (Hopper) e.getInitiator().getHolder();
-				// 开玩笑吧...?!
-				// if (hopper.getWorld().getName().equalsIgnoreCase("world_nether")) {
 				if (hopper.getWorld().getEnvironment() == World.Environment.NETHER) {
 					e.setCancelled(true);
 				}

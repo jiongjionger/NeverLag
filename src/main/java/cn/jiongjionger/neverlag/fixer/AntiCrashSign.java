@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.VersionUtils;
 
 public class AntiCrashSign implements Listener {
 
@@ -13,13 +14,12 @@ public class AntiCrashSign implements Listener {
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
 	public void onSignChange(SignChangeEvent e) {
-		if (!cm.isAntiCrashSign()) {
-			return;
-		}
-		for (int i = 0; i < 4; i++) {
-			if (e.getLine(i).length() > 50) {
-				e.setCancelled(true);
-				break;
+		if (cm.isAntiCrashSign() && VersionUtils.isLowThan(VersionUtils.v1_11)) {
+			for (int i = 0; i < 4; i++) {
+				if (e.getLine(i).length() > 50) {
+					e.setCancelled(true);
+					break;
+				}
 			}
 		}
 	}

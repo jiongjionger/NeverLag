@@ -35,6 +35,10 @@ public class VersionUtils {
 		return VersionUtils.getVersion().versionValue >= version.versionValue;
 	}
 
+	public static boolean isLowThan(VersionUtils version) {
+		return VersionUtils.getVersion().versionValue < version.versionValue;
+	}
+
 	public static void init() {
 		String version = getBukkitVersion();
 		if (version.startsWith("v1_6_R")) {

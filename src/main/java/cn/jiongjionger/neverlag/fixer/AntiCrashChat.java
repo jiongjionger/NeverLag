@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.VersionUtils;
 
 public class AntiCrashChat implements Listener {
 
@@ -13,12 +14,11 @@ public class AntiCrashChat implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent e) {
-		if (!cm.isAntiCrashChat()) {
-			return;
-		}
-		String chatMessage = e.getMessage();
-		if (chatMessage != null && chatMessage.contains("İ")) {
-			e.setCancelled(true);
+		if (cm.isAntiCrashChat() && VersionUtils.isLowThan(VersionUtils.v1_8)) {
+			String chatMessage = e.getMessage();
+			if (chatMessage != null && chatMessage.contains("İ")) {
+				e.setCancelled(true);
+			}
 		}
 	}
 }
