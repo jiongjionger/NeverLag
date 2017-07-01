@@ -18,7 +18,6 @@ import cn.jiongjionger.neverlag.monitor.MonitorUtils;
 import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
 import cn.jiongjionger.neverlag.utils.PingUtils;
-import cn.jiongjionger.neverlag.utils.VersionUtils;
 
 public class NeverLag extends JavaPlugin implements Listener {
 
@@ -50,8 +49,6 @@ public class NeverLag extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		instance = this;
-		// 识别服务端版本
-		VersionUtils.init();
 		// 判断是否安装了ProtocolLib前置插件
 		isInstallProtocoLib = Bukkit.getPluginManager().isPluginEnabled("ProtocolLib");
 		// 计算TPS
