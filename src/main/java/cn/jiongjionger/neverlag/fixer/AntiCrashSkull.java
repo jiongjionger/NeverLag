@@ -15,7 +15,7 @@ public class AntiCrashSkull implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onBlockFromTo(BlockFromToEvent e) {
-		if (cm.isAntiCrashSkull() && VersionUtils.isLowThan(VersionUtils.v1_9) && e.getToBlock().getType().equals(Material.SKULL)) {
+		if (cm.isAntiCrashSkull() && VersionUtils.isLowerThan(VersionUtils.V1_9) && e.getToBlock().getType().equals(Material.SKULL)) {
 			e.setCancelled(true);
 		}
 	}
