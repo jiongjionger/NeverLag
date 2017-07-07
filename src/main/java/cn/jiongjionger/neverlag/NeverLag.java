@@ -13,6 +13,7 @@ import cn.jiongjionger.neverlag.command.CommandInfo;
 import cn.jiongjionger.neverlag.command.CommandPing;
 import cn.jiongjionger.neverlag.command.CommandTabComplete;
 import cn.jiongjionger.neverlag.command.CommandTimings;
+import cn.jiongjionger.neverlag.fixer.AntiAUWMod;
 import cn.jiongjionger.neverlag.gui.GUISortPingListener;
 import cn.jiongjionger.neverlag.monitor.MonitorUtils;
 import cn.jiongjionger.neverlag.system.TpsWatcher;
@@ -58,6 +59,10 @@ public class NeverLag extends JavaPlugin implements Listener {
 		watchDog = new WatchDog();
 		// 初始化getPing的反射
 		PingUtils.init();
+		// 初始化防御ALL-U-WANT模组
+		if(isInstallProtocoLib){
+			AntiAUWMod.init();
+		}
 		// TO DO 一堆new实例和配置文件
 		this.registerCommand();
 		this.registerListener();
