@@ -55,6 +55,8 @@ public class VersionUtils {
 	private VersionUtils() { };
 	
 	public static class Version implements Comparable<Version>, Serializable {
+		
+		private static final long serialVersionUID = 1L;
 		private static final Pattern DEVELOPMENT_VERSION_PATTERN = Pattern.compile("-|(\\d{2}w\\d{2})([a-z])");
 
 		private final int major;
