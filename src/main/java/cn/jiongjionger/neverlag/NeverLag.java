@@ -64,6 +64,7 @@ public class NeverLag extends JavaPlugin implements Listener {
 		// TO DO 一堆new实例和配置文件
 		this.registerCommand();
 		this.registerListener();
+	
 
 	}
 

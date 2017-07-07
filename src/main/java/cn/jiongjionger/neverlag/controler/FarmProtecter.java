@@ -22,6 +22,7 @@ public class FarmProtecter implements Listener {
 		if (!cm.isFarmProtect()) {
 			return;
 		}
+		
 		// 防止农作物被踩踏
 		if (e.getAction().equals(Action.PHYSICAL)) {
 			if (e.getClickedBlock().getType().equals(Material.SOIL)) {

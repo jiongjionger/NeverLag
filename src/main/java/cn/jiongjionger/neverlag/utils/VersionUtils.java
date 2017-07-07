@@ -15,7 +15,8 @@ public class VersionUtils {
 	public static final VersionUtils v1_11 = new VersionUtils(5);
 	public static final VersionUtils v1_12 = new VersionUtils(6);
 	public static final VersionUtils v1_13 = new VersionUtils(7);
-
+	
+	
 	private static VersionUtils serverVersion;
 	private int versionValue;
 
