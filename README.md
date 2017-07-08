@@ -42,6 +42,7 @@ A plugin that focuses on optimizing Minecraft server performance, reducing serve
 - 自定义限制实体穿越传送门的功能
 - 自定义限制一定范围内的区块内tiles的数量，例如限制附近只能放置50个漏斗来避免玩家制造不必要的大型红石传输设备卡服
 - 自定义在TPS过低时执行指定操作（例如清理掉落物、清理实体、执行某些指令、显性调用gc方法等）
+- 使用PandaWire替换原生红石线路算法，实现大幅提升红石性能减少红石设备带来的开销
 #### 命令与其他
 - reload 重新加载配置文件
 - ping 可以以GUI的形式查看在线玩家的真实网络延迟（排序显示）
