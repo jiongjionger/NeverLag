@@ -16,7 +16,7 @@ public class WMIPowerShell implements WMIStub {
 		PowerShell powerShell = null;
 		try {
 			powerShell = PowerShell.openSession();
-			Map<String, String> config = new HashMap<String, String>();
+			Map<String, String> config = new HashMap<>();
 			config.put("maxWait", "20000");
 			PowerShellResponse psResponse = powerShell.executeCommand(command);
 			if (psResponse.isError()) {
@@ -34,6 +34,18 @@ public class WMIPowerShell implements WMIStub {
 		return commandResponse;
 	}
 
+	private String initCommand(String wmiClass, String namespace, String computerName) {
+		String command = GETWMIOBJECT_COMMAND + wmiClass + " ";
+		if (!"*".equals(namespace)) {
+			command += NAMESPACE_PARAM + namespace + " ";
+		}
+		if (!computerName.isEmpty()) {
+			command += COMPUTERNAME_PARAM + computerName + " ";
+		}
+		return command;
+	}
+
+	@Override
 	public String listClasses(String namespace, String computerName) throws WMIException {
 		String namespaceString = "";
 		if (!"*".equals(namespace)) {
@@ -42,14 +54,7 @@ public class WMIPowerShell implements WMIStub {
 		return executeCommand(GETWMIOBJECT_COMMAND + namespaceString + " -List | Sort Name");
 	}
 
-	public String listProperties(String wmiClass, String namespace, String computerName) throws WMIException {
-		String command = initCommand(wmiClass, namespace, computerName);
-		command += " | ";
-		command += "Select-Object * -excludeproperty \"_*\" | ";
-		command += "Get-Member | select name | format-table -hidetableheader";
-		return executeCommand(command);
-	}
-
+	@Override
 	public String listObject(String wmiClass, String namespace, String computerName) throws WMIException {
 		String command = initCommand(wmiClass, namespace, computerName);
 		command += " | ";
@@ -58,6 +63,16 @@ public class WMIPowerShell implements WMIStub {
 		return executeCommand(command);
 	}
 
+	@Override
+	public String listProperties(String wmiClass, String namespace, String computerName) throws WMIException {
+		String command = initCommand(wmiClass, namespace, computerName);
+		command += " | ";
+		command += "Select-Object * -excludeproperty \"_*\" | ";
+		command += "Get-Member | select name | format-table -hidetableheader";
+		return executeCommand(command);
+	}
+
+	@Override
 	public String queryObject(String wmiClass, List<String> wmiProperties, List<String> conditions, String namespace, String computerName) throws WMIException {
 		String command = initCommand(wmiClass, namespace, computerName);
 
@@ -76,16 +91,5 @@ public class WMIPowerShell implements WMIStub {
 		}
 		command += "Format-List *";
 		return executeCommand(command);
-	}
-
-	private String initCommand(String wmiClass, String namespace, String computerName) {
-		String command = GETWMIOBJECT_COMMAND + wmiClass + " ";
-		if (!"*".equals(namespace)) {
-			command += NAMESPACE_PARAM + namespace + " ";
-		}
-		if (!computerName.isEmpty()) {
-			command += COMPUTERNAME_PARAM + computerName + " ";
-		}
-		return command;
 	}
 }

@@ -35,16 +35,24 @@ public class NeverLag extends JavaPlugin implements Listener {
 		return instance;
 	}
 
-	public static boolean isInstallProtocoLib() {
-		return isInstallProtocoLib;
+	public static TpsWatcher getTpsWatcher() {
+		return tpsWatcher;
 	}
 
 	public static WatchDog getWatchDog() {
 		return watchDog;
 	}
 
-	public static TpsWatcher getTpsWatcher() {
-		return tpsWatcher;
+	public static boolean isInstallProtocoLib() {
+		return isInstallProtocoLib;
+	}
+
+	@Override
+	public void onDisable() {
+		// 兼容PlugMan等插件
+		watchDog.stop();
+		Bukkit.getScheduler().cancelTasks(instance);
+		MonitorUtils.disable();
 	}
 
 	@Override
@@ -60,22 +68,13 @@ public class NeverLag extends JavaPlugin implements Listener {
 		// 初始化getPing的反射
 		PingUtils.init();
 		// 初始化防御ALL-U-WANT模组
-		if(isInstallProtocoLib){
+		if (isInstallProtocoLib) {
 			AntiAUWMod.init();
 		}
 		// TO DO 一堆new实例和配置文件
 		this.registerCommand();
 		this.registerListener();
-	
 
-	}
-
-	@Override
-	public void onDisable() {
-		// 兼容PlugMan等插件
-		watchDog.stop();
-		Bukkit.getScheduler().cancelTasks(instance);
-		MonitorUtils.disable();
 	}
 
 	private void registerCommand() {

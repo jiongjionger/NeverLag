@@ -7,55 +7,16 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 
 public class VersionUtils {
-	
-	public static final Version V1_6 = new Version("1.6");
-	public static final Version V1_7 = new Version("1.7");
-	public static final Version V1_8 = new Version("1.8");
-	public static final Version V1_9 = new Version("1.9");
-	public static final Version V1_10 = new Version("1.10");
-	public static final Version V1_11 = new Version("1.11");
-	public static final Version V1_12 = new Version("1.12");
-	public static final Version V1_13 = new Version("1.13");
 
-	private static final Pattern MC_VERSION_PATTERN = Pattern.compile(".*\\(.*MC.\\s*([\\w\\-\\.]+)\\s*\\)");
-
-	public static Version getCurrentVersion() {
-		return CurrentVersionHolder.currentVersion;
+	/*
+	 * 延迟加载处理. 在服务器未启动的情况下试图读取当前版本会抛错.
+	 */
+	private static final class CurrentVersionHolder {
+		private static Version currentVersion = new Version(getCurrentMinecraftVersion());
 	}
 
-	public static boolean isAtLeast(Version version) {
-		return getCurrentVersion().compareTo(version) >= 0;
-	}
-
-	public static boolean isLowerThan(Version version) {
-		return !isAtLeast(version);
-	}
-
-	/** @see #extractVersion(java.lang.String)  */
-	public static String getCurrentMinecraftVersion() {
-		return extractVersion(Bukkit.getVersion());
-	}
-
-	/** 是否为Mod服. */
-	public static boolean isModServer() {
-		String bukkitName = Bukkit.getName().toLowerCase();
-		return bukkitName.contains("mcpc") || bukkitName.contains("cauldron");
-	}
-	
-	/** @return e.g. 1.11.2 */
-	public static String extractVersion(String bukkitVersion) {
-		Matcher matcher = MC_VERSION_PATTERN.matcher(bukkitVersion);
-		if (matcher.find()) {
-			return matcher.group(1);
-		} else {
-			return null;
-		}
-	}
-
-	private VersionUtils() { };
-	
 	public static class Version implements Comparable<Version>, Serializable {
-		
+
 		private static final long serialVersionUID = 1L;
 		private static final Pattern DEVELOPMENT_VERSION_PATTERN = Pattern.compile("-|(\\d{2}w\\d{2})([a-z])");
 
@@ -95,33 +56,16 @@ public class VersionUtils {
 			this.build = versions[2];
 		}
 
-		public int getMajor() {
-			return major;
-		}
-
-		public int getMinor() {
-			return minor;
-		}
-
-		public int getBuild() {
-			return build;
-		}
-		
 		@Override
 		public int compareTo(Version other) {
 			int r;
-			if((r = Integer.compare(this.major, other.major)) != 0) return r;
-			if((r = Integer.compare(this.minor, other.minor)) != 0) return r;
-			if((r = Integer.compare(this.build, other.build)) != 0) return r;
+			if ((r = Integer.compare(this.major, other.major)) != 0)
+				return r;
+			if ((r = Integer.compare(this.minor, other.minor)) != 0)
+				return r;
+			if ((r = Integer.compare(this.build, other.build)) != 0)
+				return r;
 			return 0;
-		}
-
-		@Override
-		public String toString() {
-			StringBuilder builder = new StringBuilder(6);
-			builder.append(major).append('.').append(minor);
-			if(build != 0) builder.append('.').append(build);
-			return builder.toString();
 		}
 
 		@Override
@@ -136,6 +80,18 @@ public class VersionUtils {
 			return this.major == other.major && this.minor == other.minor && this.build == other.build;
 		}
 
+		public int getBuild() {
+			return build;
+		}
+
+		public int getMajor() {
+			return major;
+		}
+
+		public int getMinor() {
+			return minor;
+		}
+
 		@Override
 		public int hashCode() {
 			int hash = 7;
@@ -144,12 +100,63 @@ public class VersionUtils {
 			hash = 67 * hash + this.build;
 			return hash;
 		}
+
+		@Override
+		public String toString() {
+			StringBuilder builder = new StringBuilder(6);
+			builder.append(major).append('.').append(minor);
+			if (build != 0)
+				builder.append('.').append(build);
+			return builder.toString();
+		}
 	}
-	
-	/* 
-	 * 延迟加载处理. 在服务器未启动的情况下试图读取当前版本会抛错. 
-	 */
-	private static final class CurrentVersionHolder {
-		private static Version currentVersion = new Version(getCurrentMinecraftVersion());
+
+	public static final Version V1_6 = new Version("1.6");
+	public static final Version V1_7 = new Version("1.7");
+	public static final Version V1_8 = new Version("1.8");
+	public static final Version V1_9 = new Version("1.9");
+	public static final Version V1_10 = new Version("1.10");
+	public static final Version V1_11 = new Version("1.11");
+
+	public static final Version V1_12 = new Version("1.12");
+
+	public static final Version V1_13 = new Version("1.13");
+
+	private static final Pattern MC_VERSION_PATTERN = Pattern.compile(".*\\(.*MC.\\s*([\\w\\-\\.]+)\\s*\\)");
+
+	/** @return e.g. 1.11.2 */
+	public static String extractVersion(String bukkitVersion) {
+		Matcher matcher = MC_VERSION_PATTERN.matcher(bukkitVersion);
+		if (matcher.find()) {
+			return matcher.group(1);
+		} else {
+			return null;
+		}
+	}
+
+	/** @see #extractVersion(java.lang.String) */
+	public static String getCurrentMinecraftVersion() {
+		return extractVersion(Bukkit.getVersion());
+	}
+
+	public static Version getCurrentVersion() {
+		return CurrentVersionHolder.currentVersion;
+	}
+
+	public static boolean isAtLeast(Version version) {
+		return getCurrentVersion().compareTo(version) >= 0;
+	}
+
+	public static boolean isLowerThan(Version version) {
+		return !isAtLeast(version);
+	};
+
+	/** 是否为Mod服. */
+	public static boolean isModServer() {
+		String bukkitName = Bukkit.getName().toLowerCase();
+		return bukkitName.contains("mcpc") || bukkitName.contains("cauldron");
+	}
+
+	private VersionUtils() {
 	}
 }

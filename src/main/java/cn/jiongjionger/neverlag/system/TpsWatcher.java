@@ -12,6 +12,22 @@ public class TpsWatcher implements Runnable {
 		history.add(20.0D);
 	}
 
+	public double getAverageTPS() {
+		double avg = 0.0D;
+		int size = 0;
+		for (Double tps : this.history) {
+			if (tps != null) {
+				avg += tps;
+			}
+			size = size + 1;
+		}
+		return avg / size;
+	}
+
+	public double getLastTPS() {
+		return history.getLast();
+	}
+
 	@Override
 	public void run() {
 		final long startTime = System.nanoTime();
@@ -27,21 +43,5 @@ public class TpsWatcher implements Runnable {
 			history.add(tps);
 		}
 		lastPoll = startTime;
-	}
-
-	public double getAverageTPS() {
-		double avg = 0.0D;
-		int size = 0;
-		for (Double tps : this.history) {
-			if (tps != null) {
-				avg += tps;
-			}
-			size = size + 1;
-		}
-		return avg / size;
-	}
-
-	public double getLastTPS() {
-		return history.getLast();
 	}
 }

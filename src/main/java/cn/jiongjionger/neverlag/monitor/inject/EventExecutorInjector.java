@@ -13,17 +13,6 @@ import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
 public class EventExecutorInjector extends AbstractInjector implements EventExecutor {
 
-	private final EventExecutor eventExecutor;
-	private String eventName;
-	private long totalCount = 0L;
-	private long totalTime = 0L;
-	private long maxExecuteTime = 0L;
-
-	public EventExecutorInjector(Plugin plugin, EventExecutor eventExecutor) {
-		super(plugin);
-		this.eventExecutor = eventExecutor;
-	}
-
 	// 将监听器原本的EventExecutor替换成带性能统计的版本
 	public static void inject(Plugin plg) {
 		if (plg != null) {
@@ -56,6 +45,19 @@ public class EventExecutorInjector extends AbstractInjector implements EventExec
 		}
 	}
 
+	private final EventExecutor eventExecutor;
+	private String eventName;
+	private long totalCount = 0L;
+
+	private long totalTime = 0L;
+
+	private long maxExecuteTime = 0L;
+
+	public EventExecutorInjector(Plugin plugin, EventExecutor eventExecutor) {
+		super(plugin);
+		this.eventExecutor = eventExecutor;
+	}
+
 	@Override
 	// 计算调用次数和花费总时间以及花费最多的时间
 	public void execute(Listener listener, Event e) throws EventException {
@@ -73,15 +75,24 @@ public class EventExecutorInjector extends AbstractInjector implements EventExec
 		}
 	}
 
-	private void record(String eventName, long executeTime) {
-		if (this.eventName == null) {
-			this.eventName = eventName;
+	public long getAvgExecuteTime() {
+		if (this.totalCount == 0) {
+			return 0;
 		}
-		this.totalTime += executeTime;
-		this.totalCount += 1L;
-		if (executeTime > this.maxExecuteTime) {
-			this.maxExecuteTime = executeTime;
-		}
+		return this.totalTime / this.totalCount;
+	}
+
+	// 获取原本的EventExecutor
+	public EventExecutor getEventExecutor() {
+		return this.eventExecutor;
+	}
+
+	public String getEventName() {
+		return this.eventName;
+	}
+
+	public long getMaxExecuteTime() {
+		return this.maxExecuteTime;
 	}
 
 	public long getTotalCount() {
@@ -92,23 +103,14 @@ public class EventExecutorInjector extends AbstractInjector implements EventExec
 		return this.totalTime;
 	}
 
-	public long getMaxExecuteTime() {
-		return this.maxExecuteTime;
-	}
-
-	public long getAvgExecuteTime() {
-		if(this.totalCount == 0){
-			return 0;
+	private void record(String eventName, long executeTime) {
+		if (this.eventName == null) {
+			this.eventName = eventName;
 		}
-		return this.totalTime / this.totalCount;
-	}
-
-	public String getEventName() {
-		return this.eventName;
-	}
-
-	// 获取原本的EventExecutor
-	public EventExecutor getEventExecutor() {
-		return this.eventExecutor;
+		this.totalTime += executeTime;
+		this.totalCount += 1L;
+		if (executeTime > this.maxExecuteTime) {
+			this.maxExecuteTime = executeTime;
+		}
 	}
 }

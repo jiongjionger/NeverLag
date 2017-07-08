@@ -10,53 +10,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Villager;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class EntityCleaner {
 
 	private static ConfigManager cm = ConfigManager.getInstance();
-	private int preMessageTime = 0;
-
-	public EntityCleaner() {
-		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
-			public void run() {
-				doClean();
-			}
-		}, cm.getClearMobDelay() * 20L, cm.getClearMobDelay() * 20L);
-		if (cm.getClearMobDelay() > 60) {
-			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
-				public void run() {
-					doPreMessage();
-				}
-			}, 20L, 20L);
-		}
-	}
-
-	// 提前通知
-	private void doPreMessage() {
-		if (cm.isClearEntity() && cm.isBroadcastClearEntity()) {
-			this.preMessageTime++;
-			int remainTick = cm.getClearMobDelay() - this.preMessageTime;
-			switch (remainTick) {
-			case 60:
-				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "60"));
-				break;
-			case 30:
-				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "30"));
-				break;
-			case 10:
-				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "10"));
-				break;
-			default:
-				break;
-			}
-			if (remainTick <= 0) {
-				this.preMessageTime = 0;
-			}
-		}
-	}
 
 	// 外部调用实体清理任务
 	public static void doClean() {
@@ -120,7 +80,7 @@ public class EntityCleaner {
 			Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastMessage().replace("%COUNT%", String.valueOf(count)));
 		}
 	}
-	
+
 	/*
 	 * 判断实体附近有没有玩家
 	 * 
@@ -139,5 +99,48 @@ public class EntityCleaner {
 			}
 		}
 		return false;
+	}
+
+	private int preMessageTime = 0;
+
+	public EntityCleaner() {
+		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				doClean();
+			}
+		}, cm.getClearMobDelay() * 20L, cm.getClearMobDelay() * 20L);
+		if (cm.getClearMobDelay() > 60) {
+			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
+				@Override
+				public void run() {
+					doPreMessage();
+				}
+			}, 20L, 20L);
+		}
+	}
+
+	// 提前通知
+	private void doPreMessage() {
+		if (cm.isClearEntity() && cm.isBroadcastClearEntity()) {
+			this.preMessageTime++;
+			int remainTick = cm.getClearMobDelay() - this.preMessageTime;
+			switch (remainTick) {
+			case 60:
+				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "60"));
+				break;
+			case 30:
+				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "30"));
+				break;
+			case 10:
+				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "10"));
+				break;
+			default:
+				break;
+			}
+			if (remainTick <= 0) {
+				this.preMessageTime = 0;
+			}
+		}
 	}
 }

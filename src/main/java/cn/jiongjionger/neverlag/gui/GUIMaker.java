@@ -11,6 +11,10 @@ public class GUIMaker {
 
 	private final Inventory inv;
 
+	public GUIMaker(int size, String title) {
+		this.inv = Bukkit.createInventory(null, size, title);
+	}
+
 	public GUIMaker(Inventory inv) {
 		if (inv.getType() == InventoryType.CHEST) { // 自定义大小的 Inventory
 			this.inv = Bukkit.createInventory(inv.getHolder(), inv.getSize(), inv.getTitle());
@@ -18,10 +22,6 @@ public class GUIMaker {
 			this.inv = Bukkit.createInventory(inv.getHolder(), inv.getType(), inv.getTitle());
 		}
 		this.inv.setContents(inv.getContents());
-	}
-
-	public GUIMaker(int size, String title) {
-		this.inv = Bukkit.createInventory(null, size, title);
 	}
 
 	/*
@@ -32,12 +32,56 @@ public class GUIMaker {
 	 * { this.inv = Bukkit.createInventory(owner, type, title); }
 	 */
 
+	public GUIMaker(InventoryHolder owner, int size) {
+		this.inv = Bukkit.createInventory(owner, size);
+	}
+
 	public GUIMaker(InventoryHolder owner, int size, String title) {
 		this.inv = Bukkit.createInventory(owner, size, title);
 	}
 
-	public GUIMaker(InventoryHolder owner, int size) {
-		this.inv = Bukkit.createInventory(owner, size);
+	/*
+	 * 清空GUI内的所有物品
+	 * 
+	 * @return 返回自身的GUIMaker实例以实现链式调用方法
+	 */
+	public GUIMaker clearItem() {
+		this.inv.clear();
+		return this;
+	}
+
+	/*
+	 * 将GUI内的空白处填入传参的物品
+	 * 
+	 * @param 需要填充的物品
+	 * 
+	 * @return 返回自身的GUIMaker实例以实现链式调用方法
+	 */
+	public GUIMaker fillBlank(ItemStack item) {
+		for (int i = 0; i < this.inv.getSize(); i++) {
+			if (this.inv.getItem(i) == null || this.inv.getItem(i).getType().equals(Material.AIR)) {
+				this.inv.setItem(i, item);
+			}
+		}
+		return this;
+	}
+
+	/*
+	 * 通过传入GUI内的位置设置物品
+	 * 
+	 * @param item 需要设置的物品
+	 * 
+	 * @param slot GUI内的位置
+	 * 
+	 * @return 返回自身的GUIMaker实例以实现链式调用方法
+	 */
+	public GUIMaker fillItem(ItemStack item, int slot) {
+		if (slot > this.inv.getSize() - 1) {
+
+			return this;
+		}
+		this.inv.setItem(slot, item);
+		return this;
 	}
 
 	/*
@@ -77,65 +121,6 @@ public class GUIMaker {
 					return this;
 				}
 				this.inv.setItem(slot, item);
-			}
-		}
-		return this;
-	}
-
-	/*
-	 * 通过传入GUI内的位置设置物品
-	 * 
-	 * @param item 需要设置的物品
-	 * 
-	 * @param slot GUI内的位置
-	 * 
-	 * @return 返回自身的GUIMaker实例以实现链式调用方法
-	 */
-	public GUIMaker fillItem(ItemStack item, int slot) {
-		if (slot > this.inv.getSize() - 1) {
-
-			return this;
-		}
-		this.inv.setItem(slot, item);
-		return this;
-	}
-
-	/*
-	 * 根据坐标删除GUI内的物品
-	 * 
-	 * @param x GUI内的列数
-	 * 
-	 * @param y GUI内的行数
-	 * 
-	 * @return 返回自身的GUIMaker实例以实现链式调用方法
-	 */
-	public GUIMaker removeItem(int x, int y) {
-		int slot = (y - 1) * 9 + x - 1;
-		this.inv.clear(slot);
-		return this;
-	}
-
-	/*
-	 * 清空GUI内的所有物品
-	 * 
-	 * @return 返回自身的GUIMaker实例以实现链式调用方法
-	 */
-	public GUIMaker clearItem() {
-		this.inv.clear();
-		return this;
-	}
-
-	/*
-	 * 将GUI内的空白处填入传参的物品
-	 * 
-	 * @param 需要填充的物品
-	 * 
-	 * @return 返回自身的GUIMaker实例以实现链式调用方法
-	 */
-	public GUIMaker fillBlank(ItemStack item) {
-		for (int i = 0; i < this.inv.getSize(); i++) {
-			if (this.inv.getItem(i) == null || this.inv.getItem(i).getType().equals(Material.AIR)) {
-				this.inv.setItem(i, item);
 			}
 		}
 		return this;
@@ -186,5 +171,20 @@ public class GUIMaker {
 	 */
 	public int getRow(int slot) {
 		return slot / 9 + 1;
+	}
+
+	/*
+	 * 根据坐标删除GUI内的物品
+	 * 
+	 * @param x GUI内的列数
+	 * 
+	 * @param y GUI内的行数
+	 * 
+	 * @return 返回自身的GUIMaker实例以实现链式调用方法
+	 */
+	public GUIMaker removeItem(int x, int y) {
+		int slot = (y - 1) * 9 + x - 1;
+		this.inv.clear(slot);
+		return this;
 	}
 }

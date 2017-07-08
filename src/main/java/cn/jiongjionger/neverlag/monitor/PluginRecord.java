@@ -12,38 +12,6 @@ public class PluginRecord {
 		this.name = pluginName;
 	}
 
-	public long getTotalCount() {
-		return this.totalCount;
-	}
-
-	public void setTotalCount(long totalCount) {
-		this.totalCount = totalCount;
-	}
-
-	public long getTotalTime() {
-		return this.totalTime;
-	}
-
-	public void setTotalTime(long totalTime) {
-		this.totalTime = totalTime;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public long getAvgProportion() {
-		if (this.totalCount == 0) {
-			return 0;
-		}
-		return this.totalTime / this.totalCount / 10000L / 50;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("%s:[count: %s, total: %s]", getName(), getTotalCount(), getTotalTime());
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -53,8 +21,40 @@ public class PluginRecord {
 		return Objects.equals(this.name, ((PluginRecord) obj).name);
 	}
 
+	public long getAvgProportion() {
+		if (this.totalCount == 0) {
+			return 0;
+		}
+		return this.totalTime / this.totalCount / 10000L / 50;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public long getTotalCount() {
+		return this.totalCount;
+	}
+
+	public long getTotalTime() {
+		return this.totalTime;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(this.name) + 1;
+	}
+
+	public void setTotalCount(long totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public void setTotalTime(long totalTime) {
+		this.totalTime = totalTime;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s:[count: %s, total: %s]", getName(), getTotalCount(), getTotalTime());
 	}
 }

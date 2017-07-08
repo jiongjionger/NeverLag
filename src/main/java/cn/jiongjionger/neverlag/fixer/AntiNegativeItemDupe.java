@@ -8,10 +8,10 @@ import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import org.bukkit.inventory.InventoryHolder;
 
 public class AntiNegativeItemDupe implements Listener {
 

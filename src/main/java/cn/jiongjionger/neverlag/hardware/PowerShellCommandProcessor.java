@@ -28,6 +28,7 @@ public class PowerShellCommandProcessor implements Callable<String> {
 		this.scriptMode = scriptMode;
 	}
 
+	@Override
 	public String call() throws IOException, InterruptedException {
 		StringBuilder powerShellOutput = new StringBuilder();
 		try {
@@ -41,6 +42,23 @@ public class PowerShellCommandProcessor implements Callable<String> {
 			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error reading PowerShell output", e);
 		}
 		return powerShellOutput.toString();
+	}
+
+	public void close() {
+		this.closed = true;
+	}
+
+	private boolean continueReading() throws IOException, InterruptedException {
+		Thread.sleep(this.waitPause);
+		return this.reader.ready();
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public boolean isTimeout() {
+		return this.timeout;
 	}
 
 	private void readData(StringBuilder powerShellOutput) throws IOException {
@@ -75,22 +93,5 @@ public class PowerShellCommandProcessor implements Callable<String> {
 			}
 		}
 		return true;
-	}
-
-	private boolean continueReading() throws IOException, InterruptedException {
-		Thread.sleep(this.waitPause);
-		return this.reader.ready();
-	}
-
-	public void close() {
-		this.closed = true;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public boolean isTimeout() {
-		return this.timeout;
 	}
 }

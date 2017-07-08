@@ -1,5 +1,6 @@
 package cn.jiongjionger.neverlag.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.bukkit.entity.Player;
@@ -7,7 +8,6 @@ import org.bukkit.entity.Player;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import java.lang.reflect.InvocationTargetException;
 
 public class ProtocolLibUtils {
 

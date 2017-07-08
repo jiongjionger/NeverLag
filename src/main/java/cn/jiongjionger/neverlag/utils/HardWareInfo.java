@@ -16,52 +16,7 @@ public class HardWareInfo {
 	private static final String OS = System.getProperty("os.name").toLowerCase();
 	private static RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
 	private static OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
-	private static Map<String, String> cpuInfoMap = new HashMap<String, String>();
-
-	public static boolean isWindows() {
-		return OS.contains("win");
-	}
-
-	public static boolean isUnix() {
-		return OS.contains("nix") || OS.contains("nux") || OS.contains("aix");
-	}
-
-	// 获取JVM名称和版本号
-	public static String getJVMInfo() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(runtimeMXBean.getVmName())
-				.append(" (")
-				.append(runtimeMXBean.getVmVersion())
-				.append(")");
-		return sb.toString();
-	}
-
-	// 获取JVM参数
-	public static String getJVMArg() {
-		StringBuilder sb = new StringBuilder();
-		for (String arg : runtimeMXBean.getInputArguments()) {
-			sb.append(arg).append(" ");
-		}
-		return sb.toString();
-	}
-
-	// 获取操作系统信息
-	public static String getSystemInfo() {
-		String arch = operatingSystemMXBean.getArch();
-		if (arch.contains("64")) {
-			arch = "x64";
-		} else if (arch.contains("86")) {
-			arch = "x86";
-		}
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(operatingSystemMXBean.getName())
-				.append(" version ")
-				.append(operatingSystemMXBean.getVersion())
-				.append(" ")
-				.append(arch);
-		return sb.toString();
-	}
+	private static Map<String, String> cpuInfoMap = new HashMap<>();
 
 	// 获取CPU信息（类似Intel(R) Xeon(R) CPU E5-2679V4 @ 3.2GHz 20 cores B0 stepping）
 	public static String getCPUInfo() {
@@ -94,10 +49,29 @@ public class HardWareInfo {
 		}
 	}
 
+	// 获取JVM参数
+	public static String getJVMArg() {
+		StringBuilder sb = new StringBuilder();
+		for (String arg : runtimeMXBean.getInputArguments()) {
+			sb.append(arg).append(" ");
+		}
+		return sb.toString();
+	}
+
+	// 获取JVM名称和版本号
+	public static String getJVMInfo() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(runtimeMXBean.getVmName())
+				.append(" (")
+				.append(runtimeMXBean.getVmVersion())
+				.append(")");
+		return sb.toString();
+	}
+
 	// 获取物理内存使用情况（使用量 / 总量）类似 109621MB / 262144MB
 	public static String getMemoryInfo() {
 		try {
-			Map<String, String> memoryInfoMap = new HashMap<String, String>();
+			Map<String, String> memoryInfoMap = new HashMap<>();
 			if (isWindows()) {
 				WindowsMemoryInfo memoryInfo = new WindowsMemoryInfo();
 				memoryInfoMap = memoryInfo.parseInfo();
@@ -114,26 +88,26 @@ public class HardWareInfo {
 				totalMemory = String.valueOf(Long.parseLong(memoryInfoMap.get("MemTotal")) / 1024);
 			} else {
 				// 针对WIN10无法获取物理内存总量的补救措施
-				if(operatingSystemMXBean instanceof com.sun.management.OperatingSystemMXBean) {
+				if (operatingSystemMXBean instanceof com.sun.management.OperatingSystemMXBean) {
 					com.sun.management.OperatingSystemMXBean nativeSystemMXBean = (com.sun.management.OperatingSystemMXBean) operatingSystemMXBean;
 					long nativeTotalMemory = nativeSystemMXBean.getTotalPhysicalMemorySize();
-					if(nativeTotalMemory != 0L){
+					if (nativeTotalMemory != 0L) {
 						totalMemory = String.valueOf(nativeTotalMemory / 1024 / 1024);
 					}
-				}else{
+				} else {
 					totalMemory = "Unknown";
 				}
 			}
 			if (memoryInfoMap.get("MemFree") != null) {
 				freeMemory = String.valueOf(Long.parseLong(memoryInfoMap.get("MemFree")) / 1024);
 			} else {
-				if(operatingSystemMXBean instanceof com.sun.management.OperatingSystemMXBean) {
+				if (operatingSystemMXBean instanceof com.sun.management.OperatingSystemMXBean) {
 					com.sun.management.OperatingSystemMXBean nativeSystemMXBean = (com.sun.management.OperatingSystemMXBean) operatingSystemMXBean;
 					long nativeFreeMemory = nativeSystemMXBean.getFreePhysicalMemorySize();
-					if(nativeFreeMemory != 0L){
+					if (nativeFreeMemory != 0L) {
 						freeMemory = String.valueOf(nativeFreeMemory / 1024 / 1024);
 					}
-				}else{
+				} else {
 					freeMemory = "Unknown";
 				}
 			}
@@ -143,5 +117,31 @@ public class HardWareInfo {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	// 获取操作系统信息
+	public static String getSystemInfo() {
+		String arch = operatingSystemMXBean.getArch();
+		if (arch.contains("64")) {
+			arch = "x64";
+		} else if (arch.contains("86")) {
+			arch = "x86";
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(operatingSystemMXBean.getName())
+				.append(" version ")
+				.append(operatingSystemMXBean.getVersion())
+				.append(" ")
+				.append(arch);
+		return sb.toString();
+	}
+
+	public static boolean isUnix() {
+		return OS.contains("nix") || OS.contains("nux") || OS.contains("aix");
+	}
+
+	public static boolean isWindows() {
+		return OS.contains("win");
 	}
 }

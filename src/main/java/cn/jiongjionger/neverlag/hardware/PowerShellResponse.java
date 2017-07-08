@@ -12,12 +12,12 @@ public class PowerShellResponse {
 		this.timeout = timeout;
 	}
 
-	public boolean isError() {
-		return error;
-	}
-
 	public String getCommandOutput() {
 		return commandOutput;
+	}
+
+	public boolean isError() {
+		return error;
 	}
 
 	public boolean isTimeout() {

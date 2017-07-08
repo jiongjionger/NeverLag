@@ -23,39 +23,116 @@ import java.util.logging.Logger;
 
 public class PowerShell {
 
-	private Process p;
-	private PrintWriter commandWriter;
-
-	private boolean closed = false;
-	private ExecutorService threadpool;
-
-	private int maxThreads = 3;
-	private int waitPause = 10;
-	private long maxWait = 2000;
-	private boolean remoteMode = false;
-
-	private boolean scriptMode = false;
 	public static final String END_SCRIPT_STRING = "--END-JPOWERSHELL-SCRIPT--";
 
-	private PowerShell() {
-	}
-
-	private PowerShell initalize() throws PowerShellNotAvailableException {
-		String codePage = PowerShellCodepage.getIdentifierByCodePageName(Charset.defaultCharset().name());
-		ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "chcp", codePage, ">>", "null", "&", "powershell.exe", "-NoExit", "-Command", "-");
+	public static PowerShellResponse executeSingleCommand(String command) {
+		PowerShell session = null;
+		PowerShellResponse response = null;
 		try {
-			p = pb.start();
-		} catch (IOException ex) {
-			throw new PowerShellNotAvailableException("Cannot execute PowerShell.exe. Please make sure that it is installed in your system", ex);
+			session = PowerShell.openSession();
+			response = session.executeCommand(command);
+		} catch (PowerShellNotAvailableException ex) {
+			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "PowerShell not available", ex);
+		} finally {
+			if (session != null) {
+				session.close();
+			}
 		}
-		commandWriter = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(p.getOutputStream())), true);
-		this.threadpool = Executors.newFixedThreadPool(this.maxThreads);
-		return this;
+		return response;
 	}
 
 	public static PowerShell openSession() throws PowerShellNotAvailableException {
 		PowerShell powerShell = new PowerShell();
 		return powerShell.initalize();
+	}
+
+	private Process p;
+
+	private PrintWriter commandWriter;
+	private boolean closed = false;
+	private ExecutorService threadpool;
+	private int maxThreads = 3;
+
+	private int waitPause = 10;
+	private long maxWait = 2000;
+
+	private boolean remoteMode = false;
+
+	private boolean scriptMode = false;
+
+	private PowerShell() {
+	}
+
+	public void close() {
+		if (!this.closed) {
+			try {
+				Future<String> closeTask = threadpool.submit(new Callable<String>() {
+					@Override
+					public String call() throws Exception {
+						commandWriter.println("exit");
+						p.waitFor();
+						return "OK";
+					}
+				});
+				waitUntilClose(closeTask);
+			} catch (InterruptedException ex) {
+				Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when when closing PowerShell", ex);
+			} finally {
+				try {
+					p.getInputStream().close();
+					p.getErrorStream().close();
+				} catch (IOException ex) {
+					Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when when closing streams", ex);
+				}
+				commandWriter.close();
+				if (this.threadpool != null) {
+					try {
+						this.threadpool.shutdownNow();
+						this.threadpool.awaitTermination(5, TimeUnit.SECONDS);
+					} catch (InterruptedException ex) {
+						Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when when shutting thread pool", ex);
+					}
+				}
+				this.closed = true;
+			}
+		}
+	}
+
+	private String completeRemoteCommand(String command) {
+		return command + ";Write-Host \"\"";
+	}
+
+	private File createWriteTempFile(BufferedReader srcReader) {
+		BufferedWriter tmpWriter = null;
+		File tmpFile = null;
+		try {
+
+			tmpFile = File.createTempFile("psscript_" + new Date().getTime(), ".ps1");
+			if (tmpFile == null || !tmpFile.exists()) {
+				return null;
+			}
+			tmpWriter = new BufferedWriter(new FileWriter(tmpFile));
+			String line;
+			while (srcReader != null && (line = srcReader.readLine()) != null) {
+				tmpWriter.write(line);
+				tmpWriter.newLine();
+			}
+			tmpWriter.write("Write-Host \"" + END_SCRIPT_STRING + "\"");
+		} catch (IOException ioex) {
+			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error while writing temporary PowerShell script", ioex);
+		} finally {
+			try {
+				if (srcReader != null) {
+					srcReader.close();
+				}
+				if (tmpWriter != null) {
+					tmpWriter.close();
+				}
+			} catch (IOException ex) {
+				Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when processing temporary PowerShell script", ex);
+			}
+		}
+		return tmpFile;
 	}
 
 	public PowerShellResponse executeCommand(String command) {
@@ -96,73 +173,6 @@ public class PowerShell {
 		return new PowerShellResponse(isError, commandOutput, timeout);
 	}
 
-	public static PowerShellResponse executeSingleCommand(String command) {
-		PowerShell session = null;
-		PowerShellResponse response = null;
-		try {
-			session = PowerShell.openSession();
-			response = session.executeCommand(command);
-		} catch (PowerShellNotAvailableException ex) {
-			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "PowerShell not available", ex);
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-		return response;
-	}
-
-	private File createWriteTempFile(BufferedReader srcReader) {
-		BufferedWriter tmpWriter = null;
-		File tmpFile = null;
-		try {
-
-			tmpFile = File.createTempFile("psscript_" + new Date().getTime(), ".ps1");
-			if (tmpFile == null || !tmpFile.exists()) {
-				return null;
-			}
-			tmpWriter = new BufferedWriter(new FileWriter(tmpFile));
-			String line;
-			while (srcReader != null && (line = srcReader.readLine()) != null) {
-				tmpWriter.write(line);
-				tmpWriter.newLine();
-			}
-			tmpWriter.write("Write-Host \"" + END_SCRIPT_STRING + "\"");
-		} catch (IOException ioex) {
-			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error while writing temporary PowerShell script", ioex);
-		} finally {
-			try {
-				if (srcReader != null) {
-					srcReader.close();
-				}
-				if (tmpWriter != null) {
-					tmpWriter.close();
-				}
-			} catch (IOException ex) {
-				Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when processing temporary PowerShell script", ex);
-			}
-		}
-		return tmpFile;
-	}
-
-	public PowerShellResponse executeScript(String scriptPath) {
-		return executeScript(scriptPath, "");
-	}
-
-	public PowerShellResponse executeScript(String scriptPath, String params) {
-		BufferedReader srcReader = null;
-		File scriptToExecute = new File(scriptPath);
-		if (!scriptToExecute.exists()) {
-			return new PowerShellResponse(true, "Wrong script path: " + scriptToExecute, false);
-		}
-		try {
-			srcReader = new BufferedReader(new FileReader(scriptToExecute));
-		} catch (FileNotFoundException fnfex) {
-			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when processing PowerShell script: file not found", fnfex);
-		}
-		return executeScript(srcReader, params);
-	}
-
 	public PowerShellResponse executeScript(BufferedReader srcReader) {
 		return executeScript(srcReader, "");
 	}
@@ -183,38 +193,35 @@ public class PowerShell {
 
 	}
 
-	public void close() {
-		if (!this.closed) {
-			try {
-				Future<String> closeTask = threadpool.submit(new Callable<String>() {
-					public String call() throws Exception {
-						commandWriter.println("exit");
-						p.waitFor();
-						return "OK";
-					}
-				});
-				waitUntilClose(closeTask);
-			} catch (InterruptedException ex) {
-				Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when when closing PowerShell", ex);
-			} finally {
-				try {
-					p.getInputStream().close();
-					p.getErrorStream().close();
-				} catch (IOException ex) {
-					Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when when closing streams", ex);
-				}
-				commandWriter.close();
-				if (this.threadpool != null) {
-					try {
-						this.threadpool.shutdownNow();
-						this.threadpool.awaitTermination(5, TimeUnit.SECONDS);
-					} catch (InterruptedException ex) {
-						Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when when shutting thread pool", ex);
-					}
-				}
-				this.closed = true;
-			}
+	public PowerShellResponse executeScript(String scriptPath) {
+		return executeScript(scriptPath, "");
+	}
+
+	public PowerShellResponse executeScript(String scriptPath, String params) {
+		BufferedReader srcReader = null;
+		File scriptToExecute = new File(scriptPath);
+		if (!scriptToExecute.exists()) {
+			return new PowerShellResponse(true, "Wrong script path: " + scriptToExecute, false);
 		}
+		try {
+			srcReader = new BufferedReader(new FileReader(scriptToExecute));
+		} catch (FileNotFoundException fnfex) {
+			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error when processing PowerShell script: file not found", fnfex);
+		}
+		return executeScript(srcReader, params);
+	}
+
+	private PowerShell initalize() throws PowerShellNotAvailableException {
+		String codePage = PowerShellCodepage.getIdentifierByCodePageName(Charset.defaultCharset().name());
+		ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "chcp", codePage, ">>", "null", "&", "powershell.exe", "-NoExit", "-Command", "-");
+		try {
+			p = pb.start();
+		} catch (IOException ex) {
+			throw new PowerShellNotAvailableException("Cannot execute PowerShell.exe. Please make sure that it is installed in your system", ex);
+		}
+		commandWriter = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(p.getOutputStream())), true);
+		this.threadpool = Executors.newFixedThreadPool(this.maxThreads);
+		return this;
 	}
 
 	private void waitUntilClose(Future<String> task) throws InterruptedException {
@@ -227,9 +234,5 @@ public class PowerShell {
 			Thread.sleep(this.waitPause);
 			closingTime += this.waitPause;
 		}
-	}
-
-	private String completeRemoteCommand(String command) {
-		return command + ";Write-Host \"\"";
 	}
 }

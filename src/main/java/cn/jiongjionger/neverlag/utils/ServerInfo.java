@@ -22,7 +22,7 @@ public class ServerInfo {
 	// 开服时长
 	private String serverUpTime;
 	// JVM最大内存
-	private int runtimeMaxMemory; 
+	private int runtimeMaxMemory;
 	// JVM分配内存
 	private int runtimeTotalMemory;
 	// JVM已经使用的内存
@@ -30,7 +30,7 @@ public class ServerInfo {
 	// JVM剩余内存
 	private int runtimeAvailableMemory;
 	// 世界信息
-	private ArrayList<WorldInfo> worldInfo = new ArrayList<WorldInfo>();
+	private ArrayList<WorldInfo> worldInfo = new ArrayList<>();
 
 	public ServerInfo() {
 		this.realtimeTPS = NeverLag.getTpsWatcher().getLastTPS();
@@ -43,84 +43,84 @@ public class ServerInfo {
 		}
 	}
 
-	public double getRealtimeTPS() {
-		return realtimeTPS;
-	}
-
-	public void setRealtimeTPS(double realtimeTPS) {
-		this.realtimeTPS = realtimeTPS;
+	public int getAvgRedstone() {
+		return avgRedstone;
 	}
 
 	public double getAvgTPS() {
 		return avgTPS;
 	}
 
-	public void setAvgTPS(double avgTPS) {
-		this.avgTPS = avgTPS;
-	}
-
 	public int getRealtimeRedstone() {
 		return realtimeRedstone;
 	}
 
-	public void setRealtimeRedstone(int realtimeRedstone) {
-		this.realtimeRedstone = realtimeRedstone;
-	}
-
-	public int getAvgRedstone() {
-		return avgRedstone;
-	}
-
-	public void setAvgRedstone(int avgRedstone) {
-		this.avgRedstone = avgRedstone;
-	}
-
-	public int getRuntimeTotalMemory() {
-		return runtimeTotalMemory;
-	}
-
-	public void setRuntimeTotalMemory(int runtimeTotalMemory) {
-		this.runtimeTotalMemory = runtimeTotalMemory;
-	}
-
-	public int getRuntimeUsedMemory() {
-		return runtimeUsedMemory;
-	}
-
-	public void setRuntimeUsedMemory(int runtimeUsedMemory) {
-		this.runtimeUsedMemory = runtimeUsedMemory;
+	public double getRealtimeTPS() {
+		return realtimeTPS;
 	}
 
 	public int getRuntimeAvailableMemory() {
 		return runtimeAvailableMemory;
 	}
 
-	public void setRuntimeAvailableMemory(int runtimeAvailableMemory) {
-		this.runtimeAvailableMemory = runtimeAvailableMemory;
-	}
-
-	public ArrayList<WorldInfo> getWorldInfo() {
-		return worldInfo;
-	}
-
-	public void setWorldInfo(ArrayList<WorldInfo> worldInfo) {
-		this.worldInfo = worldInfo;
-	}
-
 	public int getRuntimeMaxMemory() {
 		return runtimeMaxMemory;
 	}
 
-	public void setRuntimeMaxMemory(int runtimeMaxMemory) {
-		this.runtimeMaxMemory = runtimeMaxMemory;
+	public int getRuntimeTotalMemory() {
+		return runtimeTotalMemory;
+	}
+
+	public int getRuntimeUsedMemory() {
+		return runtimeUsedMemory;
 	}
 
 	public String getServerUpTime() {
 		return serverUpTime;
 	}
 
+	public ArrayList<WorldInfo> getWorldInfo() {
+		return worldInfo;
+	}
+
+	public void setAvgRedstone(int avgRedstone) {
+		this.avgRedstone = avgRedstone;
+	}
+
+	public void setAvgTPS(double avgTPS) {
+		this.avgTPS = avgTPS;
+	}
+
+	public void setRealtimeRedstone(int realtimeRedstone) {
+		this.realtimeRedstone = realtimeRedstone;
+	}
+
+	public void setRealtimeTPS(double realtimeTPS) {
+		this.realtimeTPS = realtimeTPS;
+	}
+
+	public void setRuntimeAvailableMemory(int runtimeAvailableMemory) {
+		this.runtimeAvailableMemory = runtimeAvailableMemory;
+	}
+
+	public void setRuntimeMaxMemory(int runtimeMaxMemory) {
+		this.runtimeMaxMemory = runtimeMaxMemory;
+	}
+
+	public void setRuntimeTotalMemory(int runtimeTotalMemory) {
+		this.runtimeTotalMemory = runtimeTotalMemory;
+	}
+
+	public void setRuntimeUsedMemory(int runtimeUsedMemory) {
+		this.runtimeUsedMemory = runtimeUsedMemory;
+	}
+
 	public void setServerUpTime(String serverUpTime) {
 		this.serverUpTime = serverUpTime;
+	}
+
+	public void setWorldInfo(ArrayList<WorldInfo> worldInfo) {
+		this.worldInfo = worldInfo;
 	}
 
 }

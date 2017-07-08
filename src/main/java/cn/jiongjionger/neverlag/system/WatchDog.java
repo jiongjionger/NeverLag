@@ -2,17 +2,17 @@ package cn.jiongjionger.neverlag.system;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import cn.jiongjionger.neverlag.utils.ProtocolLibUtils;
 import cn.jiongjionger.neverlag.NeverLag;
-import java.util.Timer;
-import java.util.TimerTask;
+import cn.jiongjionger.neverlag.utils.ProtocolLibUtils;
 
-public class WatchDog extends TimerTask{
+public class WatchDog extends TimerTask {
 
 	private final Timer timer = new Timer("NeverLag WatchDog", true);
 	private long lastTickTime = System.currentTimeMillis();
@@ -22,6 +22,7 @@ public class WatchDog extends TimerTask{
 	public WatchDog() {
 		timer.scheduleAtFixedRate(this, 50L, 50L);
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {
+			@Override
 			public void run() {
 				lastTickTime = System.currentTimeMillis();
 			}
@@ -37,7 +38,7 @@ public class WatchDog extends TimerTask{
 			if (NeverLag.isInstallProtocoLib() && now - this.lastSendTime >= 3000L) {
 				this.lastSendTime = now;
 				// 兼容不同版本
-				List<Player> onlinePlayer = new ArrayList<Player>();
+				List<Player> onlinePlayer = new ArrayList<>();
 				for (World world : Bukkit.getWorlds()) {
 					onlinePlayer.addAll(world.getPlayers());
 				}
@@ -46,7 +47,7 @@ public class WatchDog extends TimerTask{
 		}
 	}
 
-	public void stop(){
+	public void stop() {
 		timer.cancel();
 	}
 }

@@ -3,7 +3,7 @@ package cn.jiongjionger.neverlag.hardware;
 import java.util.Map;
 
 public class WindowsMemoryInfo {
-	
+
 	public Map<String, String> parseInfo() {
 		Map<String, String> memoryDataMap = WMI4Java.get().VBSEngine().getWMIObject(WMIClass.WIN32_PERFFORMATTEDDATA_PERFOS_MEMORY);
 		memoryDataMap.putAll(WMI4Java.get().VBSEngine().getWMIObject(WMIClass.WIN32_PHYSICALMEMORY));

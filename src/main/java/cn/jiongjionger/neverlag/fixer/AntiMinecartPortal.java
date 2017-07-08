@@ -1,12 +1,12 @@
 package cn.jiongjionger.neverlag.fixer;
 
+import org.bukkit.entity.Minecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import org.bukkit.entity.Minecart;
 
 public class AntiMinecartPortal implements Listener {
 

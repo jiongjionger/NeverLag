@@ -21,46 +21,6 @@ import cn.jiongjionger.neverlag.utils.EntityUtils;
 public class ItemCleanOlderVersion {
 
 	private static ConfigManager cm = ConfigManager.getInstance();
-	private int preMessageTime = 0;
-
-	public ItemCleanOlderVersion() {
-		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
-			public void run() {
-				doClean();
-			}
-		}, cm.getClearItemDelay() * 20L, cm.getClearItemDelay() * 20L);
-		if (cm.getClearItemDelay() > 60) {
-			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
-				public void run() {
-					doPreMessage();
-				}
-			}, 20L, 20L);
-		}
-	}
-
-	// 提前通知
-	private void doPreMessage() {
-		if (cm.isClearDropItem() && cm.isBroadcastClearItem()) {
-			this.preMessageTime++;
-			int remainTick = cm.getClearItemDelay() - this.preMessageTime;
-			switch (remainTick) {
-			case 60:
-				Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastPreMessage().replace("%TIME%", "60"));
-				break;
-			case 30:
-				Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastPreMessage().replace("%TIME%", "30"));
-				break;
-			case 10:
-				Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastPreMessage().replace("%TIME%", "10"));
-				break;
-			default:
-				break;
-			}
-			if (remainTick <= 0) {
-				this.preMessageTime = 0;
-			}
-		}
-	}
 
 	@SuppressWarnings("deprecation")
 	public static void doClean() {
@@ -138,5 +98,48 @@ public class ItemCleanOlderVersion {
 			}
 		}
 		return false;
+	}
+
+	private int preMessageTime = 0;
+
+	public ItemCleanOlderVersion() {
+		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				doClean();
+			}
+		}, cm.getClearItemDelay() * 20L, cm.getClearItemDelay() * 20L);
+		if (cm.getClearItemDelay() > 60) {
+			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
+				@Override
+				public void run() {
+					doPreMessage();
+				}
+			}, 20L, 20L);
+		}
+	}
+
+	// 提前通知
+	private void doPreMessage() {
+		if (cm.isClearDropItem() && cm.isBroadcastClearItem()) {
+			this.preMessageTime++;
+			int remainTick = cm.getClearItemDelay() - this.preMessageTime;
+			switch (remainTick) {
+			case 60:
+				Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastPreMessage().replace("%TIME%", "60"));
+				break;
+			case 30:
+				Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastPreMessage().replace("%TIME%", "30"));
+				break;
+			case 10:
+				Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastPreMessage().replace("%TIME%", "10"));
+				break;
+			default:
+				break;
+			}
+			if (remainTick <= 0) {
+				this.preMessageTime = 0;
+			}
+		}
 	}
 }

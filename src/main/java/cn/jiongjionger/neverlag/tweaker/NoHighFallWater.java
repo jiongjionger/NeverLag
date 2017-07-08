@@ -14,6 +14,17 @@ public class NoHighFallWater implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
 
+	private boolean isAirBottom(Block b, int checkDistance) {
+		Block nowCheckBlock = b;
+		while (checkDistance-- > 0) {
+			nowCheckBlock = nowCheckBlock.getRelative(BlockFace.DOWN);
+			if (nowCheckBlock != null && !Material.AIR.equals(nowCheckBlock.getType())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
 	public void onBlockFromTo(BlockFromToEvent e) {
 		if (!cm.isNoHighFallWater()) {
@@ -29,16 +40,5 @@ public class NoHighFallWater implements Listener {
 		if (isAirBottom(to, cm.getNoHighFallWaterDistance())) {
 			e.setCancelled(true);
 		}
-	}
-
-	private boolean isAirBottom(Block b, int checkDistance) {
-		Block nowCheckBlock = b;
-		while (checkDistance-- > 0) {
-			nowCheckBlock = nowCheckBlock.getRelative(BlockFace.DOWN);
-			if (nowCheckBlock != null && !Material.AIR.equals(nowCheckBlock.getType())) {
-				return false;
-			}
-		}
-		return true;
 	}
 }

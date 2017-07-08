@@ -8,7 +8,7 @@ interface WMIStub {
 
 	String listObject(String wmiClass, String namespace, String computerName) throws WMIException;
 
-	String queryObject(String wmiClass, List<String> wmiProperties, List<String> conditions, String namespace, String computerName) throws WMIException;
-
 	String listProperties(String wmiClass, String namespace, String computerName) throws WMIException;
+
+	String queryObject(String wmiClass, List<String> wmiProperties, List<String> conditions, String namespace, String computerName) throws WMIException;
 }

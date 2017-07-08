@@ -8,14 +8,14 @@ public class UnixMemoryInfo {
 	private String getMemoryData() {
 		List<String> streamMemoryInfo = HardwareInfoUtils.readFile("/proc/meminfo");
 		final StringBuilder buffer = new StringBuilder();
-		for(String line:streamMemoryInfo){
+		for (String line : streamMemoryInfo) {
 			buffer.append(line).append("\r\n");
 		}
 		return buffer.toString();
 	}
 
 	public HashMap<String, String> parseInfo() {
-		HashMap<String, String> memoryDataMap = new HashMap<String, String>();
+		HashMap<String, String> memoryDataMap = new HashMap<>();
 		String[] dataStringLines = getMemoryData().split("\\r?\\n");
 		for (final String dataLine : dataStringLines) {
 			String[] dataStringInfo = dataLine.split(":");

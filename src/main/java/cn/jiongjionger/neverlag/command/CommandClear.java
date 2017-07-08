@@ -18,6 +18,11 @@ public class CommandClear implements ISubCommandExecutor {
 	private final ConfigManager cm = ConfigManager.getInstance();
 	private final String PERMNODE = "neverlag.command.clear";
 
+	@Override
+	public String getPermNode() {
+		return this.PERMNODE;
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -63,10 +68,5 @@ public class CommandClear implements ISubCommandExecutor {
 			sender.sendMessage(cm.getCommandClearMessage().replace("%TYPE%", args[1]).replace("%COUNT%", String.valueOf(count)));
 		}
 		return true;
-	}
-	
-	@Override
-	public String getPermNode() {
-		return this.PERMNODE;
 	}
 }

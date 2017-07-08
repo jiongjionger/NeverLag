@@ -18,11 +18,11 @@ import org.bukkit.util.StringUtil;
 public class CommandTabComplete implements TabCompleter {
 
 	private static final String[] COMMANDS = { "benchmark", "hardware", "gc", "info", "ping", "chunkinfo", "clear", "timings" };
-	private static final List<String> CLEARTYPE = new ArrayList<String>();
+	private static final List<String> CLEARTYPE = new ArrayList<>();
 	private static final String[] CHUNKINFO_TYPE = { "entity", "tiles", "monsters", "animals", "dropitem", "player", "villager", "squid", "chest", "hopper",
 			"furnace", "dropper", "dispenser", "piston", "noteblock", "jukebox", "brewing", "cauldron", "armorstand", "skull" };
 	private static final String[] TIMINGS = { "on", "off", "lag", "event", "command", "task", "plugin" };
-	private static final Set<String> SHOULD_COMPLETE_PLUGIN_NAME = new HashSet<String>();
+	private static final Set<String> SHOULD_COMPLETE_PLUGIN_NAME = new HashSet<>();
 
 	static {
 		for (EntityType type : EntityType.values()) {
@@ -41,13 +41,23 @@ public class CommandTabComplete implements TabCompleter {
 		SHOULD_COMPLETE_PLUGIN_NAME.add("plugin");
 	}
 
+	private List<String> getAllPluginName() {
+		List<String> pluginNameList = new ArrayList<>();
+		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+			if (plugin != null && plugin.isEnabled()) {
+				pluginNameList.add(plugin.getName());
+			}
+		}
+		return pluginNameList;
+	}
+
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		if (args == null || command == null) {
 			return null;
 		}
 		// 返回的结果
-		List<String> completions = new ArrayList<String>();
+		List<String> completions = new ArrayList<>();
 		switch (args.length) {
 		case 1:
 			StringUtil.copyPartialMatches(args[0], Arrays.asList(COMMANDS), completions);
@@ -76,15 +86,5 @@ public class CommandTabComplete implements TabCompleter {
 
 		Collections.sort(completions);
 		return completions;
-	}
-
-	private List<String> getAllPluginName() {
-		List<String> pluginNameList = new ArrayList<String>();
-		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-			if (plugin != null && plugin.isEnabled()) {
-				pluginNameList.add(plugin.getName());
-			}
-		}
-		return pluginNameList;
 	}
 }

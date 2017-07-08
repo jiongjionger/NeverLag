@@ -19,6 +19,11 @@ public class CommandPing implements ISubCommandExecutor {
 	private final String PERMNODE = "neverlag.command.ping";
 
 	@Override
+	public String getPermNode() {
+		return this.PERMNODE;
+	}
+
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("ping")) {
 			if (sender instanceof Player) {
@@ -29,18 +34,6 @@ public class CommandPing implements ISubCommandExecutor {
 			}
 		}
 		return true;
-	}
-
-	// 对Player进行GUI展示
-	private void showSortPingInfo(Player p) {
-		LinkedHashMap<String, Integer> record = PingUtils.getPingAndSort();
-		if (record == null) {
-			p.sendMessage(cm.getCommandNoPlayerOnline());
-		} else {
-			GUISortPing guiSlotPing = new GUISortPing(record);
-			p.openInventory(guiSlotPing.get());
-			GUISortPingHolder.put(p, guiSlotPing);
-		}
 	}
 
 	// 对console直接发送文字
@@ -58,10 +51,17 @@ public class CommandPing implements ISubCommandExecutor {
 			}
 		}
 	}
-	
-	@Override
-	public String getPermNode() {
-		return this.PERMNODE;
+
+	// 对Player进行GUI展示
+	private void showSortPingInfo(Player p) {
+		LinkedHashMap<String, Integer> record = PingUtils.getPingAndSort();
+		if (record == null) {
+			p.sendMessage(cm.getCommandNoPlayerOnline());
+		} else {
+			GUISortPing guiSlotPing = new GUISortPing(record);
+			p.openInventory(guiSlotPing.get());
+			GUISortPingHolder.put(p, guiSlotPing);
+		}
 	}
 
 }

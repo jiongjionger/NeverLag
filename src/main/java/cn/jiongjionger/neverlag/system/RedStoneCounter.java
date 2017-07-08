@@ -4,20 +4,10 @@ import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class RedStoneCounter {
-
-	// 保存红石每触发的次数
-	private int syncRestoneCount;
-	private AtomicInteger asyncRestoneCount = new AtomicInteger(0);
-	// 记录一分钟内的红石触发次数
-	private final ConcurrentLinkedDeque<Integer> asyncOneMinutesRecord = new ConcurrentLinkedDeque<Integer>();
-	private final LinkedList<Integer> syncOneMinutesRecord = new LinkedList<Integer>();
-
-	private NeverLag plg = NeverLag.getInstance();
-	private ConfigManager cm = ConfigManager.getInstance();
 
 	private final static class RedStoneCounterHolder {
 		private final static RedStoneCounter rc = new RedStoneCounter();
@@ -27,11 +17,24 @@ public class RedStoneCounter {
 		return RedStoneCounterHolder.rc;
 	}
 
+	// 保存红石每触发的次数
+	private int syncRestoneCount;
+	private AtomicInteger asyncRestoneCount = new AtomicInteger(0);
+
+	// 记录一分钟内的红石触发次数
+	private final ConcurrentLinkedDeque<Integer> asyncOneMinutesRecord = new ConcurrentLinkedDeque<>();
+	private final LinkedList<Integer> syncOneMinutesRecord = new LinkedList<>();
+
+	private NeverLag plg = NeverLag.getInstance();
+
+	private ConfigManager cm = ConfigManager.getInstance();
+
 	public RedStoneCounter() {
 		plg.getServer().getScheduler().runTaskTimerAsynchronously(plg, new Runnable() {
+			@Override
 			public void run() {
 				if (cm.isCheckRedstoneOnAsync()) {
-					if (asyncOneMinutesRecord.size() >= 60) {  // 双重检查锁定
+					if (asyncOneMinutesRecord.size() >= 60) { // 双重检查锁定
 						synchronized (asyncOneMinutesRecord) {
 							if (asyncOneMinutesRecord.size() >= 60) {
 								asyncOneMinutesRecord.removeFirst();
@@ -43,6 +46,7 @@ public class RedStoneCounter {
 			}
 		}, 20L, 20L);
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {
+			@Override
 			public void run() {
 				if (!cm.isCheckRedstoneOnAsync()) {
 					if (syncOneMinutesRecord.size() >= 60) {
@@ -53,14 +57,6 @@ public class RedStoneCounter {
 				}
 			}
 		}, 20L, 20L);
-	}
-
-	public void updateRedstoneCount(boolean forceSync) {
-		if (forceSync) {
-			syncRestoneCount = syncRestoneCount + 1;
-		} else {
-			asyncRestoneCount.incrementAndGet();
-		}
 	}
 
 	public int getRedstoneAvgCount(boolean forceSync) {
@@ -100,6 +96,14 @@ public class RedStoneCounter {
 				}
 				return asyncOneMinutesRecord.getLast();
 			}
+		}
+	}
+
+	public void updateRedstoneCount(boolean forceSync) {
+		if (forceSync) {
+			syncRestoneCount = syncRestoneCount + 1;
+		} else {
+			asyncRestoneCount.incrementAndGet();
 		}
 	}
 

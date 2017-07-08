@@ -12,6 +12,14 @@ import org.bukkit.inventory.meta.SkullMeta;
 public class IconMaker {
 	private ItemStack item;
 
+	public IconMaker(ItemStack item) {
+		this.item = item.clone();
+	}
+
+	public IconMaker(Material type) {
+		this.item = new ItemStack(type);
+	}
+
 	public IconMaker(String type) {
 		try {
 			Material m = Material.valueOf(type);
@@ -21,12 +29,52 @@ public class IconMaker {
 		}
 	}
 
-	public IconMaker(Material type) {
-		this.item = new ItemStack(type);
+	/*
+	 * 获取ItemStack实例
+	 * 
+	 * @return 返回物品
+	 */
+	public ItemStack getItem() {
+		return this.item;
 	}
 
-	public IconMaker(ItemStack item) {
-		this.item = item.clone();
+	/*
+	 * 替换物品的Lore
+	 * 
+	 * @param oldlore 需要被替换的lore
+	 * 
+	 * @param newlore 新的lore
+	 * 
+	 * @return 返回自身的IconMaker实例以实现链式调用方法
+	 */
+	public IconMaker replaceLore(String oldlore, String newlore) {
+		if (this.item != null && this.item.hasItemMeta() && this.item.getItemMeta().hasLore()) {
+			oldlore = ChatColor.translateAlternateColorCodes('&', oldlore);
+			newlore = ChatColor.translateAlternateColorCodes('&', newlore);
+
+			List<String> colorLore = new ArrayList<>();
+			for (String l : this.item.getItemMeta().getLore()) {
+				colorLore.add(l.replace(oldlore, newlore));
+			}
+
+			ItemMeta m = this.item.getItemMeta();
+			m.setLore(colorLore);
+			this.item.setItemMeta(m);
+			return this;
+		}
+		return this;
+	}
+
+	/*
+	 * 设置物品的数量
+	 * 
+	 * @param amount 数量
+	 * 
+	 * @return 返回自身的IconMaker实例以实现链式调用方法
+	 */
+	public IconMaker setAmount(int amount) {
+		this.item.setAmount(amount);
+		return this;
 	}
 
 	/*
@@ -44,6 +92,18 @@ public class IconMaker {
 	}
 
 	/*
+	 * 设置物品的耐久度、羊毛等可以利用这个设置颜色
+	 * 
+	 * @param d 耐久度
+	 * 
+	 * @return 返回自身的IconMaker实例以实现链式调用方法
+	 */
+	public IconMaker setDurability(short d) {
+		this.item.setDurability(d);
+		return this;
+	}
+
+	/*
 	 * 设置物品的lore
 	 * 
 	 * @param lore 被设置的lore
@@ -51,7 +111,7 @@ public class IconMaker {
 	 * @return 返回自身的IconMaker实例以实现链式调用方法
 	 */
 	public IconMaker setLore(List<String> lore) {
-		List<String> colorLore = new ArrayList<String>();
+		List<String> colorLore = new ArrayList<>();
 		for (String l : lore) {
 			colorLore.add(ChatColor.translateAlternateColorCodes('&', l));
 		}
@@ -69,64 +129,13 @@ public class IconMaker {
 	 * @return 返回自身的IconMaker实例以实现链式调用方法
 	 */
 	public IconMaker setLore(String... lore) {
-		List<String> colorLore = new ArrayList<String>();
+		List<String> colorLore = new ArrayList<>();
 		for (String l : lore) {
 			colorLore.add(ChatColor.translateAlternateColorCodes('&', l));
 		}
 		ItemMeta m = this.item.getItemMeta();
 		m.setLore(colorLore);
 		this.item.setItemMeta(m);
-		return this;
-	}
-
-	/*
-	 * 设置物品的耐久度、羊毛等可以利用这个设置颜色
-	 * 
-	 * @param d 耐久度
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
-	public IconMaker setDurability(short d) {
-		this.item.setDurability(d);
-		return this;
-	}
-
-	/*
-	 * 设置物品的数量
-	 * 
-	 * @param amount 数量
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
-	public IconMaker setAmount(int amount) {
-		this.item.setAmount(amount);
-		return this;
-	}
-
-	/*
-	 * 替换物品的Lore
-	 * 
-	 * @param oldlore 需要被替换的lore
-	 * 
-	 * @param newlore 新的lore
-	 * 
-	 * @return 返回自身的IconMaker实例以实现链式调用方法
-	 */
-	public IconMaker replaceLore(String oldlore, String newlore) {
-		if (this.item != null && this.item.hasItemMeta() && this.item.getItemMeta().hasLore()) {
-			oldlore = ChatColor.translateAlternateColorCodes('&', oldlore);
-			newlore = ChatColor.translateAlternateColorCodes('&', newlore);
-
-			List<String> colorLore = new ArrayList<String>();
-			for (String l : this.item.getItemMeta().getLore()) {
-				colorLore.add(l.replace(oldlore, newlore));
-			}
-
-			ItemMeta m = this.item.getItemMeta();
-			m.setLore(colorLore);
-			this.item.setItemMeta(m);
-			return this;
-		}
 		return this;
 	}
 
@@ -145,14 +154,5 @@ public class IconMaker {
 			item.setItemMeta(sm);
 		}
 		return this;
-	}
-
-	/*
-	 * 获取ItemStack实例
-	 * 
-	 * @return 返回物品
-	 */
-	public ItemStack getItem() {
-		return this.item;
 	}
 }

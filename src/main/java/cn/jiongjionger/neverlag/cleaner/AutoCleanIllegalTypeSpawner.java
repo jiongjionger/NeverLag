@@ -19,20 +19,6 @@ public class AutoCleanIllegalTypeSpawner implements Listener {
 	private final ConfigManager cm = ConfigManager.getInstance();
 	private final CreatureType[] RND_ENTITYTYPE = { CreatureType.CAVE_SPIDER, CreatureType.SPIDER, CreatureType.ZOMBIE, CreatureType.SKELETON };
 
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onChunkLoad(ChunkLoadEvent e) {
-		if (cm.isAutoCleanIllegalTypeSpawner()) {
-			this.autoClean(e.getChunk());
-		}
-	}
-
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void onChunkUnLoad(ChunkUnloadEvent e) {
-		if (cm.isAutoCleanIllegalTypeSpawner()) {
-			this.autoClean(e.getChunk());
-		}
-	}
-
 	private void autoClean(Chunk chunk) {
 		if (chunk == null) {
 			return;
@@ -54,6 +40,20 @@ public class AutoCleanIllegalTypeSpawner implements Listener {
 					}
 				}
 			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onChunkLoad(ChunkLoadEvent e) {
+		if (cm.isAutoCleanIllegalTypeSpawner()) {
+			this.autoClean(e.getChunk());
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onChunkUnLoad(ChunkUnloadEvent e) {
+		if (cm.isAutoCleanIllegalTypeSpawner()) {
+			this.autoClean(e.getChunk());
 		}
 	}
 

@@ -27,6 +27,18 @@ public class MonitorUtils {
 	private static boolean enable = false;
 	private static long enable_time;
 
+	// 关闭性能统计
+	public static void disable() {
+		enable = false;
+		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+			if (plugin != null && plugin.isEnabled()) {
+				EventExecutorInjector.uninject(plugin);
+				SchedulerTaskInjector.uninject(plugin);
+				CommandInjector.uninject(plugin);
+			}
+		}
+	}
+
 	// 开启性能统计
 	public static void enable() {
 		enable = true;
@@ -40,25 +52,44 @@ public class MonitorUtils {
 		}
 	}
 
-	// 关闭性能统计
-	public static void disable() {
-		enable = false;
-		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-			if (plugin != null && plugin.isEnabled()) {
-				EventExecutorInjector.uninject(plugin);
-				SchedulerTaskInjector.uninject(plugin);
-				CommandInjector.uninject(plugin);
-			}
+	public static Map<String, MonitorRecord> getCommandTimingsByPlugin(Plugin plg) {
+		Map<String, MonitorRecord> record = new HashMap<>();
+		if (plg == null) {
+			return record;
 		}
+		try {
+			SimpleCommandMap simpleCommandMap = Reflection.getField(SimplePluginManager.class, "commandMap", SimpleCommandMap.class).get(Bukkit.getPluginManager());
+			for (Command command : simpleCommandMap.getCommands()) {
+				if (command instanceof PluginCommand) {
+					PluginCommand pluginCommand = (PluginCommand) command;
+					if (plg.equals(pluginCommand.getPlugin())) {
+						FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
+						CommandExecutor executor = commandField.get(pluginCommand);
+						if (executor instanceof CommandInjector) {
+							CommandInjector commandInjector = (CommandInjector) executor;
+							record = mergeRecordMap(record, commandInjector.getMonitorRecordMap());
+						}
+
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return record;
 	}
-	
-	// 获取某个插件所有的事件耗时情况，同样的事件进行合并计算
-	public static Map<String, MonitorRecord> getEventTimingsByPluginName(String name) {
-		return getEventTimingsByPlugin(Bukkit.getPluginManager().getPlugin(name));
+
+	// 获取某个插件命令的消耗，相同命令合并统计
+	public static Map<String, MonitorRecord> getCommandTimingsByPluginName(String name) {
+		return getCommandTimingsByPlugin(Bukkit.getPluginManager().getPlugin(name));
+	}
+
+	public static long getEnableTime() {
+		return enable_time;
 	}
 
 	public static Map<String, MonitorRecord> getEventTimingsByPlugin(Plugin plg) {
-		Map<String, MonitorRecord> record = new HashMap<String, MonitorRecord>();
+		Map<String, MonitorRecord> record = new HashMap<>();
 		if (plg == null) {
 			return record;
 		}
@@ -87,9 +118,17 @@ public class MonitorUtils {
 		return record;
 	}
 
-	// 获取某个插件所有任务的耗时情况，并且全部合并
-	public static MonitorRecord getTaskTimingsByPluginName(String name) {
-		return getTaskTimingsByPlugin(Bukkit.getPluginManager().getPlugin(name));
+	// 获取某个插件所有的事件耗时情况，同样的事件进行合并计算
+	public static Map<String, MonitorRecord> getEventTimingsByPluginName(String name) {
+		return getEventTimingsByPlugin(Bukkit.getPluginManager().getPlugin(name));
+	}
+
+	private static MonitorRecord getMonitorRecord(String name, long totalTime, long totalCount, long maxExecuteTime) {
+		MonitorRecord monitorRecord = new MonitorRecord(name);
+		monitorRecord.increaseTotalTime(totalTime);
+		monitorRecord.setTotalCount(totalCount);
+		monitorRecord.setMaxExecuteTime(maxExecuteTime);
+		return monitorRecord;
 	}
 
 	public static MonitorRecord getTaskTimingsByPlugin(Plugin plg) {
@@ -115,44 +154,13 @@ public class MonitorUtils {
 		return monitorRecord;
 	}
 
-	// 获取某个插件命令的消耗，相同命令合并统计
-	public static Map<String, MonitorRecord> getCommandTimingsByPluginName(String name) {
-		return getCommandTimingsByPlugin(Bukkit.getPluginManager().getPlugin(name));
+	// 获取某个插件所有任务的耗时情况，并且全部合并
+	public static MonitorRecord getTaskTimingsByPluginName(String name) {
+		return getTaskTimingsByPlugin(Bukkit.getPluginManager().getPlugin(name));
 	}
 
-	public static Map<String, MonitorRecord> getCommandTimingsByPlugin(Plugin plg) {
-		Map<String, MonitorRecord> record = new HashMap<String, MonitorRecord>();
-		if (plg == null) {
-			return record;
-		}
-		try {
-			SimpleCommandMap simpleCommandMap = Reflection.getField(SimplePluginManager.class, "commandMap", SimpleCommandMap.class).get(Bukkit.getPluginManager());
-			for (Command command : simpleCommandMap.getCommands()) {
-				if (command instanceof PluginCommand) {
-					PluginCommand pluginCommand = (PluginCommand) command;
-					if (plg.equals(pluginCommand.getPlugin())) {
-						FieldAccessor<CommandExecutor> commandField = Reflection.getField(PluginCommand.class, "executor", CommandExecutor.class);
-						CommandExecutor executor = commandField.get(pluginCommand);
-						if (executor instanceof CommandInjector) {
-							CommandInjector commandInjector = (CommandInjector) executor;
-							record = mergeRecordMap(record, commandInjector.getMonitorRecordMap());
-						}
-
-					}
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return record;
-	}
-
-	private static MonitorRecord getMonitorRecord(String name, long totalTime, long totalCount, long maxExecuteTime) {
-		MonitorRecord monitorRecord = new MonitorRecord(name);
-		monitorRecord.increaseTotalTime(totalTime);
-		monitorRecord.setTotalCount(totalCount);
-		monitorRecord.setMaxExecuteTime(maxExecuteTime);
-		return monitorRecord;
+	public static boolean isEnable() {
+		return enable;
 	}
 
 	private static Map<String, MonitorRecord> mergeRecordMap(Map<String, MonitorRecord> record1, Map<String, MonitorRecord> record2) {
@@ -164,14 +172,6 @@ public class MonitorUtils {
 			}
 		}
 		return record1;
-	}
-
-	public static boolean isEnable() {
-		return enable;
-	}
-
-	public static long getEnableTime() {
-		return enable_time;
 	}
 
 }

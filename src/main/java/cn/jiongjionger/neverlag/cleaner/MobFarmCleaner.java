@@ -12,8 +12,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Villager;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class MobFarmCleaner {
@@ -23,6 +23,7 @@ public class MobFarmCleaner {
 
 	public MobFarmCleaner() {
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {
+			@Override
 			public void run() {
 				if (cm.isCheckMobFarm()) {
 					checkAndCleanMobFarm();
@@ -55,7 +56,7 @@ public class MobFarmCleaner {
 	 * @return 附近实体数量
 	 */
 	private int getNearbyEntityCount(LivingEntity entity, boolean isTiny) {
-		List<Entity> entityList = new ArrayList<Entity>();
+		List<Entity> entityList = new ArrayList<>();
 		if (isTiny) {
 			entityList = entity.getNearbyEntities(0.50D, 3.5D, 0.5D);
 		} else {

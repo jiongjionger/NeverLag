@@ -9,7 +9,12 @@ public class CommandGC implements ISubCommandExecutor {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
 	private final String PERMNODE = "neverlag.command.gc";
-	
+
+	@Override
+	public String getPermNode() {
+		return this.PERMNODE;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("gc")) {
@@ -25,10 +30,5 @@ public class CommandGC implements ISubCommandExecutor {
 			}
 		}
 		return true;
-	}
-	
-	@Override
-	public String getPermNode(){
-		return this.PERMNODE;
 	}
 }

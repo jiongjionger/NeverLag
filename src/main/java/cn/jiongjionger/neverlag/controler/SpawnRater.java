@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+
 import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class SpawnRater {
@@ -15,7 +16,7 @@ public class SpawnRater {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void rateControler(CreatureSpawnEvent e) {
-		if(!cm.isSpawnRate()){
+		if (!cm.isSpawnRate()) {
 			return;
 		}
 		// 获取刷怪原因（来源）

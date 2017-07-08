@@ -20,7 +20,7 @@ public class RemoveEntityWhenChunkUnload implements Listener {
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
 	public void onChunkUnload(ChunkUnloadEvent e) {
-		if(!cm.isRemoveEntityWhenChunkUnload()){
+		if (!cm.isRemoveEntityWhenChunkUnload()) {
 			return;
 		}
 		for (Entity entity : e.getChunk().getEntities()) {

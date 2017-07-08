@@ -9,15 +9,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
+import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.system.RedStoneCounter;
-import cn.jiongjionger.neverlag.NeverLag;
 
 public class HighfrequencyRedStoneCleaner implements Listener {
 
 	// 保存红石频率信息，按周期判断并且清空
-	private HashMap<Location, Integer> syncRestoneRecord = new HashMap<Location, Integer>();
-	private ConcurrentHashMap<Location, Integer> asyncRestoneRecord = new ConcurrentHashMap<Location, Integer>();
+	private HashMap<Location, Integer> syncRestoneRecord = new HashMap<>();
+	private ConcurrentHashMap<Location, Integer> asyncRestoneRecord = new ConcurrentHashMap<>();
 
 	private ConfigManager cm = ConfigManager.getInstance();
 	private RedStoneCounter rc = RedStoneCounter.getInstance();
@@ -26,6 +26,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 	public HighfrequencyRedStoneCleaner() {
 		plg.getServer().getPluginManager().registerEvents(this, plg);
 		plg.getServer().getScheduler().runTaskTimerAsynchronously(plg, new Runnable() {
+			@Override
 			public void run() {
 				if (cm.isCheckRedstoneOnAsync()) {
 					asyncRestoneRecord.clear();
@@ -33,12 +34,84 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 			}
 		}, cm.getRedstoneCheckDelay() * 20L, cm.getRedstoneCheckDelay() * 20L);
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {
+			@Override
 			public void run() {
 				if (!cm.isCheckRedstoneOnAsync()) {
 					syncRestoneRecord.clear();
 				}
 			}
 		}, cm.getRedstoneCheckDelay() * 20L, cm.getRedstoneCheckDelay() * 20L);
+	}
+
+	/*
+	 * 异步方法统计某个位置的红石时间次数，并且在达到阀值以后采取措施
+	 * 
+	 * @param loc 需要检查阀值和统计的位置
+	 * 
+	 * @param typeid 触发红石时间的方块类型id
+	 * 
+	 */
+	private void asyncCheckAndRecord(final Location loc, final int typeId) {
+		// 使用自带的任务调度而非Thead避免一些问题
+		plg.getServer().getScheduler().runTaskAsynchronously(plg, new Runnable() {
+			@Override
+			public void run() {
+				Integer count = asyncRestoneRecord.get(loc);
+				if (count == null) {
+					asyncRestoneRecord.put(loc, 1);
+					return;
+				}
+				count++;
+				// 中继器需要单独判断
+				if (typeId == 93 || typeId == 94) {
+					if (count >= cm.getDiodeLimit()) {
+						breakRestone(loc, false);
+						asyncRestoneRecord.remove(loc);
+						return;
+					}
+				} else {
+					if (count >= cm.getRedstoneLimit()) {
+						breakRestone(loc, false);
+						asyncRestoneRecord.remove(loc);
+						return;
+					}
+				}
+				asyncRestoneRecord.put(loc, count);
+				rc.updateRedstoneCount(false);
+			}
+		});
+	}
+
+	/*
+	 * 破坏达到阀值的红石方块
+	 * 
+	 * @param loc 需要破坏的方块位置
+	 * 
+	 * @param isOnSync 是否同步方法破坏
+	 */
+	private void breakRestone(final Location loc, boolean isOnSync) {
+		if (isOnSync) {
+			if (cm.isRedstoneDrop()) {
+				loc.getBlock().breakNaturally();
+			} else {
+				loc.getBlock().setType(Material.AIR);
+			}
+		} else {
+			// 异步方法中强制切回同步处理
+			plg.getServer().getScheduler().runTask(plg, new Runnable() {
+				@Override
+				public void run() {
+					// 防止重新加载已经卸载的区块
+					if (loc.getWorld().isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4)) {
+						if (cm.isRedstoneDrop()) {
+							loc.getBlock().breakNaturally();
+						} else {
+							loc.getBlock().setType(Material.AIR);
+						}
+					}
+				}
+			});
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -88,74 +161,5 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 		}
 		syncRestoneRecord.put(loc, count);
 		rc.updateRedstoneCount(true);
-	}
-
-	/*
-	 * 异步方法统计某个位置的红石时间次数，并且在达到阀值以后采取措施
-	 * 
-	 * @param loc 需要检查阀值和统计的位置
-	 * 
-	 * @param typeid 触发红石时间的方块类型id
-	 * 
-	 */
-	private void asyncCheckAndRecord(final Location loc, final int typeId) {
-		// 使用自带的任务调度而非Thead避免一些问题
-		plg.getServer().getScheduler().runTaskAsynchronously(plg, new Runnable() {
-			public void run() {
-				Integer count = asyncRestoneRecord.get(loc);
-				if (count == null) {
-					asyncRestoneRecord.put(loc, 1);
-					return;
-				}
-				count++;
-				// 中继器需要单独判断
-				if (typeId == 93 || typeId == 94) {
-					if (count >= cm.getDiodeLimit()) {
-						breakRestone(loc, false);
-						asyncRestoneRecord.remove(loc);
-						return;
-					}
-				} else {
-					if (count >= cm.getRedstoneLimit()) {
-						breakRestone(loc, false);
-						asyncRestoneRecord.remove(loc);
-						return;
-					}
-				}
-				asyncRestoneRecord.put(loc, count);
-				rc.updateRedstoneCount(false);
-			}
-		});
-	}
-
-	/*
-	 * 破坏达到阀值的红石方块
-	 * 
-	 * @param loc 需要破坏的方块位置
-	 * 
-	 * @param isOnSync 是否同步方法破坏
-	 */
-	private void breakRestone(final Location loc, boolean isOnSync) {
-		if (isOnSync) {
-			if (cm.isRedstoneDrop()) {
-				loc.getBlock().breakNaturally();
-			} else {
-				loc.getBlock().setType(Material.AIR);
-			}
-		} else {
-			// 异步方法中强制切回同步处理
-			plg.getServer().getScheduler().runTask(plg, new Runnable() {
-				public void run() {
-					// 防止重新加载已经卸载的区块
-					if (loc.getWorld().isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4)) {
-						if (cm.isRedstoneDrop()) {
-							loc.getBlock().breakNaturally();
-						} else {
-							loc.getBlock().setType(Material.AIR);
-						}
-					}
-				}
-			});
-		}
 	}
 }

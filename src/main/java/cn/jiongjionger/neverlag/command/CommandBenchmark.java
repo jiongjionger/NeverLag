@@ -13,18 +13,10 @@ public class CommandBenchmark implements ISubCommandExecutor {
 	private final NeverLag plg = NeverLag.getInstance();
 	private final ConfigManager cm = ConfigManager.getInstance();
 	private final String PERMNODE = "neverlag.command.benchmark";
-	
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("benchmark")) {
-			sender.sendMessage(cm.getCommandStartBenchmark());
-			this.cpuBenchmark(sender);
-		}
-		return true;
-	}
 
 	private void cpuBenchmark(final CommandSender sender) {
 		plg.getServer().getScheduler().runTaskAsynchronously(plg, new Runnable() {
+			@Override
 			public void run() {
 				long operationCount = 0L;
 				long startTime = System.nanoTime();
@@ -42,9 +34,18 @@ public class CommandBenchmark implements ISubCommandExecutor {
 			}
 		});
 	}
-	
+
 	@Override
-	public String getPermNode(){
+	public String getPermNode() {
 		return this.PERMNODE;
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("benchmark")) {
+			sender.sendMessage(cm.getCommandStartBenchmark());
+			this.cpuBenchmark(sender);
+		}
+		return true;
 	}
 }

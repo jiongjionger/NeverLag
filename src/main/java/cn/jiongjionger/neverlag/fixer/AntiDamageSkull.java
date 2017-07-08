@@ -17,37 +17,6 @@ import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class AntiDamageSkull implements Listener {
 
-	private ConfigManager cm = ConfigManager.getInstance();
-	private final BlockFace[] BLOCKFACE = { BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST };
-
-	@EventHandler
-	public void onDamageSkull(PlayerInteractEvent e) {
-		if (cm.isAntiDamageSkull) {
-			if (Action.RIGHT_CLICK_BLOCK.equals(e.getAction())) {
-				if (e.getItem() != null) {
-					Material type = e.getItem().getType();
-					if (Material.LAVA_BUCKET.equals(type) || Material.WATER_BUCKET.equals(type)) {
-						fixSkull(e.getClickedBlock().getRelative(BlockFace.UP));
-					} else if (Material.ANVIL.equals(type)) {
-						for (BlockFace face : BLOCKFACE) {
-							fixSkull(e.getClickedBlock().getRelative(face));
-						}
-					}
-				}
-			}
-		}
-	}
-
-	private void fixSkull(Block block) {
-		if (block != null && Material.SKULL.equals(block.getType())) {
-			Skull skull = (Skull) block.getState();
-			if (!skull.getSkullType().equals(SkullType.SKELETON)) {
-				final FixSkullTask task = new FixSkullTask(block.getLocation(), skull.getSkullType(), skull.getOwner());
-				Bukkit.getServer().getScheduler().runTaskLater(NeverLag.getInstance(), task, 1L);
-			}
-		}
-	}
-
 	public class FixSkullTask implements Runnable {
 
 		private Location loc;
@@ -77,6 +46,38 @@ public class AntiDamageSkull implements Listener {
 				skull.setSkullType(type);
 			}
 			skull.update();
+		}
+	}
+
+	private ConfigManager cm = ConfigManager.getInstance();
+
+	private final BlockFace[] BLOCKFACE = { BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST };
+
+	private void fixSkull(Block block) {
+		if (block != null && Material.SKULL.equals(block.getType())) {
+			Skull skull = (Skull) block.getState();
+			if (!skull.getSkullType().equals(SkullType.SKELETON)) {
+				final FixSkullTask task = new FixSkullTask(block.getLocation(), skull.getSkullType(), skull.getOwner());
+				Bukkit.getServer().getScheduler().runTaskLater(NeverLag.getInstance(), task, 1L);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onDamageSkull(PlayerInteractEvent e) {
+		if (cm.isAntiDamageSkull) {
+			if (Action.RIGHT_CLICK_BLOCK.equals(e.getAction())) {
+				if (e.getItem() != null) {
+					Material type = e.getItem().getType();
+					if (Material.LAVA_BUCKET.equals(type) || Material.WATER_BUCKET.equals(type)) {
+						fixSkull(e.getClickedBlock().getRelative(BlockFace.UP));
+					} else if (Material.ANVIL.equals(type)) {
+						for (BlockFace face : BLOCKFACE) {
+							fixSkull(e.getClickedBlock().getRelative(face));
+						}
+					}
+				}
+			}
 		}
 	}
 }

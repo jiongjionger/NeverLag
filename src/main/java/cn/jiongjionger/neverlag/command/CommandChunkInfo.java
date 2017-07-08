@@ -18,6 +18,19 @@ public class CommandChunkInfo implements ISubCommandExecutor {
 	private final ConfigManager cm = ConfigManager.getInstance();
 	private final String PERMNODE = "neverlag.command.chunkinfo";
 
+	private List<Chunk> getAllChunk() {
+		List<Chunk> chunks = new ArrayList<>();
+		for (World world : Bukkit.getWorlds()) {
+			chunks.addAll(Arrays.asList(world.getLoadedChunks()));
+		}
+		return chunks;
+	}
+
+	@Override
+	public String getPermNode() {
+		return this.PERMNODE;
+	}
+
 	// 查看区块信息 按照指定查询项目进行排序显示 例如按照区块内实体数量/Tiles数量进行排序显示
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -37,18 +50,5 @@ public class CommandChunkInfo implements ISubCommandExecutor {
 			}
 		}
 		return true;
-	}
-
-	private List<Chunk> getAllChunk() {
-		List<Chunk> chunks = new ArrayList<Chunk>();
-		for (World world : Bukkit.getWorlds()) {
-			chunks.addAll(Arrays.asList(world.getLoadedChunks()));
-		}
-		return chunks;
-	}
-
-	@Override
-	public String getPermNode() {
-		return this.PERMNODE;
 	}
 }

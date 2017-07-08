@@ -12,7 +12,7 @@ import cn.jiongjionger.neverlag.config.ConfigManager;
 public class CommandBase implements CommandExecutor {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
-	private HashMap<String, ISubCommandExecutor> subCommandMap = new HashMap<String, ISubCommandExecutor>();
+	private HashMap<String, ISubCommandExecutor> subCommandMap = new HashMap<>();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

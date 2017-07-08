@@ -13,31 +13,24 @@ public class MonitorRecord {
 		this.name = name;
 	}
 
-	public void update(long time) {
-		increaseTotalCount();
-		increaseTotalTime(time);
-		updateMaxExecuteTime(time);
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		return Objects.equals(this.name, ((MonitorRecord) obj).name);
 	}
 
-	public long increaseTotalCount() {
-		return ++totalCount;
+	public long getAvgExecuteTime() {
+		if (totalCount == 0) {
+			return 0;
+		}
+		return totalTime / totalCount;
 	}
 
-	public void setTotalCount(long count) {
-		this.totalCount = count;
-	}
-
-	public long increaseTotalTime(long time) {
-		totalTime += time;
-		return totalTime;
-	}
-
-	public long updateMaxExecuteTime(long time) {
-		return this.maxExecuteTime = Math.max(this.maxExecuteTime, time);
-	}
-
-	public void setMaxExecuteTime(long time) {
-		this.maxExecuteTime = time;
+	public long getMaxExecuteTime() {
+		return maxExecuteTime;
 	}
 
 	public String getName() {
@@ -52,15 +45,18 @@ public class MonitorRecord {
 		return totalTime;
 	}
 
-	public long getMaxExecuteTime() {
-		return maxExecuteTime;
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(this.name) + 1;
 	}
 
-	public long getAvgExecuteTime() {
-		if (totalCount == 0) {
-			return 0;
-		}
-		return totalTime / totalCount;
+	public long increaseTotalCount() {
+		return ++totalCount;
+	}
+
+	public long increaseTotalTime(long time) {
+		totalTime += time;
+		return totalTime;
 	}
 
 	public MonitorRecord merge(MonitorRecord monitorRecord) {
@@ -71,22 +67,26 @@ public class MonitorRecord {
 		return newMonitorRecord;
 	}
 
+	public void setMaxExecuteTime(long time) {
+		this.maxExecuteTime = time;
+	}
+
+	public void setTotalCount(long count) {
+		this.totalCount = count;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("%s:[count: %s, total: %s, avg: %s, max: %s]", getName(), getTotalCount(), getTotalTime(), getAvgExecuteTime(), getMaxExecuteTime());
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-		return Objects.equals(this.name, ((MonitorRecord) obj).name);
+	public void update(long time) {
+		increaseTotalCount();
+		increaseTotalTime(time);
+		updateMaxExecuteTime(time);
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(this.name) + 1;
+	public long updateMaxExecuteTime(long time) {
+		return this.maxExecuteTime = Math.max(this.maxExecuteTime, time);
 	}
 }

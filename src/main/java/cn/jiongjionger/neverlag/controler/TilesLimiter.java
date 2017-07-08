@@ -1,6 +1,7 @@
 package cn.jiongjionger.neverlag.controler;
 
 import java.util.HashSet;
+
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +19,78 @@ import cn.jiongjionger.neverlag.utils.PermUtils;
 public class TilesLimiter implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
+
+	// 判断是否密集
+	public boolean isLimit(Location loc, Material type, int limit) {
+		int count = 0;
+		int[] offset = { -2, -1, 0, 1, 2 };
+		World world = loc.getWorld();
+		int baseX = loc.getChunk().getX();
+		int baseZ = loc.getChunk().getZ();
+		// 获取周围的区块
+		HashSet<Chunk> chunksAroundBlock = new HashSet<>();
+		for (int x : offset) {
+			for (int z : offset) {
+				Chunk chunk = world.getChunkAt(baseX + x, baseZ + z);
+				if (chunk.isLoaded()) {
+					chunksAroundBlock.add(chunk);
+				}
+			}
+		}
+		// 计算这个类型的Tiles数量
+		for (Chunk chunk : chunksAroundBlock) {
+			for (BlockState tiles : chunk.getTileEntities()) {
+				if (tiles.getBlock().getType().equals(type)) {
+					count++;
+				}
+			}
+		}
+		return count >= limit;
+	}
+
+	// 限制发射器
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	public void onPlaceDispenser(final BlockPlaceEvent e) {
+		if (!cm.isLimitTiles()) {
+			return;
+		}
+		if (e.getBlock().getType().equals(Material.DISPENSER)) {
+			Player p = e.getPlayer();
+			if (p.isOp()) {
+				return;
+			}
+			int limit = PermUtils.getMaxPerm(p, "neverLag.limit.dispenser.");
+			if (limit <= 0) {
+				limit = cm.getLimitTilesDispenserDefault();
+			}
+			if (isLimit(e.getBlock().getLocation(), Material.DISPENSER, limit)) {
+				e.setCancelled(true);
+				p.sendMessage(cm.getLimitTilesMessage());
+			}
+		}
+	}
+
+	// 限制投掷器
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	public void onPlaceDropper(final BlockPlaceEvent e) {
+		if (!cm.isLimitTiles()) {
+			return;
+		}
+		if (e.getBlock().getType().equals(Material.DROPPER)) {
+			Player p = e.getPlayer();
+			if (p.isOp()) {
+				return;
+			}
+			int limit = PermUtils.getMaxPerm(p, "neverLag.limit.dropper.");
+			if (limit <= 0) {
+				limit = cm.getLimitTilesDropperDefault();
+			}
+			if (isLimit(e.getBlock().getLocation(), Material.DROPPER, limit)) {
+				e.setCancelled(true);
+				p.sendMessage(cm.getLimitTilesMessage());
+			}
+		}
+	}
 
 	// 限制漏斗
 	// 将优先级设为NORMAL以与各种小游戏插件兼容. LOWEST可能破坏一些小游戏的游戏机制
@@ -69,77 +142,5 @@ public class TilesLimiter implements Listener {
 				p.sendMessage(cm.getLimitTilesMessage());
 			}
 		}
-	}
-
-	// 限制发射器
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void onPlaceDispenser(final BlockPlaceEvent e) {
-		if (!cm.isLimitTiles()) {
-			return;
-		}
-		if (e.getBlock().getType().equals(Material.DISPENSER)) {
-			Player p = e.getPlayer();
-			if (p.isOp()) {
-				return;
-			}
-			int limit = PermUtils.getMaxPerm(p, "neverLag.limit.dispenser.");
-			if (limit <= 0) {
-				limit = cm.getLimitTilesDispenserDefault();
-			}
-			if (isLimit(e.getBlock().getLocation(), Material.DISPENSER, limit)) {
-				e.setCancelled(true);
-				p.sendMessage(cm.getLimitTilesMessage());
-			}
-		}
-	}
-
-	// 限制投掷器
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void onPlaceDropper(final BlockPlaceEvent e) {
-		if (!cm.isLimitTiles()) {
-			return;
-		}
-		if (e.getBlock().getType().equals(Material.DROPPER)) {
-			Player p = e.getPlayer();
-			if (p.isOp()) {
-				return;
-			}
-			int limit = PermUtils.getMaxPerm(p, "neverLag.limit.dropper.");
-			if (limit <= 0) {
-				limit = cm.getLimitTilesDropperDefault();
-			}
-			if (isLimit(e.getBlock().getLocation(), Material.DROPPER, limit)) {
-				e.setCancelled(true);
-				p.sendMessage(cm.getLimitTilesMessage());
-			}
-		}
-	}
-
-	// 判断是否密集
-	public boolean isLimit(Location loc, Material type, int limit) {
-		int count = 0;
-		int[] offset = { -2, -1, 0, 1, 2 };
-		World world = loc.getWorld();
-		int baseX = loc.getChunk().getX();
-		int baseZ = loc.getChunk().getZ();
-		// 获取周围的区块
-		HashSet<Chunk> chunksAroundBlock = new HashSet<>();
-		for (int x : offset) {
-			for (int z : offset) {
-				Chunk chunk = world.getChunkAt(baseX + x, baseZ + z);
-				if (chunk.isLoaded()) {
-					chunksAroundBlock.add(chunk);
-				}
-			}
-		}
-		// 计算这个类型的Tiles数量
-		for (Chunk chunk : chunksAroundBlock) {
-			for (BlockState tiles : chunk.getTileEntities()) {
-				if (tiles.getBlock().getType().equals(type)) {
-					count++;
-				}
-			}
-		}
-		return count >= limit;
 	}
 }

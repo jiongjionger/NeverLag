@@ -8,6 +8,7 @@ interface ISubCommandExecutor extends CommandExecutor {
 
 	public String getPermNode();
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args);
 
 }

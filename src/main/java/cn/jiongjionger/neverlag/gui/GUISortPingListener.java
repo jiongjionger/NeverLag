@@ -16,11 +16,6 @@ public class GUISortPingListener implements Listener {
 	private final ConfigManager cm = ConfigManager.getInstance();
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
-	public void onQuit(PlayerQuitEvent e) {
-		GUISortPingHolder.clear(e.getPlayer());
-	}
-
-	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
 	public void onClickGUI(InventoryClickEvent e) {
 		Inventory inv = e.getInventory();
 		if (inv == null) {
@@ -55,5 +50,10 @@ public class GUISortPingListener implements Listener {
 		if (cm.getGuiPingTitle().equals(inv.getTitle())) {
 			GUISortPingHolder.clear(e.getPlayer().getName());
 		}
+	}
+
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+	public void onQuit(PlayerQuitEvent e) {
+		GUISortPingHolder.clear(e.getPlayer());
 	}
 }

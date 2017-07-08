@@ -76,6 +76,14 @@ public class CommandInjector extends AbstractMultipleInjector implements TabExec
 		this.tabCompleter = tabCompleter;
 	}
 
+	public CommandExecutor getCommandExecutor() {
+		return this.commandExecutor;
+	}
+
+	public TabCompleter getTabCompleter() {
+		return this.tabCompleter;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (Bukkit.isPrimaryThread()) {
@@ -99,13 +107,5 @@ public class CommandInjector extends AbstractMultipleInjector implements TabExec
 		if (tabCompleter == null)
 			return null; // onTabComplete 返回 null 表示使用默认 completer
 		return this.tabCompleter.onTabComplete(sender, command, alias, args);
-	}
-
-	public TabCompleter getTabCompleter() {
-		return this.tabCompleter;
-	}
-
-	public CommandExecutor getCommandExecutor() {
-		return this.commandExecutor;
 	}
 }

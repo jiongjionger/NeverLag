@@ -18,6 +18,11 @@ public class CommandTimings implements ISubCommandExecutor {
 	// 纯debug状态
 
 	@Override
+	public String getPermNode() {
+		return this.PERMNODE;
+	}
+
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("timings")) {
 			switch (args[1].toLowerCase()) {
@@ -46,11 +51,6 @@ public class CommandTimings implements ISubCommandExecutor {
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public String getPermNode() {
-		return this.PERMNODE;
 	}
 
 }

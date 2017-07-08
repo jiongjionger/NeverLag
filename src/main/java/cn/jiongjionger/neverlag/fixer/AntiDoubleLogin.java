@@ -6,28 +6,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class AntiDoubleLogin implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
-
-	@EventHandler(priority = EventPriority.HIGH)
-	public void onLogin(AsyncPlayerPreLoginEvent e) {
-		if (!cm.isAntiDoubleLogin()) {
-			return;
-		}
-		String username = e.getName();
-		if (username == null) {
-			return;
-		}
-		if (this.checkOnline(username)) {
-			e.disallow(Result.KICK_OTHER, cm.getAntiDoubleLoginMessage());
-		}
-	}
 
 	private boolean checkOnline(String username) {
 		try {
@@ -42,6 +28,20 @@ public class AntiDoubleLogin implements Listener {
 			// 忽略
 		}
 		return false;
+	}
+
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onLogin(AsyncPlayerPreLoginEvent e) {
+		if (!cm.isAntiDoubleLogin()) {
+			return;
+		}
+		String username = e.getName();
+		if (username == null) {
+			return;
+		}
+		if (this.checkOnline(username)) {
+			e.disallow(Result.KICK_OTHER, cm.getAntiDoubleLoginMessage());
+		}
 	}
 
 }

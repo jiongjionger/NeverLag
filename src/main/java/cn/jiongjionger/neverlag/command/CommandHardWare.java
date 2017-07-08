@@ -15,6 +15,11 @@ public class CommandHardWare implements ISubCommandExecutor {
 	private boolean isRun = false;
 
 	@Override
+	public String getPermNode() {
+		return this.PERMNODE;
+	}
+
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("hardware")) {
 			if (this.isRun) {
@@ -30,6 +35,7 @@ public class CommandHardWare implements ISubCommandExecutor {
 
 	private void showHardWareInfo(final CommandSender sender) {
 		plg.getServer().getScheduler().runTaskAsynchronously(plg, new Runnable() {
+			@Override
 			public void run() {
 				try {
 					String jvmInfo = cm.getCommandHardWareJVMInfo().replace("%JVMINFO%", HardWareInfo.getJVMInfo());
@@ -48,10 +54,5 @@ public class CommandHardWare implements ISubCommandExecutor {
 				}
 			}
 		});
-	}
-	
-	@Override
-	public String getPermNode(){
-		return this.PERMNODE;
 	}
 }

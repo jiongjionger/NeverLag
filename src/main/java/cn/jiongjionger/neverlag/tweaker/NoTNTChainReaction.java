@@ -19,8 +19,8 @@ public class NoTNTChainReaction implements Listener {
 			return;
 		}
 		Entity entity = e.getEntity();
-		// if (entity == null) {  // instanceof 自带 null 检查
-		//	return;
+		// if (entity == null) { // instanceof 自带 null 检查
+		// return;
 		// }
 		if (entity instanceof TNTPrimed) {
 			for (Entity primedTNT : entity.getNearbyEntities(4.5, 4.5, 4.5)) {

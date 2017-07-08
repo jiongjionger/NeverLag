@@ -9,23 +9,6 @@ import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
 public class SchedulerTaskInjector extends AbstractInjector implements Runnable {
 
-	// 统计定时任务的耗时、次数、最大耗时
-	@Override
-	public void run() {
-		long startTime = System.nanoTime();
-		try {
-			this.runnable.run();
-		} finally {
-			long endTime = System.nanoTime();
-			long useTime = endTime - startTime;
-			if (useTime > this.maxExecuteTime) {
-				this.maxExecuteTime = useTime;
-			}
-			this.totalTime += useTime;
-			this.totalCount += 1L;
-		}
-	}
-
 	// 替换原本的Runnable为带性能统计的版本
 	public static void inject(Plugin plg) {
 		if (plg != null) {
@@ -62,6 +45,7 @@ public class SchedulerTaskInjector extends AbstractInjector implements Runnable 
 	}
 
 	private final Runnable runnable;
+
 	private long totalCount = 0L;
 	private long totalTime = 0L;
 	private long maxExecuteTime = 0L;
@@ -69,6 +53,21 @@ public class SchedulerTaskInjector extends AbstractInjector implements Runnable 
 	public SchedulerTaskInjector(Plugin plugin, Runnable runnable) {
 		super(plugin);
 		this.runnable = runnable;
+	}
+
+	public long getAvgExecuteTime() {
+		if (this.totalCount == 0) {
+			return 0;
+		}
+		return this.totalTime / this.totalCount;
+	}
+
+	public long getMaxExecuteTime() {
+		return this.maxExecuteTime;
+	}
+
+	public Runnable getRunnable() {
+		return this.runnable;
 	}
 
 	public long getTotalCount() {
@@ -79,19 +78,21 @@ public class SchedulerTaskInjector extends AbstractInjector implements Runnable 
 		return this.totalTime;
 	}
 
-	public long getMaxExecuteTime() {
-		return this.maxExecuteTime;
+	// 统计定时任务的耗时、次数、最大耗时
+	@Override
+	public void run() {
+		long startTime = System.nanoTime();
+		try {
+			this.runnable.run();
+		} finally {
+			long endTime = System.nanoTime();
+			long useTime = endTime - startTime;
+			if (useTime > this.maxExecuteTime) {
+				this.maxExecuteTime = useTime;
+			}
+			this.totalTime += useTime;
+			this.totalCount += 1L;
+		}
 	}
 
-	public long getAvgExecuteTime(){
-		if(this.totalCount == 0){
-			return 0;
-		}
-		return this.totalTime / this.totalCount;
-	}
-	
-	public Runnable getRunnable() {
-		return this.runnable;
-	}
-	
 }

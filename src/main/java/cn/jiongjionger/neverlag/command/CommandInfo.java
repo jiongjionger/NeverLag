@@ -11,7 +11,12 @@ public class CommandInfo implements ISubCommandExecutor {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
 	private final String PERMNODE = "neverlag.command.info";
-	
+
+	@Override
+	public String getPermNode() {
+		return this.PERMNODE;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("info")) {
@@ -51,10 +56,5 @@ public class CommandInfo implements ISubCommandExecutor {
 			}
 		}
 		return true;
-	}
-	
-	@Override
-	public String getPermNode(){
-		return this.PERMNODE;
 	}
 }

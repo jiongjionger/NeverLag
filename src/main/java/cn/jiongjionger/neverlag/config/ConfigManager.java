@@ -1,10 +1,10 @@
 package cn.jiongjionger.neverlag.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 import cn.jiongjionger.neverlag.NeverLag;
-import java.io.IOException;
 
 public class ConfigManager extends AbstractConfig {
 
@@ -228,7 +228,7 @@ public class ConfigManager extends AbstractConfig {
 	public boolean isAutoCleanIllegalTypeSpawner;
 	// 非法刷怪笼的类型（保存小写）
 	@F("illegalSpawnerTypeSet")
-	public HashSet<String> illegalSpawnerTypeSet = new HashSet<String>();
+	public HashSet<String> illegalSpawnerTypeSet = new HashSet<>();
 	// 清理模式 0：删除刷怪笼 1：自动修改为自然类型（骷髅、蜘蛛、僵尸）
 	@F("illegalTypeSpawnerCleanMode")
 	public int illegalTypeSpawnerCleanMode;
@@ -237,7 +237,7 @@ public class ConfigManager extends AbstractConfig {
 	public boolean isAntiVillagerTrade;
 	// 禁止村民交易的世界
 	@F("disableVillagerTradeWorldSet")
-	public HashSet<String> disableVillagerTradeWorldSet = new HashSet<String>();
+	public HashSet<String> disableVillagerTradeWorldSet = new HashSet<>();
 	// 禁止使用铁锭破坏皮肤头
 	@F("isAntiDamageSkull")
 	public boolean isAntiDamageSkull;
@@ -411,13 +411,13 @@ public class ConfigManager extends AbstractConfig {
 	@F("lowTPSActionTimeLimit")
 	public long lowTPSActionTimeLimit;
 	@F("lowTPSCommand")
-	public ArrayList<String> lowTPSCommand = new ArrayList<String>();
+	public ArrayList<String> lowTPSCommand = new ArrayList<>();
 
 	// 是否开启客户端MOD关闭功能
 	@F("clientModDisabler")
 	public boolean clientModDisabler;
 	@F("modMagicCode")
-	public ArrayList<String> modMagicCode = new ArrayList<String>();
+	public ArrayList<String> modMagicCode = new ArrayList<>();
 
 	// 命令提示
 	@F("commandNoPerm")
@@ -471,8 +471,620 @@ public class ConfigManager extends AbstractConfig {
 		super(NeverLag.getInstance().getConfig(), NeverLag.getInstance().getLogger());
 	}
 
-	public String translate(String input) {
-		return input;
+	public int getAnimalsSpawnLimit() {
+		return animalsSpawnLimit;
+	}
+
+	public HashSet<Integer> getAntiBonemealBlackList() {
+		return antiBonemealBlackList;
+	}
+
+	public String getAntiChestViewerDupeMessage() {
+		return antiChestViewerDupeMessage;
+	}
+
+	public String getAntiDoubleLoginMessage() {
+		return antiDoubleLoginMessage;
+	}
+
+	public String getAntiQuickShopBigShopMessage() {
+		return antiQuickShopBigShopMessage;
+	}
+
+	public String getChatCooldownMessage() {
+		return chatCooldownMessage;
+	}
+
+	public long getChatCooldownTime() {
+		return chatCooldownTime;
+	}
+
+	public int getCheckMobFarmDelay() {
+		return this.checkMobFarmDelay;
+	}
+
+	public int getCheckMobFarmLooseLimit() {
+		return checkMobFarmLooseLimit;
+	}
+
+	public int getCheckMobFarmTinyLimit() {
+		return this.checkMobFarmTinyLimit;
+	}
+
+	public int getChunkGenSpawnRate() {
+		return chunkGenSpawnRate;
+	}
+
+	public String getClearEntityBroadcastMessage() {
+		return clearEntityBroadcastMessage;
+	}
+
+	public String getClearEntityBroadcastPreMessage() {
+		return clearEntityBroadcastPreMessage;
+	}
+
+	public int getClearEntityLimit() {
+		return clearEntityLimit;
+	}
+
+	public int getClearEntityPlayerNearbyDistance() {
+		return clearEntityPlayerNearbyDistance;
+	}
+
+	public HashSet<String> getClearEntityTypeBlackList() {
+		return clearEntityTypeBlackList;
+	}
+
+	public HashSet<String> getClearEntityTypeWhiteList() {
+		return clearEntityTypeWhiteList;
+	}
+
+	public String getClearItemBroadcastMessage() {
+		return clearItemBroadcastMessage;
+	}
+
+	public String getClearItemBroadcastPreMessage() {
+		return clearItemBroadcastPreMessage;
+	}
+
+	public int getClearItemDelay() {
+		return clearItemDelay;
+	}
+
+	public int getClearItemPlayerNearbyDistance() {
+		return clearItemPlayerNearbyDistance;
+	}
+
+	public String getClearItemPreHoloMessage() {
+		return clearItemPreHoloMessage;
+	}
+
+	public int getClearMobDelay() {
+		return clearMobDelay;
+	}
+
+	public String getCommandClearMessage() {
+		return commandClearMessage;
+	}
+
+	public String getCommandClearNoTypeArg() {
+		return commandClearNoTypeArg;
+	}
+
+	public String getCommandCooldownMessage() {
+		return commandCooldownMessage;
+	}
+
+	public long getCommandCooldownTime() {
+		return commandCooldownTime;
+	}
+
+	public HashSet<String> getCommandCooldownWhiteList() {
+		return commandCooldownWhiteList;
+	}
+
+	public String getCommandFinishBenchmark() {
+		return commandFinishBenchmark;
+	}
+
+	public String getCommandGCMessage() {
+		return commandGCMessage;
+	}
+
+	public String getCommandGCNoEffectMessage() {
+		return commandGCNoEffectMessage;
+	}
+
+	public String getCommandHardWareCPUInfo() {
+		return commandHardWareCPUInfo;
+	}
+
+	public String getCommandHardWareJVMArg() {
+		return commandHardWareJVMArg;
+	}
+
+	public String getCommandHardWareJVMInfo() {
+		return commandHardWareJVMInfo;
+	}
+
+	public String getCommandHardWareMemoryInfo() {
+		return commandHardWareMemoryInfo;
+	}
+
+	public String getCommandHardWareSystemInfo() {
+		return commandHardWareSystemInfo;
+	}
+
+	public String getCommandInfoBaseMessage() {
+		return commandInfoBaseMessage;
+	}
+
+	public String getCommandNoFinishFetchHardWareInfo() {
+		return commandNoFinishFetchHardWareInfo;
+	}
+
+	public String getCommandNoPerm() {
+		return commandNoPerm;
+	}
+
+	public String getCommandNoPlayerOnline() {
+		return commandNoPlayerOnline;
+	}
+
+	public String getCommandStartBenchmark() {
+		return commandStartBenchmark;
+	}
+
+	public String getCommandStartFetchHardWareInfo() {
+		return commandStartFetchHardWareInfo;
+	}
+
+	public String getCommandWorldInfoMessage() {
+		return commandWorldInfoMessage;
+	}
+
+	public int getDiodeLimit() {
+		return diodeLimit;
+	}
+
+	public HashSet<String> getDisableVillagerTradeWorldSet() {
+		return disableVillagerTradeWorldSet;
+	}
+
+	public double getEntitySpawnLimitTpsLimit() {
+		return entitySpawnLimitTpsLimit;
+	}
+
+	public String getGuiNextItemDisplay() {
+		return guiNextItemDisplay;
+	}
+
+	public String getGuiPingItemDisplay() {
+		return guiPingItemDisplay;
+	}
+
+	public String getGuiPingItemLore() {
+		return guiPingItemLore;
+	}
+
+	public String getGuiPingTitle() {
+		return guiPingTitle;
+	}
+
+	public String getGuiPreItemDisplay() {
+		return guiPreItemDisplay;
+	}
+
+	public long getHotChunkHolderCountLimit() {
+		return hotChunkHolderCountLimit;
+	}
+
+	public int getHotChunkHolderNum() {
+		return hotChunkHolderNum;
+	}
+
+	public long getHotChunkHolderTimeLimit() {
+		return hotChunkHolderTimeLimit;
+	}
+
+	public double getHotChunkHolderTpsLimit() {
+		return hotChunkHolderTpsLimit;
+	}
+
+	public int getHotChunkUnloadTimeLimit() {
+		return hotChunkUnloadTimeLimit;
+	}
+
+	public HashSet<String> getIllegalSpawnerTypeSet() {
+		return illegalSpawnerTypeSet;
+	}
+
+	public int getIllegalTypeSpawnerCleanMode() {
+		return illegalTypeSpawnerCleanMode;
+	}
+
+	public int getLimitTilesDispenserDefault() {
+		return limitTilesDispenserDefault;
+	}
+
+	public int getLimitTilesDropperDefault() {
+		return limitTilesDropperDefault;
+	}
+
+	public int getLimitTilesHopperDefault() {
+		return limitTilesHopperDefault;
+	}
+
+	public String getLimitTilesMessage() {
+		return limitTilesMessage;
+	}
+
+	public int getLimitTilesPistonDefault() {
+		return limitTilesPistonDefault;
+	}
+
+	public long getLowTPSActionTimeLimit() {
+		return lowTPSActionTimeLimit;
+	}
+
+	public ArrayList<String> getLowTPSCommand() {
+		return lowTPSCommand;
+	}
+
+	public double getLowTPSLimit() {
+		return lowTPSLimit;
+	}
+
+	public int getMobSpawnLimit() {
+		return mobSpawnLimit;
+	}
+
+	public ArrayList<String> getModMagicCode() {
+		return modMagicCode;
+	}
+
+	public HashSet<String> getNoClearEntityWorld() {
+		return noClearEntityWorld;
+	}
+
+	public HashSet<Integer> getNoClearItemId() {
+		return noClearItemId;
+	}
+
+	public HashSet<String> getNoClearItemWorld() {
+		return noClearItemWorld;
+	}
+
+	public int getNoHighFallWaterDistance() {
+		return noHighFallWaterDistance;
+	}
+
+	public int getNormalSpawnRate() {
+		return normalSpawnRate;
+	}
+
+	public int getPortalSpawnRate() {
+		return portalSpawnRate;
+	}
+
+	public String getQuickshopFlag() {
+		return quickshopFlag;
+	}
+
+	public int getRedstoneCheckDelay() {
+		return redstoneCheckDelay;
+	}
+
+	public HashSet<Integer> getRedstoneClearType() {
+		return redstoneClearType;
+	}
+
+	public int getRedstoneLimit() {
+		return redstoneLimit;
+	}
+
+	public long getReduceFireSpreadTime() {
+		return reduceFireSpreadTime;
+	}
+
+	public int getSpawnerEntityCountPerChunkLimit() {
+		return spawnerEntityCountPerChunkLimit;
+	}
+
+	public int getSpawnerSpawnRate() {
+		return spawnerSpawnRate;
+	}
+
+	public int getVillageSpawnRate() {
+		return villageSpawnRate;
+	}
+
+	public boolean isAntiBonemealDupe() {
+		return isAntiBonemealDupe;
+	}
+
+	public boolean isAntiChestViewerDupe() {
+		return isAntiChestViewerDupe;
+	}
+
+	public boolean isAntiCrashChat() {
+		return isAntiCrashChat;
+	}
+
+	public boolean isAntiCrashSign() {
+		return isAntiCrashSign;
+	}
+
+	public boolean isAntiCrashSkull() {
+		return isAntiCrashSkull;
+	}
+
+	public boolean isAntiDamageSkull() {
+		return isAntiDamageSkull;
+	}
+
+	public boolean isAntiDoubleLogin() {
+		return isAntiDoubleLogin;
+	}
+
+	public boolean isAntiDropItemDupe() {
+		return isAntiDropItemDupe;
+	}
+
+	public boolean isAntiInfiniteRail() {
+		return isAntiInfiniteRail;
+	}
+
+	public boolean isAntiMinecartPortal() {
+		return isAntiMinecartPortal;
+	}
+
+	public boolean isAntiNegativeItemDupe() {
+		return isAntiNegativeItemDupe;
+	}
+
+	public boolean isAntiNetherHopper() {
+		return isAntiNetherHopper;
+	}
+
+	public boolean isAntiPlaceDoorDupe() {
+		return isAntiPlaceDoorDupe;
+	}
+
+	public boolean isAntiQuickShopBigShop() {
+		return isAntiQuickShopBigShop;
+	}
+
+	public boolean isAntiUseEggsChangeSpawnerType() {
+		return isAntiUseEggsChangeSpawnerType;
+	}
+
+	public boolean isAntiVillagerTrade() {
+		return isAntiVillagerTrade;
+	}
+
+	public boolean isAutoCleanIllegalTypeSpawner() {
+		return isAutoCleanIllegalTypeSpawner;
+	}
+
+	public boolean isBroadcastClearEntity() {
+		return isBroadcastClearEntity;
+	}
+
+	public boolean isBroadcastClearItem() {
+		return isBroadcastClearItem;
+	}
+
+	public boolean isCheckMobFarm() {
+		return isCheckMobFarm;
+	}
+
+	public boolean isCheckRedstone() {
+		return isCheckRedstone;
+	}
+
+	public boolean isCheckRedstoneOnAsync() {
+		return isCheckRedstoneOnAsync;
+	}
+
+	public boolean isClearAnimals() {
+		return isClearAnimals;
+	}
+
+	public boolean isClearArrow() {
+		return isClearArrow;
+	}
+
+	public boolean isClearBoat() {
+		return isClearBoat;
+	}
+
+	public boolean isClearDropItem() {
+		return isClearDropItem;
+	}
+
+	public boolean isClearEntity() {
+		return isClearEntity;
+	}
+
+	public boolean isClearEntityPlayerNearby() {
+		return isClearEntityPlayerNearby;
+	}
+
+	public boolean isClearExpBall() {
+		return isClearExpBall;
+	}
+
+	public boolean isClearFallingBlock() {
+		return isClearFallingBlock;
+	}
+
+	public boolean isClearItem() {
+		return isClearItem;
+	}
+
+	public boolean isClearItemFrame() {
+		return isClearItemFrame;
+	}
+
+	public boolean isClearItemPlayerNearby() {
+		return isClearItemPlayerNearby;
+	}
+
+	public boolean isClearItemPreHoloMessage() {
+		return isClearItemPreHoloMessage;
+	}
+
+	public boolean isClearLimit() {
+		return isClearLimit;
+	}
+
+	public boolean isClearMinecart() {
+		return isClearMinecart;
+	}
+
+	public boolean isClearMonster() {
+		return isClearMonster;
+	}
+
+	public boolean isClearPainting() {
+		return isClearPainting;
+	}
+
+	public boolean isClearSnowBall() {
+		return isClearSnowBall;
+	}
+
+	public boolean isClearSquid() {
+		return isClearSquid;
+	}
+
+	public boolean isClearVillager() {
+		return isClearVillager;
+	}
+
+	public boolean isClientModDisabler() {
+		return clientModDisabler;
+	}
+
+	public boolean isCooldownChatAndCommand() {
+		return isCooldownChatAndCommand;
+	}
+
+	public boolean isDisableAnimalsPortal() {
+		return isDisableAnimalsPortal;
+	}
+
+	public boolean isDisableDropItemPortal() {
+		return isDisableDropItemPortal;
+	}
+
+	public boolean isDisableEntityPortal() {
+		return isDisableEntityPortal;
+	}
+
+	public boolean isDisableExplode() {
+		return isDisableExplode;
+	}
+
+	public boolean isDisableMonsterPortal() {
+		return isDisableMonsterPortal;
+	}
+
+	public boolean isDisablePMM() {
+		return isDisablePMM;
+	}
+
+	public boolean isDisableProjectilePortal() {
+		return isDisableProjectilePortal;
+	}
+
+	public boolean isFarmProtect() {
+		return isFarmProtect;
+	}
+
+	public boolean isHotChunkHolder() {
+		return isHotChunkHolder;
+	}
+
+	public boolean isLimitEntitySpawn() {
+		return isLimitEntitySpawn;
+	}
+
+	public boolean isLimitEntitySpawnByTps() {
+		return isLimitEntitySpawnByTps;
+	}
+
+	public boolean isLimitTiles() {
+		return isLimitTiles;
+	}
+
+	public boolean isLowTPSAction() {
+		return lowTPSAction;
+	}
+
+	public boolean isLowTPSCleanEntity() {
+		return lowTPSCleanEntity;
+	}
+
+	public boolean isLowTPSCleanItem() {
+		return lowTPSCleanItem;
+	}
+
+	public boolean isLowTPSForceGC() {
+		return lowTPSForceGC;
+	}
+
+	public boolean isNoHighFallWater() {
+		return noHighFallWater;
+	}
+
+	public boolean isNoTNTChainReaction() {
+		return noTNTChainReaction;
+	}
+
+	public boolean isRedstoneDrop() {
+		return isRedstoneDrop;
+	}
+
+	public boolean isRedstoneMessage() {
+		return isRedstoneMessage;
+	}
+
+	public boolean isReduceFireSpread() {
+		return isReduceFireSpread;
+	}
+
+	public boolean isRemoveAnimalsWhenChunkUnload() {
+		return removeAnimalsWhenChunkUnload;
+	}
+
+	public boolean isRemoveArrowWhenChunkUnload() {
+		return removeArrowWhenChunkUnload;
+	}
+
+	public boolean isRemoveDropItemWhenChunkUnload() {
+		return removeDropItemWhenChunkUnload;
+	}
+
+	public boolean isRemoveEntityWhenChunkUnload() {
+		return removeEntityWhenChunkUnload;
+	}
+
+	public boolean isRemoveMonsterWhenChunkUnload() {
+		return removeMonsterWhenChunkUnload;
+	}
+
+	public boolean isRemoveSquidWhenChunkUnload() {
+		return removeSquidWhenChunkUnload;
+	}
+
+	public boolean isSpawnChunkKeepInMemory() {
+		return isSpawnChunkKeepInMemory;
+	}
+
+	public boolean isSpawnRate() {
+		return isSpawnRate;
 	}
 
 	@Override
@@ -486,1236 +1098,624 @@ public class ConfigManager extends AbstractConfig {
 		NeverLag.getInstance().saveConfig();
 	}
 
-	public HashSet<String> getNoClearItemWorld() {
-		return noClearItemWorld;
-	}
-
-	public void setNoClearItemWorld(HashSet<String> noClearItemWorld) {
-		this.noClearItemWorld = noClearItemWorld;
-	}
-
-	public boolean isClearItem() {
-		return isClearItem;
-	}
-
-	public void setClearItem(boolean isClearItem) {
-		this.isClearItem = isClearItem;
-	}
-
-	public int getClearItemDelay() {
-		return clearItemDelay;
-	}
-
-	public void setClearItemDelay(int clearItemDelay) {
-		this.clearItemDelay = clearItemDelay;
-	}
-
-	public HashSet<Integer> getNoClearItemId() {
-		return noClearItemId;
-	}
-
-	public void setNoClearItemId(HashSet<Integer> noClearItemId) {
-		this.noClearItemId = noClearItemId;
-	}
-
-	public boolean isClearItemFrame() {
-		return isClearItemFrame;
-	}
-
-	public void setClearItemFrame(boolean isClearItemFrame) {
-		this.isClearItemFrame = isClearItemFrame;
-	}
-
-	public boolean isClearBoat() {
-		return isClearBoat;
-	}
-
-	public void setClearBoat(boolean isClearBoat) {
-		this.isClearBoat = isClearBoat;
-	}
-
-	public boolean isClearExpBall() {
-		return isClearExpBall;
-	}
-
-	public void setClearExpBall(boolean isClearExpBall) {
-		this.isClearExpBall = isClearExpBall;
-	}
-
-	public boolean isClearFallingBlock() {
-		return isClearFallingBlock;
-	}
-
-	public void setClearFallingBlock(boolean isClearFallingBlock) {
-		this.isClearFallingBlock = isClearFallingBlock;
-	}
-
-	public boolean isClearPainting() {
-		return isClearPainting;
-	}
-
-	public void setClearPainting(boolean isClearPainting) {
-		this.isClearPainting = isClearPainting;
-	}
-
-	public boolean isClearMinecart() {
-		return isClearMinecart;
-	}
-
-	public void setClearMinecart(boolean isClearMinecart) {
-		this.isClearMinecart = isClearMinecart;
-	}
-
-	public boolean isClearArrow() {
-		return isClearArrow;
-	}
-
-	public void setClearArrow(boolean isClearArrow) {
-		this.isClearArrow = isClearArrow;
-	}
-
-	public boolean isClearSnowBall() {
-		return isClearSnowBall;
-	}
-
-	public void setClearSnowBall(boolean isClearSnowBall) {
-		this.isClearSnowBall = isClearSnowBall;
-	}
-
-	public boolean isBroadcastClearItem() {
-		return isBroadcastClearItem;
-	}
-
-	public void setBroadcastClearItem(boolean isBroadcastClearItem) {
-		this.isBroadcastClearItem = isBroadcastClearItem;
-	}
-
-	public String getClearItemBroadcastMessage() {
-		return clearItemBroadcastMessage;
-	}
-
-	public void setClearItemBroadcastMessage(String clearItemBroadcastMessage) {
-		this.clearItemBroadcastMessage = clearItemBroadcastMessage;
-	}
-
-	public String getClearItemBroadcastPreMessage() {
-		return clearItemBroadcastPreMessage;
-	}
-
-	public void setClearItemBroadcastPreMessage(String clearItemBroadcastPreMessage) {
-		this.clearItemBroadcastPreMessage = clearItemBroadcastPreMessage;
-	}
-
-	public boolean isClearEntity() {
-		return isClearEntity;
-	}
-
-	public void setClearEntity(boolean isClearEntity) {
-		this.isClearEntity = isClearEntity;
-	}
-
-	public HashSet<String> getNoClearEntityWorld() {
-		return noClearEntityWorld;
-	}
-
-	public void setNoClearEntityWorld(HashSet<String> noClearEntityWorld) {
-		this.noClearEntityWorld = noClearEntityWorld;
-	}
-
-	public int getClearMobDelay() {
-		return clearMobDelay;
-	}
-
-	public void setClearMobDelay(int clearMobDelay) {
-		this.clearMobDelay = clearMobDelay;
-	}
-
-	public boolean isClearLimit() {
-		return isClearLimit;
-	}
-
-	public void setClearLimit(boolean isClearLimit) {
-		this.isClearLimit = isClearLimit;
-	}
-
-	public int getClearEntityLimit() {
-		return clearEntityLimit;
-	}
-
-	public void setClearEntityLimit(int clearEntityLimit) {
-		this.clearEntityLimit = clearEntityLimit;
-	}
-
-	public boolean isClearAnimals() {
-		return isClearAnimals;
-	}
-
-	public void setClearAnimals(boolean isClearAnimals) {
-		this.isClearAnimals = isClearAnimals;
-	}
-
-	public boolean isClearMonster() {
-		return isClearMonster;
-	}
-
-	public void setClearMonster(boolean isClearMonster) {
-		this.isClearMonster = isClearMonster;
-	}
-
-	public boolean isClearSquid() {
-		return isClearSquid;
-	}
-
-	public void setClearSquid(boolean isClearSquid) {
-		this.isClearSquid = isClearSquid;
-	}
-
-	public boolean isClearVillager() {
-		return isClearVillager;
-	}
-
-	public void setClearVillager(boolean isClearVillager) {
-		this.isClearVillager = isClearVillager;
-	}
-
-	public HashSet<String> getClearEntityTypeBlackList() {
-		return clearEntityTypeBlackList;
-	}
-
-	public void setClearEntityTypeBlackList(HashSet<String> clearEntityTypeBlackList) {
-		this.clearEntityTypeBlackList = clearEntityTypeBlackList;
-	}
-
-	public HashSet<String> getClearEntityTypeWhiteList() {
-		return clearEntityTypeWhiteList;
-	}
-
-	public void setClearEntityTypeWhiteList(HashSet<String> clearEntityTypeWhiteList) {
-		this.clearEntityTypeWhiteList = clearEntityTypeWhiteList;
-	}
-
-	public boolean isBroadcastClearEntity() {
-		return isBroadcastClearEntity;
-	}
-
-	public void setBroadcastClearEntity(boolean isBroadcastClearEntity) {
-		this.isBroadcastClearEntity = isBroadcastClearEntity;
-	}
-
-	public String getClearEntityBroadcastMessage() {
-		return clearEntityBroadcastMessage;
-	}
-
-	public void setClearEntityBroadcastMessage(String clearEntityBroadcastMessage) {
-		this.clearEntityBroadcastMessage = clearEntityBroadcastMessage;
-	}
-
-	public String getClearEntityBroadcastPreMessage() {
-		return clearEntityBroadcastPreMessage;
-	}
-
-	public void setClearEntityBroadcastPreMessage(String clearEntityBroadcastPreMessage) {
-		this.clearEntityBroadcastPreMessage = clearEntityBroadcastPreMessage;
-	}
-
-	public boolean isCheckRedstone() {
-		return isCheckRedstone;
-	}
-
-	public void setCheckRedstone(boolean isCheckRedstone) {
-		this.isCheckRedstone = isCheckRedstone;
-	}
-
-	public boolean isCheckRedstoneOnAsync() {
-		return isCheckRedstoneOnAsync;
-	}
-
-	public void setCheckredStoneOnAsync(boolean isCheckredStoneOnAsync) {
-		this.isCheckRedstoneOnAsync = isCheckredStoneOnAsync;
-	}
-
-	public int getRedstoneLimit() {
-		return redstoneLimit;
-	}
-
-	public void setRedstoneLimit(int redstoneLimit) {
-		this.redstoneLimit = redstoneLimit;
-	}
-
-	public int getDiodeLimit() {
-		return diodeLimit;
-	}
-
-	public void setDiodeLimit(int diodeLimit) {
-		this.diodeLimit = diodeLimit;
-	}
-
-	public int getRedstoneCheckDelay() {
-		return redstoneCheckDelay;
-	}
-
-	public void setRedstoneCheckDelay(int redstoneCheckDelay) {
-		this.redstoneCheckDelay = redstoneCheckDelay;
-	}
-
-	public HashSet<Integer> getRedstoneClearType() {
-		return redstoneClearType;
-	}
-
-	public void setRedstoneClearType(HashSet<Integer> redstoneClearType) {
-		this.redstoneClearType = redstoneClearType;
-	}
-
-	public boolean isRedstoneDrop() {
-		return isRedstoneDrop;
-	}
-
-	public void setRedstoneDrop(boolean isRedstoneDrop) {
-		this.isRedstoneDrop = isRedstoneDrop;
-	}
-
-	public boolean isRedstoneMessage() {
-		return isRedstoneMessage;
-	}
-
-	public void setRedstoneMessage(boolean isRedstoneMessage) {
-		this.isRedstoneMessage = isRedstoneMessage;
-	}
-
-	public boolean isClearItemPlayerNearby() {
-		return isClearItemPlayerNearby;
-	}
-
-	public void setClearItemPlayerNearby(boolean isClearItemPlayerNearby) {
-		this.isClearItemPlayerNearby = isClearItemPlayerNearby;
-	}
-
-	public int getClearItemPlayerNearbyDistance() {
-		return clearItemPlayerNearbyDistance;
-	}
-
-	public void setClearItemPlayerNearbyDistance(int clearItemPlayerNearbyDistance) {
-		this.clearItemPlayerNearbyDistance = clearItemPlayerNearbyDistance;
-	}
-
-	public boolean isClearEntityPlayerNearby() {
-		return isClearEntityPlayerNearby;
-	}
-
-	public void setClearEntityPlayerNearby(boolean isClearEntityPlayerNearby) {
-		this.isClearEntityPlayerNearby = isClearEntityPlayerNearby;
-	}
-
-	public int getClearEntityPlayerNearbyDistance() {
-		return clearEntityPlayerNearbyDistance;
-	}
-
-	public void setClearEntityPlayerNearbyDistance(int clearEntityPlayerNearbyDistance) {
-		this.clearEntityPlayerNearbyDistance = clearEntityPlayerNearbyDistance;
-	}
-
-	public boolean isCheckMobFarm() {
-		return isCheckMobFarm;
-	}
-
-	public void setCheckMobFarm(boolean isCheckMobFarm) {
-		this.isCheckMobFarm = isCheckMobFarm;
-	}
-
-	public int getCheckMobFarmLooseLimit() {
-		return checkMobFarmLooseLimit;
-	}
-
-	public void setCheckMobFarmLooseLimit(int checkMobFarmLooseLimit) {
-		this.checkMobFarmLooseLimit = checkMobFarmLooseLimit;
-	}
-
-	public int getCheckMobFarmTinyLimit() {
-		return this.checkMobFarmTinyLimit;
-	}
-
-	public void setCheckMobFarmTinyLimit(int checkMobFarmTinyLimit) {
-		this.checkMobFarmTinyLimit = checkMobFarmTinyLimit;
-	}
-
-	public int getCheckMobFarmDelay() {
-		return this.checkMobFarmDelay;
-	}
-
-	public void setCheckMobFarmDelay(int checkMobFarmDelay) {
-		this.checkMobFarmDelay = checkMobFarmDelay;
-	}
-
-	public boolean isAntiInfiniteRail() {
-		return isAntiInfiniteRail;
-	}
-
-	public void setAntiInfiniteRail(boolean isAntiInfiniteRail) {
-		this.isAntiInfiniteRail = isAntiInfiniteRail;
-	}
-
-	public boolean isAntiCrashChat() {
-		return isAntiCrashChat;
-	}
-
-	public void setAntiCrashChat(boolean isAntiCrashChat) {
-		this.isAntiCrashChat = isAntiCrashChat;
-	}
-
-	public boolean isAntiBonemealDupe() {
-		return isAntiBonemealDupe;
-	}
-
-	public void setAntiBonemealDupe(boolean isAntiBonemealDupe) {
-		this.isAntiBonemealDupe = isAntiBonemealDupe;
-	}
-
-	public HashSet<Integer> getAntiBonemealBlackList() {
-		return antiBonemealBlackList;
+	public void setAnimalsSpawnLimit(int animalsSpawnLimit) {
+		this.animalsSpawnLimit = animalsSpawnLimit;
 	}
 
 	public void setAntiBonemealBlackList(HashSet<Integer> antiBonemealBlackList) {
 		this.antiBonemealBlackList = antiBonemealBlackList;
 	}
 
-	public boolean isAntiMinecartPortal() {
-		return isAntiMinecartPortal;
-	}
-
-	public void setAntiMinecartPortal(boolean isAntiMinecartPortal) {
-		this.isAntiMinecartPortal = isAntiMinecartPortal;
-	}
-
-	public boolean isAntiNegativeItemDupe() {
-		return isAntiNegativeItemDupe;
-	}
-
-	public void setAntiNegativeItemDupe(boolean isAntiNegativeItemDupe) {
-		this.isAntiNegativeItemDupe = isAntiNegativeItemDupe;
-	}
-
-	public boolean isAntiDropItemDupe() {
-		return isAntiDropItemDupe;
-	}
-
-	public void setAntiDropItemDupe(boolean isAntiDropItemDupe) {
-		this.isAntiDropItemDupe = isAntiDropItemDupe;
-	}
-
-	public boolean isAntiCrashSign() {
-		return isAntiCrashSign;
-	}
-
-	public void setAntiCrashSign(boolean isAntiCrashSign) {
-		this.isAntiCrashSign = isAntiCrashSign;
-	}
-
-	public boolean isAntiNetherHopper() {
-		return isAntiNetherHopper;
-	}
-
-	public void setAntiNetherHopper(boolean isAntiNetherHopper) {
-		this.isAntiNetherHopper = isAntiNetherHopper;
-	}
-
-	public boolean isAntiPlaceDoorDupe() {
-		return isAntiPlaceDoorDupe;
-	}
-
-	public void setAntiPlaceDoorDupe(boolean isAntiPlaceDoorDupe) {
-		this.isAntiPlaceDoorDupe = isAntiPlaceDoorDupe;
-	}
-
-	public boolean isAntiChestViewerDupe() {
-		return isAntiChestViewerDupe;
+	public void setAntiBonemealDupe(boolean isAntiBonemealDupe) {
+		this.isAntiBonemealDupe = isAntiBonemealDupe;
 	}
 
 	public void setAntiChestViewerDupe(boolean isAntiChestViewerDupe) {
 		this.isAntiChestViewerDupe = isAntiChestViewerDupe;
 	}
 
-	public String getAntiChestViewerDupeMessage() {
-		return antiChestViewerDupeMessage;
-	}
-
 	public void setAntiChestViewerDupeMessage(String antiChestViewerDupeMessage) {
 		this.antiChestViewerDupeMessage = antiChestViewerDupeMessage;
 	}
 
-	public boolean isCooldownChatAndCommand() {
-		return isCooldownChatAndCommand;
+	public void setAntiCrashChat(boolean isAntiCrashChat) {
+		this.isAntiCrashChat = isAntiCrashChat;
 	}
 
-	public void setCooldownChatAndCommand(boolean isCooldownChatAndCommand) {
-		this.isCooldownChatAndCommand = isCooldownChatAndCommand;
-	}
-
-	public HashSet<String> getCommandCooldownWhiteList() {
-		return commandCooldownWhiteList;
-	}
-
-	public void setCommandCooldownWhiteList(HashSet<String> commandCooldownWhiteList) {
-		this.commandCooldownWhiteList = commandCooldownWhiteList;
-	}
-
-	public long getCommandCooldownTime() {
-		return commandCooldownTime;
-	}
-
-	public void setCommandCooldownTime(long commandCooldownTime) {
-		this.commandCooldownTime = commandCooldownTime;
-	}
-
-	public long getChatCooldownTime() {
-		return chatCooldownTime;
-	}
-
-	public void setChatCooldownTime(long chatCooldownTime) {
-		this.chatCooldownTime = chatCooldownTime;
-	}
-
-	public String getCommandCooldownMessage() {
-		return commandCooldownMessage;
-	}
-
-	public void setCommandCooldownMessage(String commandCooldownMessage) {
-		this.commandCooldownMessage = commandCooldownMessage;
-	}
-
-	public String getChatCooldownMessage() {
-		return chatCooldownMessage;
-	}
-
-	public void setChatCooldownMessage(String chatCooldownMessage) {
-		this.chatCooldownMessage = chatCooldownMessage;
-	}
-
-	public boolean isSpawnChunkKeepInMemory() {
-		return isSpawnChunkKeepInMemory;
-	}
-
-	public void setSpawnChunkKeepInMemory(boolean isSpawnChunkKeepInMemory) {
-		this.isSpawnChunkKeepInMemory = isSpawnChunkKeepInMemory;
-	}
-
-	public boolean isLimitEntitySpawn() {
-		return isLimitEntitySpawn;
-	}
-
-	public void setLimitEntitySpawn(boolean isLimitEntitySpawn) {
-		this.isLimitEntitySpawn = isLimitEntitySpawn;
-	}
-
-	public int getMobSpawnLimit() {
-		return mobSpawnLimit;
-	}
-
-	public void setMobSpawnLimit(int mobSpawnLimit) {
-		this.mobSpawnLimit = mobSpawnLimit;
-	}
-
-	public int getAnimalsSpawnLimit() {
-		return animalsSpawnLimit;
-	}
-
-	public void setAnimalsSpawnLimit(int animalsSpawnLimit) {
-		this.animalsSpawnLimit = animalsSpawnLimit;
-	}
-
-	public boolean isLimitEntitySpawnByTps() {
-		return isLimitEntitySpawnByTps;
-	}
-
-	public void setLimitEntitySpawnByTps(boolean isLimitEntitySpawnByTps) {
-		this.isLimitEntitySpawnByTps = isLimitEntitySpawnByTps;
-	}
-
-	public double getEntitySpawnLimitTpsLimit() {
-		return entitySpawnLimitTpsLimit;
-	}
-
-	public void setEntitySpawnLimitTpsLimit(double entitySpawnLimitTpsLimit) {
-		this.entitySpawnLimitTpsLimit = entitySpawnLimitTpsLimit;
-	}
-
-	public int getSpawnerEntityCountPerChunkLimit() {
-		return spawnerEntityCountPerChunkLimit;
-	}
-
-	public void setSpawnerEntityCountPerChunkLimit(int spawnerEntityCountPerChunkLimit) {
-		this.spawnerEntityCountPerChunkLimit = spawnerEntityCountPerChunkLimit;
-	}
-
-	public boolean isFarmProtect() {
-		return isFarmProtect;
-	}
-
-	public void setFarmProtect(boolean isFarmProtect) {
-		this.isFarmProtect = isFarmProtect;
-	}
-
-	public boolean isDisableExplode() {
-		return isDisableExplode;
-	}
-
-	public void setDisableExplode(boolean isDisableExplode) {
-		this.isDisableExplode = isDisableExplode;
-	}
-
-	public boolean isAntiCrashSkull() {
-		return isAntiCrashSkull;
+	public void setAntiCrashSign(boolean isAntiCrashSign) {
+		this.isAntiCrashSign = isAntiCrashSign;
 	}
 
 	public void setAntiCrashSkull(boolean isAntiCrashSkull) {
 		this.isAntiCrashSkull = isAntiCrashSkull;
 	}
 
-	public boolean isLimitTiles() {
-		return isLimitTiles;
-	}
-
-	public void setLimitTiles(boolean isLimitTiles) {
-		this.isLimitTiles = isLimitTiles;
-	}
-
-	public String getLimitTilesMessage() {
-		return limitTilesMessage;
-	}
-
-	public void setLimitTilesMessage(String limitTilesMessage) {
-		this.limitTilesMessage = limitTilesMessage;
-	}
-
-	public int getLimitTilesDropperDefault() {
-		return limitTilesDropperDefault;
-	}
-
-	public void setLimitTilesDropperDefault(int limitTilesDropperDefault) {
-		this.limitTilesDropperDefault = limitTilesDropperDefault;
-	}
-
-	public int getLimitTilesHopperDefault() {
-		return limitTilesHopperDefault;
-	}
-
-	public void setLimitTilesHopperDefault(int limitTilesHopperDefault) {
-		this.limitTilesHopperDefault = limitTilesHopperDefault;
-	}
-
-	public int getLimitTilesDispenserDefault() {
-		return limitTilesDispenserDefault;
-	}
-
-	public void setLimitTilesDispenserDefault(int limitTilesDispenserDefault) {
-		this.limitTilesDispenserDefault = limitTilesDispenserDefault;
-	}
-
-	public int getLimitTilesPistonDefault() {
-		return limitTilesPistonDefault;
-	}
-
-	public void setLimitTilesPistonDefault(int limitTilesPistonDefault) {
-		this.limitTilesPistonDefault = limitTilesPistonDefault;
-	}
-
-	public boolean isDisablePMM() {
-		return isDisablePMM;
-	}
-
-	public void setDisablePMM(boolean isDisablePMM) {
-		this.isDisablePMM = isDisablePMM;
-	}
-
-	public String getAntiQuickShopBigShopMessage() {
-		return antiQuickShopBigShopMessage;
-	}
-
-	public void setAntiQuickShopBigShopMessage(String antiQuickShopBigShopMessage) {
-		this.antiQuickShopBigShopMessage = antiQuickShopBigShopMessage;
-	}
-
-	public String getQuickshopFlag() {
-		return quickshopFlag;
-	}
-
-	public void setQuickshopFlag(String quickshopFlag) {
-		this.quickshopFlag = quickshopFlag;
-	}
-
-	public boolean isAntiQuickShopBigShop() {
-		return isAntiQuickShopBigShop;
-	}
-
-	public void setAntiQuickShopBigShop(boolean isAntiQuickShopBigShop) {
-		this.isAntiQuickShopBigShop = isAntiQuickShopBigShop;
-	}
-
-	public boolean isSpawnRate() {
-		return isSpawnRate;
-	}
-
-	public void setSpawnRate(boolean isSpawnRate) {
-		this.isSpawnRate = isSpawnRate;
-	}
-
-	public int getNormalSpawnRate() {
-		return normalSpawnRate;
-	}
-
-	public void setNormalSpawnRate(int normalSpawnRate) {
-		this.normalSpawnRate = normalSpawnRate;
-	}
-
-	public int getSpawnerSpawnRate() {
-		return spawnerSpawnRate;
-	}
-
-	public void setSpawnerSpawnRate(int spawnerSpawnRate) {
-		this.spawnerSpawnRate = spawnerSpawnRate;
-	}
-
-	public int getChunkGenSpawnRate() {
-		return chunkGenSpawnRate;
-	}
-
-	public void setChunkGenSpawnRate(int chunkGenSpawnRate) {
-		this.chunkGenSpawnRate = chunkGenSpawnRate;
-	}
-
-	public int getVillageSpawnRate() {
-		return villageSpawnRate;
-	}
-
-	public void setVillageSpawnRate(int villageSpawnRate) {
-		this.villageSpawnRate = villageSpawnRate;
-	}
-
-	public int getPortalSpawnRate() {
-		return portalSpawnRate;
-	}
-
-	public void setPortalSpawnRate(int portalSpawnRate) {
-		this.portalSpawnRate = portalSpawnRate;
-	}
-
-	public boolean isHotChunkHolder() {
-		return isHotChunkHolder;
-	}
-
-	public void setHotChunkHolder(boolean isHotChunkHolder) {
-		this.isHotChunkHolder = isHotChunkHolder;
-	}
-
-	public long getHotChunkHolderTimeLimit() {
-		return hotChunkHolderTimeLimit;
-	}
-
-	public void setHotChunkHolderTimeLimit(long hotChunkHolderTimeLimit) {
-		this.hotChunkHolderTimeLimit = hotChunkHolderTimeLimit;
-	}
-
-	public long getHotChunkHolderCountLimit() {
-		return hotChunkHolderCountLimit;
-	}
-
-	public void setHotChunkHolderCountLimit(long hotChunkHolderCountLimit) {
-		this.hotChunkHolderCountLimit = hotChunkHolderCountLimit;
-	}
-
-	public int getHotChunkHolderNum() {
-		return hotChunkHolderNum;
-	}
-
-	public void setHotChunkHolderNum(int hotChunkHolderNum) {
-		this.hotChunkHolderNum = hotChunkHolderNum;
-	}
-
-	public double getHotChunkHolderTpsLimit() {
-		return hotChunkHolderTpsLimit;
-	}
-
-	public void setHotChunkHolderTpsLimit(double hotChunkHolderTpsLimit) {
-		this.hotChunkHolderTpsLimit = hotChunkHolderTpsLimit;
-	}
-
-	public int getHotChunkUnloadTimeLimit() {
-		return hotChunkUnloadTimeLimit;
-	}
-
-	public void setHotChunkUnloadTimeLimit(int hotChunkUnloadTimeLimit) {
-		this.hotChunkUnloadTimeLimit = hotChunkUnloadTimeLimit;
-	}
-
-	public boolean isReduceFireSpread() {
-		return isReduceFireSpread;
-	}
-
-	public void setReduceFireSpread(boolean isReduceFireSpread) {
-		this.isReduceFireSpread = isReduceFireSpread;
-	}
-
-	public long getReduceFireSpreadTime() {
-		return reduceFireSpreadTime;
-	}
-
-	public void setReduceFireSpreadTime(long reduceFireSpreadTime) {
-		this.reduceFireSpreadTime = reduceFireSpreadTime;
-	}
-
-	public boolean isNoTNTChainReaction() {
-		return noTNTChainReaction;
-	}
-
-	public void setNoTNTChainReaction(boolean noTNTChainReaction) {
-		this.noTNTChainReaction = noTNTChainReaction;
-	}
-
-	public boolean isNoHighFallWater() {
-		return noHighFallWater;
-	}
-
-	public void setNoHighFallWater(boolean noHighFallWater) {
-		this.noHighFallWater = noHighFallWater;
-	}
-
-	public int getNoHighFallWaterDistance() {
-		return noHighFallWaterDistance;
-	}
-
-	public void setNoHighFallWaterDistance(int noHighFallWaterDistance) {
-		this.noHighFallWaterDistance = noHighFallWaterDistance;
-	}
-
-	public boolean isRemoveEntityWhenChunkUnload() {
-		return removeEntityWhenChunkUnload;
-	}
-
-	public void setRemoveEntityWhenChunkUnload(boolean removeEntityWhenChunkUnload) {
-		this.removeEntityWhenChunkUnload = removeEntityWhenChunkUnload;
-	}
-
-	public boolean isRemoveDropItemWhenChunkUnload() {
-		return removeDropItemWhenChunkUnload;
-	}
-
-	public void setRemoveDropItemWhenChunkUnload(boolean removeDropItemWhenChunkUnload) {
-		this.removeDropItemWhenChunkUnload = removeDropItemWhenChunkUnload;
-	}
-
-	public boolean isRemoveArrowWhenChunkUnload() {
-		return removeArrowWhenChunkUnload;
-	}
-
-	public void setRemoveArrowWhenChunkUnload(boolean removeArrowWhenChunkUnload) {
-		this.removeArrowWhenChunkUnload = removeArrowWhenChunkUnload;
-	}
-
-	public boolean isRemoveMonsterWhenChunkUnload() {
-		return removeMonsterWhenChunkUnload;
-	}
-
-	public void setRemoveMonsterWhenChunkUnload(boolean removeMonsterWhenChunkUnload) {
-		this.removeMonsterWhenChunkUnload = removeMonsterWhenChunkUnload;
-	}
-
-	public boolean isRemoveSquidWhenChunkUnload() {
-		return removeSquidWhenChunkUnload;
-	}
-
-	public void setRemoveSquidWhenChunkUnload(boolean removeSquidWhenChunkUnload) {
-		this.removeSquidWhenChunkUnload = removeSquidWhenChunkUnload;
-	}
-
-	public boolean isRemoveAnimalsWhenChunkUnload() {
-		return removeAnimalsWhenChunkUnload;
-	}
-
-	public void setRemoveAnimalsWhenChunkUnload(boolean removeAnimalsWhenChunkUnload) {
-		this.removeAnimalsWhenChunkUnload = removeAnimalsWhenChunkUnload;
-	}
-
-	public boolean isLowTPSAction() {
-		return lowTPSAction;
-	}
-
-	public void setLowTPSAction(boolean lowTPSAction) {
-		this.lowTPSAction = lowTPSAction;
-	}
-
-	public boolean isLowTPSCleanItem() {
-		return lowTPSCleanItem;
-	}
-
-	public void setLowTPSCleanItem(boolean lowTPSCleanItem) {
-		this.lowTPSCleanItem = lowTPSCleanItem;
-	}
-
-	public boolean isLowTPSCleanEntity() {
-		return lowTPSCleanEntity;
-	}
-
-	public void setLowTPSCleanEntity(boolean lowTPSCleanEntity) {
-		this.lowTPSCleanEntity = lowTPSCleanEntity;
-	}
-
-	public ArrayList<String> getLowTPSCommand() {
-		return lowTPSCommand;
-	}
-
-	public void setLowTPSCommand(ArrayList<String> lowTPSCommand) {
-		this.lowTPSCommand = lowTPSCommand;
-	}
-
-	public boolean isLowTPSForceGC() {
-		return lowTPSForceGC;
-	}
-
-	public void setLowTPSForceGC(boolean lowTPSForceGC) {
-		this.lowTPSForceGC = lowTPSForceGC;
-	}
-
-	public double getLowTPSLimit() {
-		return lowTPSLimit;
-	}
-
-	public void setLowTPSLimit(double lowTPSLimit) {
-		this.lowTPSLimit = lowTPSLimit;
-	}
-
-	public long getLowTPSActionTimeLimit() {
-		return lowTPSActionTimeLimit;
-	}
-
-	public void setLowTPSActionTimeLimit(long lowTPSActionTimeLimit) {
-		this.lowTPSActionTimeLimit = lowTPSActionTimeLimit;
-	}
-
-	public boolean isClientModDisabler() {
-		return clientModDisabler;
-	}
-
-	public void setClientModDisabler(boolean clientModDisabler) {
-		this.clientModDisabler = clientModDisabler;
-	}
-
-	public ArrayList<String> getModMagicCode() {
-		return modMagicCode;
-	}
-
-	public void setModMagicCode(ArrayList<String> modMagicCode) {
-		this.modMagicCode = modMagicCode;
-	}
-
-	public String getCommandGCMessage() {
-		return commandGCMessage;
-	}
-
-	public void setCommandGCMessage(String commandGCMessage) {
-		this.commandGCMessage = commandGCMessage;
-	}
-
-	public String getCommandGCNoEffectMessage() {
-		return commandGCNoEffectMessage;
-	}
-
-	public void setCommandGCNoEffectMessage(String commandGCNoEffectMessage) {
-		this.commandGCNoEffectMessage = commandGCNoEffectMessage;
-	}
-
-	public String getCommandInfoBaseMessage() {
-		return commandInfoBaseMessage;
-	}
-
-	public void setCommandInfoBaseMessage(String commandInfoBaseMessage) {
-		this.commandInfoBaseMessage = commandInfoBaseMessage;
-	}
-
-	public String getCommandWorldInfoMessage() {
-		return commandWorldInfoMessage;
-	}
-
-	public void setCommandWorldInfoMessage(String commandWorldInfoMessage) {
-		this.commandWorldInfoMessage = commandWorldInfoMessage;
-	}
-
-	public boolean isDisableEntityPortal() {
-		return isDisableEntityPortal;
-	}
-
-	public void setDisableEntityPortal(boolean isDisableEntityPortal) {
-		this.isDisableEntityPortal = isDisableEntityPortal;
-	}
-
-	public boolean isDisableDropItemPortal() {
-		return isDisableDropItemPortal;
-	}
-
-	public void setDisableDropItemPortal(boolean isDisableDropItemPortal) {
-		this.isDisableDropItemPortal = isDisableDropItemPortal;
-	}
-
-	public boolean isDisableMonsterPortal() {
-		return isDisableMonsterPortal;
-	}
-
-	public void setDisableMonsterPortal(boolean isDisableMonsterPortal) {
-		this.isDisableMonsterPortal = isDisableMonsterPortal;
-	}
-
-	public boolean isDisableAnimalsPortal() {
-		return isDisableAnimalsPortal;
-	}
-
-	public void setDisableAnimalsPortal(boolean isDisableAnimalsPortal) {
-		this.isDisableAnimalsPortal = isDisableAnimalsPortal;
-	}
-
-	public boolean isDisableProjectilePortal() {
-		return isDisableProjectilePortal;
-	}
-
-	public void setDisableProjectilePortal(boolean isDisableProjectilePortal) {
-		this.isDisableProjectilePortal = isDisableProjectilePortal;
-	}
-
-	public String getCommandStartBenchmark() {
-		return commandStartBenchmark;
-	}
-
-	public void setCommandStartBenchmark(String commandStartBenchmark) {
-		this.commandStartBenchmark = commandStartBenchmark;
-	}
-
-	public String getCommandFinishBenchmark() {
-		return commandFinishBenchmark;
-	}
-
-	public void setCommandFinishBenchmark(String commandFinishBenchmark) {
-		this.commandFinishBenchmark = commandFinishBenchmark;
-	}
-
-	public String getCommandStartFetchHardWareInfo() {
-		return commandStartFetchHardWareInfo;
-	}
-
-	public void setCommandStartFetchHardWareInfo(String commandStartFetchHardWareInfo) {
-		this.commandStartFetchHardWareInfo = commandStartFetchHardWareInfo;
-	}
-
-	public String getCommandHardWareJVMInfo() {
-		return commandHardWareJVMInfo;
-	}
-
-	public void setCommandHardWareJVMInfo(String commandHardWareJVMInfo) {
-		this.commandHardWareJVMInfo = commandHardWareJVMInfo;
-	}
-
-	public String getCommandHardWareMemoryInfo() {
-		return commandHardWareMemoryInfo;
-	}
-
-	public void setCommandHardWareMemoryInfo(String commandHardWareMemoryInfo) {
-		this.commandHardWareMemoryInfo = commandHardWareMemoryInfo;
-	}
-
-	public String getCommandHardWareCPUInfo() {
-		return commandHardWareCPUInfo;
-	}
-
-	public void setCommandHardWareCPUInfo(String commandHardWareCPUInfo) {
-		this.commandHardWareCPUInfo = commandHardWareCPUInfo;
-	}
-
-	public String getCommandHardWareSystemInfo() {
-		return commandHardWareSystemInfo;
-	}
-
-	public void setCommandHardWareSystemInfo(String commandHardWareSystemInfo) {
-		this.commandHardWareSystemInfo = commandHardWareSystemInfo;
-	}
-
-	public String getCommandNoFinishFetchHardWareInfo() {
-		return commandNoFinishFetchHardWareInfo;
-	}
-
-	public void setCommandNoFinishFetchHardWareInfo(String commandNoFinishFetchHardWareInfo) {
-		this.commandNoFinishFetchHardWareInfo = commandNoFinishFetchHardWareInfo;
-	}
-
-	public String getCommandHardWareJVMArg() {
-		return commandHardWareJVMArg;
-	}
-
-	public void setCommandHardWareJVMArg(String commandHardWareJVMArg) {
-		this.commandHardWareJVMArg = commandHardWareJVMArg;
-	}
-
-	public String getCommandNoPlayerOnline() {
-		return commandNoPlayerOnline;
-	}
-
-	public void setCommandNoPlayerOnline(String commandNoPlayerOnline) {
-		this.commandNoPlayerOnline = commandNoPlayerOnline;
-	}
-
-	public String getGuiPingTitle() {
-		return guiPingTitle;
-	}
-
-	public void setGuiPingTitle(String guiPingTitle) {
-		this.guiPingTitle = guiPingTitle;
-	}
-
-	public String getGuiPingItemDisplay() {
-		return guiPingItemDisplay;
-	}
-
-	public void setGuiPingItemDisplay(String guiPingItemDisplay) {
-		this.guiPingItemDisplay = guiPingItemDisplay;
-	}
-
-	public String getGuiPingItemLore() {
-		return guiPingItemLore;
-	}
-
-	public void setGuiPingItemLore(String guiPingItemLore) {
-		this.guiPingItemLore = guiPingItemLore;
-	}
-
-	public String getGuiPreItemDisplay() {
-		return guiPreItemDisplay;
-	}
-
-	public void setGuiPreItemDisplay(String guiPreItemDisplay) {
-		this.guiPreItemDisplay = guiPreItemDisplay;
-	}
-
-	public String getGuiNextItemDisplay() {
-		return guiNextItemDisplay;
-	}
-
-	public void setGuiNextItemDisplay(String guiNextItemDisplay) {
-		this.guiNextItemDisplay = guiNextItemDisplay;
-	}
-
-	public String getCommandClearNoTypeArg() {
-		return commandClearNoTypeArg;
-	}
-
-	public void setCommandClearNoTypeArg(String commandClearNoTypeArg) {
-		this.commandClearNoTypeArg = commandClearNoTypeArg;
-	}
-
-	public String getCommandClearMessage() {
-		return commandClearMessage;
-	}
-
-	public void setCommandClearMessage(String commandClearMessage) {
-		this.commandClearMessage = commandClearMessage;
-	}
-
-	public String getCommandNoPerm() {
-		return commandNoPerm;
-	}
-
-	public void setCommandNoPerm(String commandNoPerm) {
-		this.commandNoPerm = commandNoPerm;
-	}
-
-	public String getAntiDoubleLoginMessage() {
-		return antiDoubleLoginMessage;
-	}
-
-	public void setAntiDoubleLoginMessage(String antiDoubleLoginMessage) {
-		this.antiDoubleLoginMessage = antiDoubleLoginMessage;
-	}
-
-	public boolean isAntiDoubleLogin() {
-		return isAntiDoubleLogin;
+	public void setAntiDamageSkull(boolean isAntiDamageSkull) {
+		this.isAntiDamageSkull = isAntiDamageSkull;
 	}
 
 	public void setAntiDoubleLogin(boolean isAntiDoubleLogin) {
 		this.isAntiDoubleLogin = isAntiDoubleLogin;
 	}
 
-	public boolean isAntiUseEggsChangeSpawnerType() {
-		return isAntiUseEggsChangeSpawnerType;
+	public void setAntiDoubleLoginMessage(String antiDoubleLoginMessage) {
+		this.antiDoubleLoginMessage = antiDoubleLoginMessage;
+	}
+
+	public void setAntiDropItemDupe(boolean isAntiDropItemDupe) {
+		this.isAntiDropItemDupe = isAntiDropItemDupe;
+	}
+
+	public void setAntiInfiniteRail(boolean isAntiInfiniteRail) {
+		this.isAntiInfiniteRail = isAntiInfiniteRail;
+	}
+
+	public void setAntiMinecartPortal(boolean isAntiMinecartPortal) {
+		this.isAntiMinecartPortal = isAntiMinecartPortal;
+	}
+
+	public void setAntiNegativeItemDupe(boolean isAntiNegativeItemDupe) {
+		this.isAntiNegativeItemDupe = isAntiNegativeItemDupe;
+	}
+
+	public void setAntiNetherHopper(boolean isAntiNetherHopper) {
+		this.isAntiNetherHopper = isAntiNetherHopper;
+	}
+
+	public void setAntiPlaceDoorDupe(boolean isAntiPlaceDoorDupe) {
+		this.isAntiPlaceDoorDupe = isAntiPlaceDoorDupe;
+	}
+
+	public void setAntiQuickShopBigShop(boolean isAntiQuickShopBigShop) {
+		this.isAntiQuickShopBigShop = isAntiQuickShopBigShop;
+	}
+
+	public void setAntiQuickShopBigShopMessage(String antiQuickShopBigShopMessage) {
+		this.antiQuickShopBigShopMessage = antiQuickShopBigShopMessage;
 	}
 
 	public void setAntiUseEggsChangeSpawnerType(boolean isAntiUseEggsChangeSpawnerType) {
 		this.isAntiUseEggsChangeSpawnerType = isAntiUseEggsChangeSpawnerType;
 	}
 
-	public boolean isAutoCleanIllegalTypeSpawner() {
-		return isAutoCleanIllegalTypeSpawner;
+	public void setAntiVillagerTrade(boolean isAntiVillagerTrade) {
+		this.isAntiVillagerTrade = isAntiVillagerTrade;
 	}
 
 	public void setAutoCleanIllegalTypeSpawner(boolean isAutoCleanIllegalTypeSpawner) {
 		this.isAutoCleanIllegalTypeSpawner = isAutoCleanIllegalTypeSpawner;
 	}
 
-	public HashSet<String> getIllegalSpawnerTypeSet() {
-		return illegalSpawnerTypeSet;
+	public void setBroadcastClearEntity(boolean isBroadcastClearEntity) {
+		this.isBroadcastClearEntity = isBroadcastClearEntity;
 	}
 
-	public void setIllegalSpawnerTypeSet(HashSet<String> illegalSpawnerTypeSet) {
-		this.illegalSpawnerTypeSet = illegalSpawnerTypeSet;
+	public void setBroadcastClearItem(boolean isBroadcastClearItem) {
+		this.isBroadcastClearItem = isBroadcastClearItem;
 	}
 
-	public int getIllegalTypeSpawnerCleanMode() {
-		return illegalTypeSpawnerCleanMode;
+	public void setChatCooldownMessage(String chatCooldownMessage) {
+		this.chatCooldownMessage = chatCooldownMessage;
 	}
 
-	public void setIllegalTypeSpawnerCleanMode(int illegalTypeSpawnerCleanMode) {
-		this.illegalTypeSpawnerCleanMode = illegalTypeSpawnerCleanMode;
+	public void setChatCooldownTime(long chatCooldownTime) {
+		this.chatCooldownTime = chatCooldownTime;
 	}
 
-	public boolean isAntiVillagerTrade() {
-		return isAntiVillagerTrade;
+	public void setCheckMobFarm(boolean isCheckMobFarm) {
+		this.isCheckMobFarm = isCheckMobFarm;
 	}
 
-	public void setAntiVillagerTrade(boolean isAntiVillagerTrade) {
-		this.isAntiVillagerTrade = isAntiVillagerTrade;
+	public void setCheckMobFarmDelay(int checkMobFarmDelay) {
+		this.checkMobFarmDelay = checkMobFarmDelay;
 	}
 
-	public HashSet<String> getDisableVillagerTradeWorldSet() {
-		return disableVillagerTradeWorldSet;
+	public void setCheckMobFarmLooseLimit(int checkMobFarmLooseLimit) {
+		this.checkMobFarmLooseLimit = checkMobFarmLooseLimit;
 	}
 
-	public void setDisableVillagerTradeWorldSet(HashSet<String> disableVillagerTradeWorldSet) {
-		this.disableVillagerTradeWorldSet = disableVillagerTradeWorldSet;
+	public void setCheckMobFarmTinyLimit(int checkMobFarmTinyLimit) {
+		this.checkMobFarmTinyLimit = checkMobFarmTinyLimit;
 	}
 
-	public boolean isClearItemPreHoloMessage() {
-		return isClearItemPreHoloMessage;
+	public void setCheckRedstone(boolean isCheckRedstone) {
+		this.isCheckRedstone = isCheckRedstone;
 	}
 
-	public void setClearItemPreHoloMessage(boolean isClearItemPreHoloMessage) {
-		this.isClearItemPreHoloMessage = isClearItemPreHoloMessage;
+	public void setCheckredStoneOnAsync(boolean isCheckredStoneOnAsync) {
+		this.isCheckRedstoneOnAsync = isCheckredStoneOnAsync;
 	}
 
-	public String getClearItemPreHoloMessage() {
-		return clearItemPreHoloMessage;
+	public void setChunkGenSpawnRate(int chunkGenSpawnRate) {
+		this.chunkGenSpawnRate = chunkGenSpawnRate;
 	}
 
-	public void setClearItemPreHoloMessage(String clearItemPreHoloMessage) {
-		this.clearItemPreHoloMessage = clearItemPreHoloMessage;
+	public void setClearAnimals(boolean isClearAnimals) {
+		this.isClearAnimals = isClearAnimals;
 	}
 
-	public boolean isClearDropItem() {
-		return isClearDropItem;
+	public void setClearArrow(boolean isClearArrow) {
+		this.isClearArrow = isClearArrow;
+	}
+
+	public void setClearBoat(boolean isClearBoat) {
+		this.isClearBoat = isClearBoat;
 	}
 
 	public void setClearDropItem(boolean isClearDropItem) {
 		this.isClearDropItem = isClearDropItem;
 	}
 
-	public boolean isAntiDamageSkull() {
-		return isAntiDamageSkull;
+	public void setClearEntity(boolean isClearEntity) {
+		this.isClearEntity = isClearEntity;
 	}
 
-	public void setAntiDamageSkull(boolean isAntiDamageSkull) {
-		this.isAntiDamageSkull = isAntiDamageSkull;
+	public void setClearEntityBroadcastMessage(String clearEntityBroadcastMessage) {
+		this.clearEntityBroadcastMessage = clearEntityBroadcastMessage;
+	}
+
+	public void setClearEntityBroadcastPreMessage(String clearEntityBroadcastPreMessage) {
+		this.clearEntityBroadcastPreMessage = clearEntityBroadcastPreMessage;
+	}
+
+	public void setClearEntityLimit(int clearEntityLimit) {
+		this.clearEntityLimit = clearEntityLimit;
+	}
+
+	public void setClearEntityPlayerNearby(boolean isClearEntityPlayerNearby) {
+		this.isClearEntityPlayerNearby = isClearEntityPlayerNearby;
+	}
+
+	public void setClearEntityPlayerNearbyDistance(int clearEntityPlayerNearbyDistance) {
+		this.clearEntityPlayerNearbyDistance = clearEntityPlayerNearbyDistance;
+	}
+
+	public void setClearEntityTypeBlackList(HashSet<String> clearEntityTypeBlackList) {
+		this.clearEntityTypeBlackList = clearEntityTypeBlackList;
+	}
+
+	public void setClearEntityTypeWhiteList(HashSet<String> clearEntityTypeWhiteList) {
+		this.clearEntityTypeWhiteList = clearEntityTypeWhiteList;
+	}
+
+	public void setClearExpBall(boolean isClearExpBall) {
+		this.isClearExpBall = isClearExpBall;
+	}
+
+	public void setClearFallingBlock(boolean isClearFallingBlock) {
+		this.isClearFallingBlock = isClearFallingBlock;
+	}
+
+	public void setClearItem(boolean isClearItem) {
+		this.isClearItem = isClearItem;
+	}
+
+	public void setClearItemBroadcastMessage(String clearItemBroadcastMessage) {
+		this.clearItemBroadcastMessage = clearItemBroadcastMessage;
+	}
+
+	public void setClearItemBroadcastPreMessage(String clearItemBroadcastPreMessage) {
+		this.clearItemBroadcastPreMessage = clearItemBroadcastPreMessage;
+	}
+
+	public void setClearItemDelay(int clearItemDelay) {
+		this.clearItemDelay = clearItemDelay;
+	}
+
+	public void setClearItemFrame(boolean isClearItemFrame) {
+		this.isClearItemFrame = isClearItemFrame;
+	}
+
+	public void setClearItemPlayerNearby(boolean isClearItemPlayerNearby) {
+		this.isClearItemPlayerNearby = isClearItemPlayerNearby;
+	}
+
+	public void setClearItemPlayerNearbyDistance(int clearItemPlayerNearbyDistance) {
+		this.clearItemPlayerNearbyDistance = clearItemPlayerNearbyDistance;
+	}
+
+	public void setClearItemPreHoloMessage(boolean isClearItemPreHoloMessage) {
+		this.isClearItemPreHoloMessage = isClearItemPreHoloMessage;
+	}
+
+	public void setClearItemPreHoloMessage(String clearItemPreHoloMessage) {
+		this.clearItemPreHoloMessage = clearItemPreHoloMessage;
+	}
+
+	public void setClearLimit(boolean isClearLimit) {
+		this.isClearLimit = isClearLimit;
+	}
+
+	public void setClearMinecart(boolean isClearMinecart) {
+		this.isClearMinecart = isClearMinecart;
+	}
+
+	public void setClearMobDelay(int clearMobDelay) {
+		this.clearMobDelay = clearMobDelay;
+	}
+
+	public void setClearMonster(boolean isClearMonster) {
+		this.isClearMonster = isClearMonster;
+	}
+
+	public void setClearPainting(boolean isClearPainting) {
+		this.isClearPainting = isClearPainting;
+	}
+
+	public void setClearSnowBall(boolean isClearSnowBall) {
+		this.isClearSnowBall = isClearSnowBall;
+	}
+
+	public void setClearSquid(boolean isClearSquid) {
+		this.isClearSquid = isClearSquid;
+	}
+
+	public void setClearVillager(boolean isClearVillager) {
+		this.isClearVillager = isClearVillager;
+	}
+
+	public void setClientModDisabler(boolean clientModDisabler) {
+		this.clientModDisabler = clientModDisabler;
+	}
+
+	public void setCommandClearMessage(String commandClearMessage) {
+		this.commandClearMessage = commandClearMessage;
+	}
+
+	public void setCommandClearNoTypeArg(String commandClearNoTypeArg) {
+		this.commandClearNoTypeArg = commandClearNoTypeArg;
+	}
+
+	public void setCommandCooldownMessage(String commandCooldownMessage) {
+		this.commandCooldownMessage = commandCooldownMessage;
+	}
+
+	public void setCommandCooldownTime(long commandCooldownTime) {
+		this.commandCooldownTime = commandCooldownTime;
+	}
+
+	public void setCommandCooldownWhiteList(HashSet<String> commandCooldownWhiteList) {
+		this.commandCooldownWhiteList = commandCooldownWhiteList;
+	}
+
+	public void setCommandFinishBenchmark(String commandFinishBenchmark) {
+		this.commandFinishBenchmark = commandFinishBenchmark;
+	}
+
+	public void setCommandGCMessage(String commandGCMessage) {
+		this.commandGCMessage = commandGCMessage;
+	}
+
+	public void setCommandGCNoEffectMessage(String commandGCNoEffectMessage) {
+		this.commandGCNoEffectMessage = commandGCNoEffectMessage;
+	}
+
+	public void setCommandHardWareCPUInfo(String commandHardWareCPUInfo) {
+		this.commandHardWareCPUInfo = commandHardWareCPUInfo;
+	}
+
+	public void setCommandHardWareJVMArg(String commandHardWareJVMArg) {
+		this.commandHardWareJVMArg = commandHardWareJVMArg;
+	}
+
+	public void setCommandHardWareJVMInfo(String commandHardWareJVMInfo) {
+		this.commandHardWareJVMInfo = commandHardWareJVMInfo;
+	}
+
+	public void setCommandHardWareMemoryInfo(String commandHardWareMemoryInfo) {
+		this.commandHardWareMemoryInfo = commandHardWareMemoryInfo;
+	}
+
+	public void setCommandHardWareSystemInfo(String commandHardWareSystemInfo) {
+		this.commandHardWareSystemInfo = commandHardWareSystemInfo;
+	}
+
+	public void setCommandInfoBaseMessage(String commandInfoBaseMessage) {
+		this.commandInfoBaseMessage = commandInfoBaseMessage;
+	}
+
+	public void setCommandNoFinishFetchHardWareInfo(String commandNoFinishFetchHardWareInfo) {
+		this.commandNoFinishFetchHardWareInfo = commandNoFinishFetchHardWareInfo;
+	}
+
+	public void setCommandNoPerm(String commandNoPerm) {
+		this.commandNoPerm = commandNoPerm;
+	}
+
+	public void setCommandNoPlayerOnline(String commandNoPlayerOnline) {
+		this.commandNoPlayerOnline = commandNoPlayerOnline;
+	}
+
+	public void setCommandStartBenchmark(String commandStartBenchmark) {
+		this.commandStartBenchmark = commandStartBenchmark;
+	}
+
+	public void setCommandStartFetchHardWareInfo(String commandStartFetchHardWareInfo) {
+		this.commandStartFetchHardWareInfo = commandStartFetchHardWareInfo;
+	}
+
+	public void setCommandWorldInfoMessage(String commandWorldInfoMessage) {
+		this.commandWorldInfoMessage = commandWorldInfoMessage;
+	}
+
+	public void setCooldownChatAndCommand(boolean isCooldownChatAndCommand) {
+		this.isCooldownChatAndCommand = isCooldownChatAndCommand;
+	}
+
+	public void setDiodeLimit(int diodeLimit) {
+		this.diodeLimit = diodeLimit;
+	}
+
+	public void setDisableAnimalsPortal(boolean isDisableAnimalsPortal) {
+		this.isDisableAnimalsPortal = isDisableAnimalsPortal;
+	}
+
+	public void setDisableDropItemPortal(boolean isDisableDropItemPortal) {
+		this.isDisableDropItemPortal = isDisableDropItemPortal;
+	}
+
+	public void setDisableEntityPortal(boolean isDisableEntityPortal) {
+		this.isDisableEntityPortal = isDisableEntityPortal;
+	}
+
+	public void setDisableExplode(boolean isDisableExplode) {
+		this.isDisableExplode = isDisableExplode;
+	}
+
+	public void setDisableMonsterPortal(boolean isDisableMonsterPortal) {
+		this.isDisableMonsterPortal = isDisableMonsterPortal;
+	}
+
+	public void setDisablePMM(boolean isDisablePMM) {
+		this.isDisablePMM = isDisablePMM;
+	}
+
+	public void setDisableProjectilePortal(boolean isDisableProjectilePortal) {
+		this.isDisableProjectilePortal = isDisableProjectilePortal;
+	}
+
+	public void setDisableVillagerTradeWorldSet(HashSet<String> disableVillagerTradeWorldSet) {
+		this.disableVillagerTradeWorldSet = disableVillagerTradeWorldSet;
+	}
+
+	public void setEntitySpawnLimitTpsLimit(double entitySpawnLimitTpsLimit) {
+		this.entitySpawnLimitTpsLimit = entitySpawnLimitTpsLimit;
+	}
+
+	public void setFarmProtect(boolean isFarmProtect) {
+		this.isFarmProtect = isFarmProtect;
+	}
+
+	public void setGuiNextItemDisplay(String guiNextItemDisplay) {
+		this.guiNextItemDisplay = guiNextItemDisplay;
+	}
+
+	public void setGuiPingItemDisplay(String guiPingItemDisplay) {
+		this.guiPingItemDisplay = guiPingItemDisplay;
+	}
+
+	public void setGuiPingItemLore(String guiPingItemLore) {
+		this.guiPingItemLore = guiPingItemLore;
+	}
+
+	public void setGuiPingTitle(String guiPingTitle) {
+		this.guiPingTitle = guiPingTitle;
+	}
+
+	public void setGuiPreItemDisplay(String guiPreItemDisplay) {
+		this.guiPreItemDisplay = guiPreItemDisplay;
+	}
+
+	public void setHotChunkHolder(boolean isHotChunkHolder) {
+		this.isHotChunkHolder = isHotChunkHolder;
+	}
+
+	public void setHotChunkHolderCountLimit(long hotChunkHolderCountLimit) {
+		this.hotChunkHolderCountLimit = hotChunkHolderCountLimit;
+	}
+
+	public void setHotChunkHolderNum(int hotChunkHolderNum) {
+		this.hotChunkHolderNum = hotChunkHolderNum;
+	}
+
+	public void setHotChunkHolderTimeLimit(long hotChunkHolderTimeLimit) {
+		this.hotChunkHolderTimeLimit = hotChunkHolderTimeLimit;
+	}
+
+	public void setHotChunkHolderTpsLimit(double hotChunkHolderTpsLimit) {
+		this.hotChunkHolderTpsLimit = hotChunkHolderTpsLimit;
+	}
+
+	public void setHotChunkUnloadTimeLimit(int hotChunkUnloadTimeLimit) {
+		this.hotChunkUnloadTimeLimit = hotChunkUnloadTimeLimit;
+	}
+
+	public void setIllegalSpawnerTypeSet(HashSet<String> illegalSpawnerTypeSet) {
+		this.illegalSpawnerTypeSet = illegalSpawnerTypeSet;
+	}
+
+	public void setIllegalTypeSpawnerCleanMode(int illegalTypeSpawnerCleanMode) {
+		this.illegalTypeSpawnerCleanMode = illegalTypeSpawnerCleanMode;
+	}
+
+	public void setLimitEntitySpawn(boolean isLimitEntitySpawn) {
+		this.isLimitEntitySpawn = isLimitEntitySpawn;
+	}
+
+	public void setLimitEntitySpawnByTps(boolean isLimitEntitySpawnByTps) {
+		this.isLimitEntitySpawnByTps = isLimitEntitySpawnByTps;
+	}
+
+	public void setLimitTiles(boolean isLimitTiles) {
+		this.isLimitTiles = isLimitTiles;
+	}
+
+	public void setLimitTilesDispenserDefault(int limitTilesDispenserDefault) {
+		this.limitTilesDispenserDefault = limitTilesDispenserDefault;
+	}
+
+	public void setLimitTilesDropperDefault(int limitTilesDropperDefault) {
+		this.limitTilesDropperDefault = limitTilesDropperDefault;
+	}
+
+	public void setLimitTilesHopperDefault(int limitTilesHopperDefault) {
+		this.limitTilesHopperDefault = limitTilesHopperDefault;
+	}
+
+	public void setLimitTilesMessage(String limitTilesMessage) {
+		this.limitTilesMessage = limitTilesMessage;
+	}
+
+	public void setLimitTilesPistonDefault(int limitTilesPistonDefault) {
+		this.limitTilesPistonDefault = limitTilesPistonDefault;
+	}
+
+	public void setLowTPSAction(boolean lowTPSAction) {
+		this.lowTPSAction = lowTPSAction;
+	}
+
+	public void setLowTPSActionTimeLimit(long lowTPSActionTimeLimit) {
+		this.lowTPSActionTimeLimit = lowTPSActionTimeLimit;
+	}
+
+	public void setLowTPSCleanEntity(boolean lowTPSCleanEntity) {
+		this.lowTPSCleanEntity = lowTPSCleanEntity;
+	}
+
+	public void setLowTPSCleanItem(boolean lowTPSCleanItem) {
+		this.lowTPSCleanItem = lowTPSCleanItem;
+	}
+
+	public void setLowTPSCommand(ArrayList<String> lowTPSCommand) {
+		this.lowTPSCommand = lowTPSCommand;
+	}
+
+	public void setLowTPSForceGC(boolean lowTPSForceGC) {
+		this.lowTPSForceGC = lowTPSForceGC;
+	}
+
+	public void setLowTPSLimit(double lowTPSLimit) {
+		this.lowTPSLimit = lowTPSLimit;
+	}
+
+	public void setMobSpawnLimit(int mobSpawnLimit) {
+		this.mobSpawnLimit = mobSpawnLimit;
+	}
+
+	public void setModMagicCode(ArrayList<String> modMagicCode) {
+		this.modMagicCode = modMagicCode;
+	}
+
+	public void setNoClearEntityWorld(HashSet<String> noClearEntityWorld) {
+		this.noClearEntityWorld = noClearEntityWorld;
+	}
+
+	public void setNoClearItemId(HashSet<Integer> noClearItemId) {
+		this.noClearItemId = noClearItemId;
+	}
+
+	public void setNoClearItemWorld(HashSet<String> noClearItemWorld) {
+		this.noClearItemWorld = noClearItemWorld;
+	}
+
+	public void setNoHighFallWater(boolean noHighFallWater) {
+		this.noHighFallWater = noHighFallWater;
+	}
+
+	public void setNoHighFallWaterDistance(int noHighFallWaterDistance) {
+		this.noHighFallWaterDistance = noHighFallWaterDistance;
+	}
+
+	public void setNormalSpawnRate(int normalSpawnRate) {
+		this.normalSpawnRate = normalSpawnRate;
+	}
+
+	public void setNoTNTChainReaction(boolean noTNTChainReaction) {
+		this.noTNTChainReaction = noTNTChainReaction;
+	}
+
+	public void setPortalSpawnRate(int portalSpawnRate) {
+		this.portalSpawnRate = portalSpawnRate;
+	}
+
+	public void setQuickshopFlag(String quickshopFlag) {
+		this.quickshopFlag = quickshopFlag;
+	}
+
+	public void setRedstoneCheckDelay(int redstoneCheckDelay) {
+		this.redstoneCheckDelay = redstoneCheckDelay;
+	}
+
+	public void setRedstoneClearType(HashSet<Integer> redstoneClearType) {
+		this.redstoneClearType = redstoneClearType;
+	}
+
+	public void setRedstoneDrop(boolean isRedstoneDrop) {
+		this.isRedstoneDrop = isRedstoneDrop;
+	}
+
+	public void setRedstoneLimit(int redstoneLimit) {
+		this.redstoneLimit = redstoneLimit;
+	}
+
+	public void setRedstoneMessage(boolean isRedstoneMessage) {
+		this.isRedstoneMessage = isRedstoneMessage;
+	}
+
+	public void setReduceFireSpread(boolean isReduceFireSpread) {
+		this.isReduceFireSpread = isReduceFireSpread;
+	}
+
+	public void setReduceFireSpreadTime(long reduceFireSpreadTime) {
+		this.reduceFireSpreadTime = reduceFireSpreadTime;
+	}
+
+	public void setRemoveAnimalsWhenChunkUnload(boolean removeAnimalsWhenChunkUnload) {
+		this.removeAnimalsWhenChunkUnload = removeAnimalsWhenChunkUnload;
+	}
+
+	public void setRemoveArrowWhenChunkUnload(boolean removeArrowWhenChunkUnload) {
+		this.removeArrowWhenChunkUnload = removeArrowWhenChunkUnload;
+	}
+
+	public void setRemoveDropItemWhenChunkUnload(boolean removeDropItemWhenChunkUnload) {
+		this.removeDropItemWhenChunkUnload = removeDropItemWhenChunkUnload;
+	}
+
+	public void setRemoveEntityWhenChunkUnload(boolean removeEntityWhenChunkUnload) {
+		this.removeEntityWhenChunkUnload = removeEntityWhenChunkUnload;
+	}
+
+	public void setRemoveMonsterWhenChunkUnload(boolean removeMonsterWhenChunkUnload) {
+		this.removeMonsterWhenChunkUnload = removeMonsterWhenChunkUnload;
+	}
+
+	public void setRemoveSquidWhenChunkUnload(boolean removeSquidWhenChunkUnload) {
+		this.removeSquidWhenChunkUnload = removeSquidWhenChunkUnload;
+	}
+
+	public void setSpawnChunkKeepInMemory(boolean isSpawnChunkKeepInMemory) {
+		this.isSpawnChunkKeepInMemory = isSpawnChunkKeepInMemory;
+	}
+
+	public void setSpawnerEntityCountPerChunkLimit(int spawnerEntityCountPerChunkLimit) {
+		this.spawnerEntityCountPerChunkLimit = spawnerEntityCountPerChunkLimit;
+	}
+
+	public void setSpawnerSpawnRate(int spawnerSpawnRate) {
+		this.spawnerSpawnRate = spawnerSpawnRate;
+	}
+
+	public void setSpawnRate(boolean isSpawnRate) {
+		this.isSpawnRate = isSpawnRate;
+	}
+
+	public void setVillageSpawnRate(int villageSpawnRate) {
+		this.villageSpawnRate = villageSpawnRate;
+	}
+
+	public String translate(String input) {
+		return input;
 	}
 
 }

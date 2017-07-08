@@ -9,11 +9,12 @@ import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class LowTpsAction {
 
-	private long lastActionTime = System.currentTimeMillis();
 	private static ConfigManager cm = ConfigManager.getInstance();
+	private long lastActionTime = System.currentTimeMillis();
 
 	public LowTpsAction() {
 		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
+			@Override
 			public void run() {
 				if (cm.isLowTPSAction() && NeverLag.getTpsWatcher().getAverageTPS() < cm.getLowTPSLimit() && lastActionTime + cm.getLowTPSActionTimeLimit() < System.currentTimeMillis()) {
 					doAction();

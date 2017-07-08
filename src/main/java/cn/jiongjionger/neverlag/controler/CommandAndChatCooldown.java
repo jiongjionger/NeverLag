@@ -17,9 +17,36 @@ public class CommandAndChatCooldown implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
 	// 保存命令间隔时间列表
-	private HashMap<String, Long> commandCoolDown = new HashMap<String, Long>();
+	private HashMap<String, Long> commandCoolDown = new HashMap<>();
 	// 保存聊天间隔时间列表
-	private ConcurrentHashMap<String, Long> chatCoolDown = new ConcurrentHashMap<String, Long>();
+	private ConcurrentHashMap<String, Long> chatCoolDown = new ConcurrentHashMap<>();
+
+	// 限制聊天频率
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onChat(AsyncPlayerChatEvent e) {
+		// 忽略OP
+		Player p = e.getPlayer();
+		if (p.isOp()) {
+			return;
+		}
+		// 忽略免检权限
+		if (p.hasPermission("ChatCommandRate.Pass")) {
+			return;
+		}
+		// 判断间隔时间
+		String username = p.getName();
+		long now = System.currentTimeMillis();
+		Long lastChatTime;
+		if ((lastChatTime = chatCoolDown.get(username)) != null) {
+			if (now - lastChatTime <= cm.getChatCooldownTime()) {
+				e.setCancelled(true);
+				p.sendMessage(cm.getChatCooldownMessage());
+				return;
+			}
+		}
+		chatCoolDown.put(username, now);
+
+	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent e) {
@@ -51,33 +78,6 @@ public class CommandAndChatCooldown implements Listener {
 			}
 		}
 		commandCoolDown.put(username, now);
-	}
-
-	// 限制聊天频率
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void onChat(AsyncPlayerChatEvent e) {
-		// 忽略OP
-		Player p = e.getPlayer();
-		if (p.isOp()) {
-			return;
-		}
-		// 忽略免检权限
-		if (p.hasPermission("ChatCommandRate.Pass")) {
-			return;
-		}
-		// 判断间隔时间
-		String username = p.getName();
-		long now = System.currentTimeMillis();
-		Long lastChatTime;
-		if ((lastChatTime = chatCoolDown.get(username)) != null) {
-			if (now - lastChatTime <= cm.getChatCooldownTime()) {
-				e.setCancelled(true);
-				p.sendMessage(cm.getChatCooldownMessage());
-				return;
-			}
-		}
-		chatCoolDown.put(username, now);
-
 	}
 
 	@EventHandler

@@ -19,31 +19,6 @@ public class HardwareInfoUtils {
 	private static final String NOT_FOUND = "NOT_FOUND";
 	private static final Logger log = Logger.getLogger(HardwareInfoUtils.class.getName());
 
-	private HardwareInfoUtils() {
-	}
-
-	public static List<String> readFile(String filePath) {
-		Path path = Paths.get(filePath);
-		List<String> fileLines = new ArrayList<>();
-		try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
-			String line;
-			while (null != (line = reader.readLine())) {
-				fileLines.add(line);
-			}
-		} catch (IOException ex) {
-			log.log(Level.SEVERE, "Unable to read file " + filePath, ex);
-		}
-		return fileLines;
-	}
-
-	public static String getSingleValueFromFile(String filePath) {
-		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-			return reader.readLine();
-		} catch (IOException ex) {
-			return null;
-		}
-	}
-
 	public static String executeCommand(String... command) {
 		String commandOutput = null;
 		try {
@@ -55,6 +30,31 @@ public class HardwareInfoUtils {
 			Logger.getLogger(HardwareInfoUtils.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return commandOutput;
+	}
+
+	public static String extractText(String text, String regex) {
+		if (text.trim().isEmpty()) {
+			return NOT_FOUND;
+		}
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(text);
+		matcher.find();
+		if (matcher.groupCount() > 0) {
+			return matcher.group(1);
+		}
+		return NOT_FOUND;
+	}
+
+	public static String getSingleValueFromFile(String filePath) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+			return reader.readLine();
+		} catch (IOException ex) {
+			return null;
+		}
+	}
+
+	public static boolean isSudo() {
+		return executeCommand("sudo", "-n", "true").length() == 0;
 	}
 
 	private static String readData(Process process) {
@@ -83,8 +83,22 @@ public class HardwareInfoUtils {
 		return commandOutput.toString();
 	}
 
-	public static boolean isSudo() {
-		return executeCommand("sudo", "-n", "true").length() == 0;
+	public static List<String> readFile(String filePath) {
+		Path path = Paths.get(filePath);
+		List<String> fileLines = new ArrayList<>();
+		try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
+			String line;
+			while (null != (line = reader.readLine())) {
+				fileLines.add(line);
+			}
+		} catch (IOException ex) {
+			log.log(Level.SEVERE, "Unable to read file " + filePath, ex);
+		}
+		return fileLines;
+	}
+
+	public static String removeAllSpaces(String s) {
+		return s.replaceAll("\\s+", "");
 	}
 
 	public static String toCamelCase(String s) {
@@ -100,20 +114,6 @@ public class HardwareInfoUtils {
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}
 
-	public static String removeAllSpaces(String s) {
-		return s.replaceAll("\\s+", "");
-	}
-
-	public static String extractText(String text, String regex) {
-		if (text.trim().isEmpty()) {
-			return NOT_FOUND;
-		}
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(text);
-		matcher.find();
-		if (matcher.groupCount() > 0) {
-			return matcher.group(1);
-		}
-		return NOT_FOUND;
+	private HardwareInfoUtils() {
 	}
 }

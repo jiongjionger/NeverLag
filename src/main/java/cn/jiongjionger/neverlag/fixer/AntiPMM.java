@@ -19,7 +19,7 @@ public class AntiPMM implements Listener {
 		if (cm.isDisablePMM() && VersionUtils.isAtLeast(VersionUtils.V1_8)) {
 			// 使用typeid是为了兼容1.8以下的服务端
 			for (Block b : e.getBlocks()) {
-				if (b.getTypeId() == 165) {  // 165 - SLIME_BLOCK
+				if (b.getTypeId() == 165) { // 165 - SLIME_BLOCK
 					e.setCancelled(true);
 					return;
 				}

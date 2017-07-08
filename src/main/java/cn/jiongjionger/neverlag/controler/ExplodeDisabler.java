@@ -1,17 +1,18 @@
 package cn.jiongjionger.neverlag.controler;
 
+import java.util.Collection;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
-import org.bukkit.event.Listener;
 import org.bukkit.event.EventException;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.Reflection;
-import java.util.Collection;
 
 public class ExplodeDisabler implements Listener {
 

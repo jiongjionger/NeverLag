@@ -16,7 +16,7 @@ public class UnixCPUInfo {
 	}
 
 	public Map<String, String> parseInfo() {
-		HashMap<String, String> processorDataMap = new HashMap<String, String>();
+		HashMap<String, String> processorDataMap = new HashMap<>();
 		String[] dataStringLines = getProcessorData().split("\\r?\\n");
 		for (final String dataLine : dataStringLines) {
 			String[] dataStringInfo = dataLine.split(":");

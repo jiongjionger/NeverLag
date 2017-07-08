@@ -14,7 +14,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Monster;
 
 public class WorldInfo {
-	
+
 	// 世界名字
 	private String worldName;
 	// 在线玩家
@@ -77,112 +77,112 @@ public class WorldInfo {
 		}
 	}
 
-	public int getTotalEntity() {
-		return totalEntity;
-	}
-
-	public void setTotalEntity(int totalEntity) {
-		this.totalEntity = totalEntity;
-	}
-
 	public int getTotalAnimals() {
 		return totalAnimals;
-	}
-
-	public void setTotalAnimals(int totalAnimals) {
-		this.totalAnimals = totalAnimals;
-	}
-
-	public int getTotalMonsters() {
-		return totalMonsters;
-	}
-
-	public void setTotalMonsters(int totalMonsters) {
-		this.totalMonsters = totalMonsters;
-	}
-
-	public int getTotalTiles() {
-		return totalTiles;
-	}
-
-	public void setTotalTiles(int totalTiles) {
-		this.totalTiles = totalTiles;
-	}
-
-	public int getTotalChest() {
-		return totalChest;
-	}
-
-	public void setTotalChest(int totalChest) {
-		this.totalChest = totalChest;
-	}
-
-	public int getTotalHopper() {
-		return totalHopper;
-	}
-
-	public void setTotalHopper(int totalHopper) {
-		this.totalHopper = totalHopper;
-	}
-
-	public int getTotalFurnace() {
-		return totalFurnace;
-	}
-
-	public void setTotalFurnace(int totalFurnace) {
-		this.totalFurnace = totalFurnace;
-	}
-
-	public int getTotalDispenser() {
-		return totalDispenser;
-	}
-
-	public void setTotalDispenser(int totalDispenser) {
-		this.totalDispenser = totalDispenser;
-	}
-
-	public int getTotalDropper() {
-		return totalDropper;
-	}
-
-	public void setTotalDropper(int totalDropper) {
-		this.totalDropper = totalDropper;
 	}
 
 	public int getTotalBrewingStand() {
 		return totalBrewingStand;
 	}
 
-	public void setTotalBrewingStand(int totalBrewingStand) {
-		this.totalBrewingStand = totalBrewingStand;
-	}
-
-	public int getTotalDropItem() {
-		return totalDropItem;
-	}
-
-	public void setTotalDropItem(int totalDropItem) {
-		this.totalDropItem = totalDropItem;
-	}
-
-	public int getTotalOnline() {
-		return totalOnline;
-	}
-
-	public void setTotalOnline(int totalOnline) {
-		this.totalOnline = totalOnline;
+	public int getTotalChest() {
+		return totalChest;
 	}
 
 	public int getTotalChunk() {
 		return totalChunk;
 	}
 
-	public void setTotalChunk(int totalChunk) {
-		this.totalChunk = totalChunk;
+	public int getTotalDispenser() {
+		return totalDispenser;
+	}
+
+	public int getTotalDropItem() {
+		return totalDropItem;
+	}
+
+	public int getTotalDropper() {
+		return totalDropper;
+	}
+
+	public int getTotalEntity() {
+		return totalEntity;
+	}
+
+	public int getTotalFurnace() {
+		return totalFurnace;
+	}
+
+	public int getTotalHopper() {
+		return totalHopper;
+	}
+
+	public int getTotalMonsters() {
+		return totalMonsters;
+	}
+
+	public int getTotalOnline() {
+		return totalOnline;
+	}
+
+	public int getTotalTiles() {
+		return totalTiles;
 	}
 
 	public String getWorldName() {
 		return worldName;
+	}
+
+	public void setTotalAnimals(int totalAnimals) {
+		this.totalAnimals = totalAnimals;
+	}
+
+	public void setTotalBrewingStand(int totalBrewingStand) {
+		this.totalBrewingStand = totalBrewingStand;
+	}
+
+	public void setTotalChest(int totalChest) {
+		this.totalChest = totalChest;
+	}
+
+	public void setTotalChunk(int totalChunk) {
+		this.totalChunk = totalChunk;
+	}
+
+	public void setTotalDispenser(int totalDispenser) {
+		this.totalDispenser = totalDispenser;
+	}
+
+	public void setTotalDropItem(int totalDropItem) {
+		this.totalDropItem = totalDropItem;
+	}
+
+	public void setTotalDropper(int totalDropper) {
+		this.totalDropper = totalDropper;
+	}
+
+	public void setTotalEntity(int totalEntity) {
+		this.totalEntity = totalEntity;
+	}
+
+	public void setTotalFurnace(int totalFurnace) {
+		this.totalFurnace = totalFurnace;
+	}
+
+	public void setTotalHopper(int totalHopper) {
+		this.totalHopper = totalHopper;
+	}
+
+	public void setTotalMonsters(int totalMonsters) {
+		this.totalMonsters = totalMonsters;
+	}
+
+	public void setTotalOnline(int totalOnline) {
+		this.totalOnline = totalOnline;
+	}
+
+	public void setTotalTiles(int totalTiles) {
+		this.totalTiles = totalTiles;
 	}
 
 	public void setWorldName(String worldName) {

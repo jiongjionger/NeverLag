@@ -15,6 +15,19 @@ public class AntiPlaceDoorDupe implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
 
+	// 手里拿着门无法捡甘蔗
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onPickup(PlayerPickupItemEvent e) {
+		if (!cm.isAntiPlaceDoorDupe()) {
+			return;
+		}
+		if (e.getPlayer().getItemInHand().getType() == Material.WOOD_DOOR || e.getPlayer().getItemInHand().getType() == Material.IRON_DOOR) {
+			if (e.getItem().getItemStack().getType() == Material.SUGAR_CANE || e.getItem().getItemStack().getType() == Material.CACTUS) {
+				e.setCancelled(true);
+			}
+		}
+	}
+
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlace(BlockPlaceEvent e) {
 		if (!cm.isAntiPlaceDoorDupe()) {
@@ -30,19 +43,6 @@ public class AntiPlaceDoorDupe implements Listener {
 						entity.remove();
 					}
 				}
-			}
-		}
-	}
-
-	// 手里拿着门无法捡甘蔗
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void onPickup(PlayerPickupItemEvent e) {
-		if (!cm.isAntiPlaceDoorDupe()) {
-			return;
-		}
-		if (e.getPlayer().getItemInHand().getType() == Material.WOOD_DOOR || e.getPlayer().getItemInHand().getType() == Material.IRON_DOOR) {
-			if (e.getItem().getItemStack().getType() == Material.SUGAR_CANE || e.getItem().getItemStack().getType() == Material.CACTUS) {
-				e.setCancelled(true);
 			}
 		}
 	}
