@@ -2,6 +2,7 @@ package cn.jiongjionger.neverlag.module.pandawire.v1_8_R2;
 
 import org.bukkit.Bukkit;
 
+import cn.jiongjionger.neverlag.module.pandawire.IPandaWireInjector;
 import cn.jiongjionger.neverlag.module.pandawire.PandaWireReflectUtil;
 import net.minecraft.server.v1_8_R2.Block;
 import net.minecraft.server.v1_8_R2.BlockRedstoneWire;
@@ -9,7 +10,7 @@ import net.minecraft.server.v1_8_R2.Blocks;
 import net.minecraft.server.v1_8_R2.IBlockData;
 import net.minecraft.server.v1_8_R2.MinecraftKey;
 
-public class PandaWireInjector {
+public class PandaWireInjector implements IPandaWireInjector{
 
 	private static Block get(final String s) {
 		return Block.REGISTRY.get(new MinecraftKey(s));
@@ -31,7 +32,7 @@ public class PandaWireInjector {
 		}
 	}
 
-	public static void unject() {
+	public static void uninject() {
 		try {
 			register(55, "redstone_wire", new BlockRedstoneWire());
 			PandaWireReflectUtil.setStatic("REDSTONE_WIRE", Blocks.class, get("redstone_wire"));

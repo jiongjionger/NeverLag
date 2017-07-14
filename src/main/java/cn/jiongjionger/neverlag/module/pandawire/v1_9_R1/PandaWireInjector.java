@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 
 import com.google.common.collect.UnmodifiableIterator;
 
+import cn.jiongjionger.neverlag.module.pandawire.IPandaWireInjector;
 import cn.jiongjionger.neverlag.module.pandawire.PandaWireReflectUtil;
 import net.minecraft.server.v1_9_R1.Block;
 import net.minecraft.server.v1_9_R1.BlockRedstoneWire;
@@ -11,7 +12,7 @@ import net.minecraft.server.v1_9_R1.Blocks;
 import net.minecraft.server.v1_9_R1.IBlockData;
 import net.minecraft.server.v1_9_R1.MinecraftKey;
 
-public class PandaWireInjector {
+public class PandaWireInjector implements IPandaWireInjector{
 
 	private static Block get(final String s) {
 		return Block.REGISTRY.get(new MinecraftKey(s));
@@ -37,7 +38,7 @@ public class PandaWireInjector {
 		}
 	}
 
-	public static void unject() {
+	public static void uninject() {
 		try {
 			register(55, "redstone_wire", new BlockRedstoneWire());
 			PandaWireReflectUtil.setStatic("REDSTONE_WIRE", Blocks.class, get("redstone_wire"));
