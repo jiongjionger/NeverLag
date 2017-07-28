@@ -4,44 +4,54 @@ import java.util.LinkedList;
 
 public class TpsWatcher implements Runnable {
 
-	private transient long lastPoll = System.nanoTime();
+	protected long lastPoll = System.currentTimeMillis();
 	private final LinkedList<Double> history = new LinkedList<>();
-	private final long tickInterval = 50;
 
 	public TpsWatcher() {
 		history.add(20.0D);
 	}
 
+	// 求上个 10 秒内服务器的平均TPS
 	public double getAverageTPS() {
 		double avg = 0.0D;
-		int size = 0;
 		for (Double tps : this.history) {
 			if (tps != null) {
 				avg += tps;
 			}
-			size = size + 1;
 		}
-		return avg / size;
+		return avg / history.size();
 	}
 
-	public double getLastTPS() {
+	public double getTps() {
 		return history.getLast();
+	}
+	
+	protected double calcuateTPS(long interval) {
+		return 1D / (interval / 1000D);
+	}
+	
+	// 测试用
+	protected long currentTime() {
+		return System.currentTimeMillis();
 	}
 
 	@Override
 	public void run() {
-		final long startTime = System.nanoTime();
-		long timeSpent = (startTime - lastPoll) / 1000;
-		if (timeSpent == 0) {
-			timeSpent = 1;
+		final long startTime = currentTime();
+		try {
+			long timeSpent = startTime - lastPoll;
+			if (timeSpent <= 0) {
+				return;
+			}
+			if (history.size() > 50 * 10) {  // 历史记录保留10秒
+				history.poll();
+			}
+			double tps = calcuateTPS(timeSpent);
+			if (tps < 21) {
+				history.add(tps);
+			}
+		} finally {
+			lastPoll = startTime;
 		}
-		if (history.size() > 10) {
-			history.removeFirst();
-		}
-		double tps = tickInterval * 1000000.0 / timeSpent;
-		if (tps <= 21) {
-			history.add(tps);
-		}
-		lastPoll = startTime;
 	}
 }

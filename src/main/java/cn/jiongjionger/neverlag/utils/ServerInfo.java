@@ -33,7 +33,7 @@ public class ServerInfo {
 	private ArrayList<WorldInfo> worldInfo = new ArrayList<>();
 
 	public ServerInfo() {
-		this.realtimeTPS = NeverLag.getTpsWatcher().getLastTPS();
+		this.realtimeTPS = NeverLag.getTpsWatcher().getTps();
 		this.avgTPS = NeverLag.getTpsWatcher().getAverageTPS();
 		this.realtimeRedstone = RedStoneCounter.getInstance().getRedstoneRealTimeCount(true);
 		this.avgRedstone = RedStoneCounter.getInstance().getRedstoneAvgCount(true);
