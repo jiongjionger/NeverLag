@@ -9,7 +9,7 @@ public class PermUtils {
 		int maxLimit = 0;
 		for (PermissionAttachmentInfo perm : p.getEffectivePermissions()) {
 			String permission = perm.getPermission();
-			if (!permission.startsWith("node")) {
+			if (!permission.toLowerCase().startsWith(node.toLowerCase())) {
 				continue;
 			}
 			String[] split = permission.split("\\.");
