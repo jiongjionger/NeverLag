@@ -62,9 +62,9 @@ A plugin that focuses on optimizing Minecraft server performance, reducing serve
 - neverlag.command.hardware
 - neverlag.command.info
 - neverlag.command.ping
-- neverLag.limit.hopper.数量
-- neverLag.limit.dispenser.数量
-- neverLag.limit.piston.数量
-- neverLag.limit.dropper.数量
+- neverlag.limit.hopper.<数量>
+- neverlag.limit.dispenser.<数量>
+- neverlag.limit.piston.<数量>
+- neverlag.limit.dropper.<数量>
 ## 联系方式
 Email: [17jiong@gmail.com](mailto:17jiong@gmail.com)

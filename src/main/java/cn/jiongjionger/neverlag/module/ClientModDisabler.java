@@ -16,7 +16,7 @@ public class ClientModDisabler implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		if (cm.isClientModDisabler()) {
 			Player p = e.getPlayer();
-			if (p.isOp() || p.hasPermission("neverLag.nosendmagiccode"))
+			if (p.isOp() || p.hasPermission("neverlag.nosendmagiccode"))
 				return;
 			for (String code : cm.getModMagicCode()) {
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&', code));
