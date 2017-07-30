@@ -16,19 +16,17 @@ import org.bukkit.entity.Snowball;
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.EntityUtils;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ItemCleaner {
 
-	private static ConfigManager cm = ConfigManager.getInstance();
+	private static final ConfigManager cm = ConfigManager.getInstance();
 
 	@SuppressWarnings("deprecation")
 	public static void doClean() {
 		if (!cm.isClearDropItem()) {
 			return;
 		}
-		List<Entity> cleanList = new LinkedList<>();
+		int count = 0;
 		for (World world : Bukkit.getWorlds()) {
 			// 如果当前世界不在排除列表
 			if (!cm.getNoClearItemWorld().contains(world.getName())) {
@@ -55,15 +53,13 @@ public class ItemCleaner {
 					} else {
 						continue;
 					}
-					cleanList.add(entity);
+					entity.remove();
+					count++;
 				}
 			}
 		}
-		for(Entity entity : cleanList) {
-			entity.remove();
-		}
 		if (cm.isBroadcastClearItem()) {
-			Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastMessage().replace("%COUNT%", String.valueOf(cleanList.size())));
+			Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastMessage().replace("%COUNT%", String.valueOf(count)));
 		}
 	}
 

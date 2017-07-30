@@ -3,10 +3,8 @@ package cn.jiongjionger.neverlag.cleaner;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Villager;
 
@@ -16,7 +14,7 @@ import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class EntityCleaner {
 
-	private static ConfigManager cm = ConfigManager.getInstance();
+	private static final ConfigManager cm = ConfigManager.getInstance();
 
 	// 外部调用实体清理任务
 	public static void doClean() {
@@ -54,51 +52,25 @@ public class EntityCleaner {
 					if (EntityUtils.checkCustomNpc(entity) || cm.getClearEntityTypeWhiteList().contains(entity.getType().getName().toLowerCase())) {
 						continue;
 					}
-					if (!cm.isClearEntityPlayerNearby() && hasPlayerNearby(entity, cm.getClearEntityPlayerNearbyDistance())) {
+					if (!cm.isClearEntityPlayerNearby() && EntityUtils.hasPlayerNearby(entity, cm.getClearEntityPlayerNearbyDistance())) {
 						continue;
 					}
 					if (entity instanceof Animals) {
-						entity.remove();
-						count++;
 					} else if (entity instanceof Monster) {
-						entity.remove();
-						count++;
 					} else if (entity instanceof Squid) {
-						entity.remove();
-						count++;
 					} else if (entity instanceof Villager) {
-						entity.remove();
-						count++;
 					} else if (cm.getClearEntityTypeBlackList().contains(entity.getType().getName().toLowerCase())) {
-						entity.remove();
-						count++;
+					} else{
+						continue;
 					}
+					entity.remove();
+					count++;
 				}
 			}
 		}
 		if (cm.isBroadcastClearEntity()) {
 			Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastMessage().replace("%COUNT%", String.valueOf(count)));
 		}
-	}
-
-	/*
-	 * 判断实体附近有没有玩家
-	 * 
-	 * @param ent 实体
-	 * 
-	 * @param distance 判断距离
-	 * 
-	 * @return 是否存在玩家
-	 */
-	private static boolean hasPlayerNearby(Entity ent, int distance) {
-		for (Entity entity : ent.getNearbyEntities(distance, distance, distance)) {
-			if (entity instanceof Player) {
-				if (!EntityUtils.checkCustomNpc(entity)) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	private int preMessageTime = 0;
@@ -124,21 +96,11 @@ public class EntityCleaner {
 	private void doPreMessage() {
 		if (cm.isClearEntity() && cm.isBroadcastClearEntity()) {
 			this.preMessageTime++;
-			int remainTick = cm.getClearMobDelay() - this.preMessageTime;
-			switch (remainTick) {
-			case 60:
-				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "60"));
-				break;
-			case 30:
-				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "30"));
-				break;
-			case 10:
-				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", "10"));
-				break;
-			default:
-				break;
+			int remainSecond = cm.getClearMobDelay() - this.preMessageTime;
+			if(remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
+				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", String.valueOf(remainSecond)));
 			}
-			if (remainTick <= 0) {
+			if (remainSecond <= 0) {
 				this.preMessageTime = 0;
 			}
 		}

@@ -1,7 +1,6 @@
 package cn.jiongjionger.neverlag.utils;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 
 public class EntityUtils {
@@ -17,9 +16,9 @@ public class EntityUtils {
 	 * @param distance 判断距离
 	 * @return 是否存在玩家
 	 */
-	public static boolean hasPlayerNearby(Item item, int distance) {
-		for (Entity entity : item.getNearbyEntities(distance, distance, distance)) {
-			if (entity instanceof Player && !checkCustomNpc(entity)) {
+	public static boolean hasPlayerNearby(Entity entity, int distance) {
+		for (Entity e : entity.getNearbyEntities(distance, distance, distance)) {
+			if (e instanceof Player && !checkCustomNpc(e)) {
 				return true;
 			}
 		}
