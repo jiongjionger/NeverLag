@@ -6,6 +6,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import java.util.Deque;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class RedStoneCounter {
 
@@ -23,6 +25,7 @@ public class RedStoneCounter {
 
 	// 记录一分钟内的红石触发次数
 	private final ConcurrentLinkedDeque<Integer> asyncOneMinutesRecord = new ConcurrentLinkedDeque<>();
+	private final ReentrantLock asyncLock = new ReentrantLock();
 	private final LinkedList<Integer> syncOneMinutesRecord = new LinkedList<>();
 
 	private NeverLag plg = NeverLag.getInstance();
@@ -35,10 +38,13 @@ public class RedStoneCounter {
 			public void run() {
 				if (cm.isCheckRedstoneOnAsync()) {
 					if (asyncOneMinutesRecord.size() >= 60) { // 双重检查锁定
-						synchronized (asyncOneMinutesRecord) {
+						asyncLock.lock();
+						try {
 							if (asyncOneMinutesRecord.size() >= 60) {
 								asyncOneMinutesRecord.removeFirst();
 							}
+						} finally {
+							asyncLock.unlock();
 						}
 					}
 					asyncOneMinutesRecord.add(asyncRestoneCount.getAndSet(0));
@@ -60,48 +66,55 @@ public class RedStoneCounter {
 	}
 
 	public int getRedstoneAvgCount(boolean forceSync) {
-		if (forceSync) {
-			if (syncOneMinutesRecord.isEmpty()) {
+		Deque<Integer> deque = enterThreadSafe(forceSync);
+		try {
+			if (deque.isEmpty()) {
 				return 0;
 			}
 			int total = 0;
-			for (int count : syncOneMinutesRecord) {
-				total = total + count;
+			for (Integer count : deque) {
+				total += count;
 			}
 			return total / 60;
-		} else {
-			synchronized (asyncOneMinutesRecord) {
-				if (asyncOneMinutesRecord.isEmpty()) {
-					return 0;
-				}
-				int total = 0;
-				for (int count : asyncOneMinutesRecord) {
-					total = total + count;
-				}
-				return total / 60;
-			}
+		} finally {
+			leaveThreadSafe(forceSync);
 		}
 	}
 
 	public int getRedstoneRealTimeCount(boolean forceSync) {
-		if (forceSync) {
-			if (syncOneMinutesRecord.isEmpty()) {
+		Deque<Integer> deque = enterThreadSafe(forceSync);
+		try {
+			if (deque.isEmpty()) {
 				return 0;
 			}
-			return syncOneMinutesRecord.getLast();
+			return deque.getLast();
+		} finally {
+			leaveThreadSafe(forceSync);
+		}
+	}
+	
+	private Deque<Integer> enterThreadSafe(boolean forceSync) {
+		Deque<Integer> deque;
+		if(forceSync) {
+			deque = syncOneMinutesRecord;
 		} else {
-			synchronized (asyncOneMinutesRecord) {
-				if (asyncOneMinutesRecord.isEmpty()) {
-					return 0;
-				}
-				return asyncOneMinutesRecord.getLast();
-			}
+			deque = asyncOneMinutesRecord;
+			asyncLock.lock();
+		}
+		return deque;
+	}
+	
+	private void leaveThreadSafe(boolean forceSync) {
+		try {
+			if(!forceSync) asyncLock.unlock();
+		} catch (IllegalMonitorStateException ex) {
+			// ignore
 		}
 	}
 
 	public void updateRedstoneCount(boolean forceSync) {
 		if (forceSync) {
-			syncRestoneCount = syncRestoneCount + 1;
+			syncRestoneCount++;
 		} else {
 			asyncRestoneCount.incrementAndGet();
 		}
