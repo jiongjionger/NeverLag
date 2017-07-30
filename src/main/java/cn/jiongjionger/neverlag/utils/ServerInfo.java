@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.system.RedStoneCounter;
+import cn.jiongjionger.neverlag.system.RedstoneCounter;
 
 public class ServerInfo {
 
@@ -35,8 +35,8 @@ public class ServerInfo {
 	public ServerInfo() {
 		this.realtimeTPS = NeverLag.getTpsWatcher().getTps();
 		this.avgTPS = NeverLag.getTpsWatcher().getAverageTPS();
-		this.realtimeRedstone = RedStoneCounter.getInstance().getRedstoneRealTimeCount(true);
-		this.avgRedstone = RedStoneCounter.getInstance().getRedstoneAvgCount(true);
+		this.realtimeRedstone = RedstoneCounter.getInstance().getRedstoneRealTimeCount(true);
+		this.avgRedstone = RedstoneCounter.getInstance().getRedstoneAvgCount(true);
 		this.serverUpTime = DateUtils.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime());
 		for (World world : Bukkit.getWorlds()) {
 			worldInfo.add(new WorldInfo(world));

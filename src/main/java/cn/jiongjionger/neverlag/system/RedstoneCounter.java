@@ -1,22 +1,22 @@
 package cn.jiongjionger.neverlag.system;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import java.util.Deque;
-import java.util.concurrent.locks.ReentrantLock;
 
-public class RedStoneCounter {
+public class RedstoneCounter {
 
-	private final static class RedStoneCounterHolder {
-		private final static RedStoneCounter rc = new RedStoneCounter();
+	private final static class RedstoneCounterHolder {
+		private final static RedstoneCounter INSTANCE = new RedstoneCounter();
 	}
 
-	public final static RedStoneCounter getInstance() {
-		return RedStoneCounterHolder.rc;
+	public final static RedstoneCounter getInstance() {
+		return RedstoneCounterHolder.INSTANCE;
 	}
 
 	// 保存红石每触发的次数
@@ -32,7 +32,7 @@ public class RedStoneCounter {
 
 	private ConfigManager cm = ConfigManager.getInstance();
 
-	public RedStoneCounter() {
+	public RedstoneCounter() {
 		plg.getServer().getScheduler().runTaskTimerAsynchronously(plg, new Runnable() {
 			@Override
 			public void run() {

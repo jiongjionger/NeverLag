@@ -11,7 +11,7 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.system.RedStoneCounter;
+import cn.jiongjionger.neverlag.system.RedstoneCounter;
 
 public class HighfrequencyRedStoneCleaner implements Listener {
 
@@ -20,7 +20,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 	private ConcurrentHashMap<Location, Integer> asyncRestoneRecord = new ConcurrentHashMap<>();
 
 	private ConfigManager cm = ConfigManager.getInstance();
-	private RedStoneCounter rc = RedStoneCounter.getInstance();
+	private RedstoneCounter rc = RedstoneCounter.getInstance();
 	private NeverLag plg = NeverLag.getInstance();
 
 	public HighfrequencyRedStoneCleaner() {
