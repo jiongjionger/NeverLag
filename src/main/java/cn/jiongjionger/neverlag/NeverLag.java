@@ -4,14 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import cn.jiongjionger.neverlag.command.CommandBase;
+import cn.jiongjionger.neverlag.command.CommandDispatcher;
 import cn.jiongjionger.neverlag.command.CommandBenchmark;
 import cn.jiongjionger.neverlag.command.CommandClear;
 import cn.jiongjionger.neverlag.command.CommandGC;
 import cn.jiongjionger.neverlag.command.CommandHardWare;
 import cn.jiongjionger.neverlag.command.CommandInfo;
 import cn.jiongjionger.neverlag.command.CommandPing;
-import cn.jiongjionger.neverlag.command.CommandTabComplete;
 import cn.jiongjionger.neverlag.command.CommandTimings;
 import cn.jiongjionger.neverlag.fixer.AntiAUWMod;
 import cn.jiongjionger.neverlag.gui.GUISortPingListener;
@@ -32,6 +31,8 @@ public class NeverLag extends JavaPlugin implements Listener {
 	private static TpsWatcher tpsWatcher;
 
 	public static NeverLag getInstance() {
+		// 如果还没初始化就直接抛错, 不然过了很久才抛NPE, 定位起来麻烦
+		if(instance == null) throw new IllegalStateException();
 		return instance;
 	}
 
@@ -78,16 +79,16 @@ public class NeverLag extends JavaPlugin implements Listener {
 	}
 
 	private void registerCommand() {
-		CommandBase baseCommandExecutor = new CommandBase();
-		getCommand("neverlag").setExecutor(baseCommandExecutor);
-		getCommand("neverlag").setTabCompleter(new CommandTabComplete());
-		baseCommandExecutor.registerSubCommand("benchmark", new CommandBenchmark());
-		baseCommandExecutor.registerSubCommand("hardware", new CommandHardWare());
-		baseCommandExecutor.registerSubCommand("gc", new CommandGC());
-		baseCommandExecutor.registerSubCommand("info", new CommandInfo());
-		baseCommandExecutor.registerSubCommand("ping", new CommandPing());
-		baseCommandExecutor.registerSubCommand("clear", new CommandClear());
-		baseCommandExecutor.registerSubCommand("timings", new CommandTimings());
+		CommandDispatcher dispatcher = new CommandDispatcher();
+		getCommand("neverlag").setExecutor(dispatcher);
+		getCommand("neverlag").setTabCompleter(dispatcher);
+		dispatcher.registerSubCommand(new CommandBenchmark());
+		dispatcher.registerSubCommand(new CommandHardWare());
+		dispatcher.registerSubCommand(new CommandGC());
+		dispatcher.registerSubCommand(new CommandInfo());
+		dispatcher.registerSubCommand(new CommandPing());
+		dispatcher.registerSubCommand(new CommandClear());
+		dispatcher.registerSubCommand(new CommandTimings());
 	}
 
 	private void registerListener() {

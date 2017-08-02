@@ -1,36 +1,24 @@
 package cn.jiongjionger.neverlag.command;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.HardWareInfo;
 
-public class CommandHardWare implements ISubCommandExecutor {
+public class CommandHardWare extends AbstractSubCommand {
+	private volatile boolean isRunnning = false;
 
-	private final NeverLag plg = NeverLag.getInstance();
-	private final ConfigManager cm = ConfigManager.getInstance();
-	private final String PERMNODE = "neverlag.command.hardware";
-	private boolean isRun = false;
-
-	@Override
-	public String getPermNode() {
-		return this.PERMNODE;
+	public CommandHardWare() {
+		super("hardware");
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("hardware")) {
-			if (this.isRun) {
-				sender.sendMessage(cm.getCommandNoFinishFetchHardWareInfo());
-			} else {
-				this.isRun = true;
-				sender.sendMessage(cm.getCommandStartFetchHardWareInfo());
-				this.showHardWareInfo(sender);
-			}
+	public void onCommand(CommandSender sender, String[] args) {
+		if (this.isRunnning) {
+			sender.sendMessage(cm.getCommandNoFinishFetchHardWareInfo());
+		} else {
+			this.isRunnning = true;
+			sender.sendMessage(cm.getCommandStartFetchHardWareInfo());
+			this.showHardWareInfo(sender);
 		}
-		return true;
 	}
 
 	private void showHardWareInfo(final CommandSender sender) {
@@ -48,11 +36,18 @@ public class CommandHardWare implements ISubCommandExecutor {
 					sender.sendMessage(jvmArg);
 					sender.sendMessage(cpuInfo);
 					sender.sendMessage(memoryInfo);
-					isRun = false;
 				} catch (Exception e) {
-					isRun = false;
+					e.printStackTrace();
+					sender.sendMessage(e.toString());
+				} finally {
+					isRunnning = false;
 				}
 			}
 		});
+	}
+
+	@Override
+	public String getUsage() {
+		return null;
 	}
 }

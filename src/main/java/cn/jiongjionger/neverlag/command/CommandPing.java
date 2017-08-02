@@ -4,36 +4,27 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.gui.GUISortPing;
 import cn.jiongjionger.neverlag.gui.GUISortPingHolder;
 import cn.jiongjionger.neverlag.utils.PingUtils;
 
-public class CommandPing implements ISubCommandExecutor {
+public class CommandPing extends AbstractSubCommand {
 
-	private final ConfigManager cm = ConfigManager.getInstance();
-	private final String PERMNODE = "neverlag.command.ping";
-
-	@Override
-	public String getPermNode() {
-		return this.PERMNODE;
+	public CommandPing() {
+		super("ping");
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("ping")) {
-			if (sender instanceof Player) {
-				Player p = (Player) sender;
-				this.showSortPingInfo(p);
-			} else {
-				this.sendSortPingInfo(sender);
-			}
+	public void onCommand(CommandSender sender, String[] args) {
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			this.showSortPingInfo(p);
+		} else {
+			this.sendSortPingInfo(sender);
 		}
-		return true;
 	}
 
 	// 对console直接发送文字
@@ -64,4 +55,8 @@ public class CommandPing implements ISubCommandExecutor {
 		}
 	}
 
+	@Override
+	public String getUsage() {
+		return null;
+	}
 }

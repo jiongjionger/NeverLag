@@ -1,34 +1,33 @@
 package cn.jiongjionger.neverlag.command;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
+public class CommandGC extends AbstractSubCommand {
 
-public class CommandGC implements ISubCommandExecutor {
-
-	private final ConfigManager cm = ConfigManager.getInstance();
-	private final String PERMNODE = "neverlag.command.gc";
-
+	public CommandGC() {
+		super("gc");
+	}
+	
 	@Override
-	public String getPermNode() {
-		return this.PERMNODE;
+	public void onCommand(CommandSender sender, String[] args) {
+		long memoryBeforeGC = getCurrentMemoryUsage();
+		System.runFinalization();
+		System.gc();
+		long memoryAfterGC = getCurrentMemoryUsage();
+		if (memoryAfterGC < memoryBeforeGC) {
+			long gcMemory = (memoryAfterGC - memoryBeforeGC) / 1024 / 1024;
+			sender.sendMessage(cm.getCommandGCMessage().replace("%GCMEMORY%", String.valueOf(gcMemory)));
+		} else {
+			sender.sendMessage(cm.getCommandGCNoEffectMessage());
+		}
+	}
+	
+	protected long getCurrentMemoryUsage() {
+		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("neverlag") && args.length >= 1 && args[0].equalsIgnoreCase("gc")) {
-			long memoryBeforeGC = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-			System.runFinalization();
-			System.gc();
-			long memoryAfterGC = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-			if (memoryAfterGC < memoryBeforeGC) {
-				long gcMemory = (memoryAfterGC - memoryBeforeGC) / 1024 / 1024;
-				sender.sendMessage(cm.getCommandGCMessage().replace("%GCMEMORY%", String.valueOf(gcMemory)));
-			} else {
-				sender.sendMessage(cm.getCommandGCNoEffectMessage());
-			}
-		}
-		return true;
+	public String getUsage() {
+		return null;
 	}
 }
