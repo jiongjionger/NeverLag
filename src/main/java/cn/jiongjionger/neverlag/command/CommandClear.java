@@ -22,19 +22,18 @@ public class CommandClear extends AbstractSubCommand {
 	private static final List<String> COMPLETION_LIST;
 	
 	static {
-		String[] others = {"monsters", "monster", "animals", "animal", "dropitems", "dropitem", "items", "item"};
-		
-		// 需要排除 Player 类型, 所以得 -1s
-		List<String> list = new ArrayList<>(others.length + EntityType.values().length - 1);
-		list.addAll(Arrays.asList(others));
+		List<String> list = new ArrayList<>();
+		list.addAll(Arrays.asList(new String[]{ "monsters", "monster", "animals", "animal", "dropitems", "dropitem", "items", "item" }));
 		for(EntityType type : EntityType.values()) {
 			if(type != EntityType.PLAYER) {
 				@SuppressWarnings("deprecation")
-				String name = type.getName().toLowerCase();
-				list.add(name);
+				String name = type.getName();
+				if(name != null) {
+					list.add(name.toLowerCase());
+				}
 			}
 		}
-		COMPLETION_LIST = Collections.unmodifiableList(list);
+		COMPLETION_LIST = Collections.unmodifiableList(new ArrayList<>(list));
 	}
 
 	public CommandClear() {
