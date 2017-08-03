@@ -34,9 +34,4 @@ public class CommandBenchmark extends AbstractSubCommand {
 		sender.sendMessage(i18n.tr("start"));
 		this.cpuBenchmark(sender);
 	}
-
-	@Override
-	public String getUsage() {
-		return null;
-	}
 }

@@ -82,6 +82,6 @@ public class CommandTimings extends AbstractSubCommand {
 	@Override
 	public String getUsage() {
 		// TODO 
-		throw new UnsupportedOperationException();
+		return super.getUsage();
 	}
 }

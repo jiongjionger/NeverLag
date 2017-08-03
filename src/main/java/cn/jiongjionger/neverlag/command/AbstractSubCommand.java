@@ -36,7 +36,7 @@ public abstract class AbstractSubCommand {
 	}
 
 	public String getUsage() {
-		return i18n.tr("command.".concat(name).concat(".usage"));
+		return i18n.tr("usage");
 	}
 
 	public boolean isPlayerRequired() {

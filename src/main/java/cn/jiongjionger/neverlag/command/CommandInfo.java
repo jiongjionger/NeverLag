@@ -43,9 +43,4 @@ public class CommandInfo extends AbstractSubCommand {
 			sender.sendMessage(worldInfo.split("\n"));
 		}
 	}
-
-	@Override
-	public String getUsage() {
-		return null;
-	}
 }

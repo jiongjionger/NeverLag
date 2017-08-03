@@ -54,9 +54,4 @@ public class CommandPing extends AbstractSubCommand {
 			GUISortPingHolder.put(p, guiSlotPing);
 		}
 	}
-
-	@Override
-	public String getUsage() {
-		return null;
-	}
 }

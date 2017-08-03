@@ -49,6 +49,6 @@ public class CommandChunkInfo extends AbstractSubCommand {
 	@Override
 	public String getUsage() {
 		// TODO 发送提示，没有输入排序参数
-		throw new UnsupportedOperationException();
+		return super.getUsage();
 	}
 }

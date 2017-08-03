@@ -42,9 +42,4 @@ public class CommandHardWare extends AbstractSubCommand {
 			}
 		});
 	}
-
-	@Override
-	public String getUsage() {
-		return null;
-	}
 }

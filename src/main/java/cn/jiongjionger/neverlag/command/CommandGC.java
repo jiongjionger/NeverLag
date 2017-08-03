@@ -25,9 +25,4 @@ public class CommandGC extends AbstractSubCommand {
 	protected long getCurrentMemoryUsage() {
 		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}
-
-	@Override
-	public String getUsage() {
-		return null;
-	}
 }
