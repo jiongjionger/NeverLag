@@ -45,8 +45,9 @@ command:
             | 投掷器: %DROPPER%
             | 酿造台: %BRWEINGSTAND%
     benchmark:
-        start: "开始测试CPU单线程性能, 请稍候..."
-        result: "测试完毕, 单线程性能分数：{0}"
+        start: "开始测试 CPU 单线程性能, 这大约需要 5 秒钟..."
+        running: "已开始测试, 请勿重复执行"
+        result: "测试完毕, 单线程性能分数：{0}. 此分数会受到当前 CPU 使用率的影响."
     hardware:
         start: "正在读取服务器硬件信息..."
         running: "已开始读取硬件信息, 请勿重复执行"
