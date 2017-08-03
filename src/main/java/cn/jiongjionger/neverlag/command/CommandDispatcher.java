@@ -13,6 +13,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import org.bukkit.util.StringUtil;
 
 public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
@@ -61,16 +62,23 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		List<String> list;
 		if(args.length <= 1) {
-			return new ArrayList<>(subCommandMap.keySet());
+			list = new ArrayList<>(subCommandMap.keySet());
+		} else {
+			AbstractSubCommand subCommand = subCommandMap.get(args[0].toLowerCase());
+			if(subCommand == null) {
+				return null;
+			}
+			list = subCommand.onTabComplete(sender, Arrays.copyOfRange(args, 1, args.length));
 		}
 		
-		AbstractSubCommand subCommand = subCommandMap.get(args[0].toLowerCase());
-		if(subCommand == null) {
+		if(list == null || list.isEmpty()) {
 			return null;
 		}
-		
-		return subCommand.onTabComplete(sender, Arrays.copyOfRange(args, 1, args.length));
+		List<String> result = new ArrayList<>();
+		StringUtil.copyPartialMatches(args[args.length - 1], list, result);
+		return result;
 	}
 
 	public void registerSubCommand(AbstractSubCommand subCommandExecutor) {
