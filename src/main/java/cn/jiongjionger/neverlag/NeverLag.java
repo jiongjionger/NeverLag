@@ -70,7 +70,7 @@ public class NeverLag extends JavaPlugin implements Listener {
 		isInstallProtocoLib = Bukkit.getPluginManager().isPluginEnabled("ProtocolLib");
 		// 计算TPS
 		tpsWatcher = new TpsWatcher();
-		Bukkit.getScheduler().runTaskTimer(this, tpsWatcher, 1000L, 50L);
+		Bukkit.getScheduler().runTaskTimer(this, tpsWatcher, 1L, 1L);
 		// 开启主线程停顿检测线程
 		watchDog = new WatchDog();
 		// 初始化getPing的反射
