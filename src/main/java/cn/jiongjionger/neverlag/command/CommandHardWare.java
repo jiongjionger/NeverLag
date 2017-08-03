@@ -1,7 +1,7 @@
 package cn.jiongjionger.neverlag.command;
 
 import org.bukkit.command.CommandSender;
-import cn.jiongjionger.neverlag.utils.HardWareInfo;
+import cn.jiongjionger.neverlag.utils.HardwareInfo;
 
 public class CommandHardWare extends AbstractSubCommand {
 	private volatile boolean isRunnning = false;
@@ -26,11 +26,11 @@ public class CommandHardWare extends AbstractSubCommand {
 			@Override
 			public void run() {
 				try {
-					String jvmInfo = cm.getCommandHardWareJVMInfo().replace("%JVMINFO%", HardWareInfo.getJVMInfo());
-					String jvmArg = cm.getCommandHardWareJVMArg().replace("%JVMARG%", HardWareInfo.getJVMArg());
-					String systemInfo = cm.getCommandHardWareSystemInfo().replace("%SYSTEMINFO%", HardWareInfo.getSystemInfo());
-					String cpuInfo = cm.getCommandHardWareCPUInfo().replace("%CPUINFO%", HardWareInfo.getCPUInfo());
-					String memoryInfo = cm.getCommandHardWareMemoryInfo().replace("%MEMORYINFO%", HardWareInfo.getMemoryInfo());
+					String jvmInfo = cm.getCommandHardWareJVMInfo().replace("%JVMINFO%", HardwareInfo.getJVMInfo());
+					String jvmArg = cm.getCommandHardWareJVMArg().replace("%JVMARG%", HardwareInfo.getJVMArg());
+					String systemInfo = cm.getCommandHardWareSystemInfo().replace("%SYSTEMINFO%", HardwareInfo.getSystemInfo());
+					String cpuInfo = cm.getCommandHardWareCPUInfo().replace("%CPUINFO%", HardwareInfo.getCPUInfo());
+					String memoryInfo = cm.getCommandHardWareMemoryInfo().replace("%MEMORYINFO%", HardwareInfo.getMemoryInfo());
 					sender.sendMessage(systemInfo);
 					sender.sendMessage(jvmInfo);
 					sender.sendMessage(jvmArg);

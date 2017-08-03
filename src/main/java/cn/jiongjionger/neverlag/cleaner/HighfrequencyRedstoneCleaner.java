@@ -13,7 +13,7 @@ import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.system.RedstoneCounter;
 
-public class HighfrequencyRedStoneCleaner implements Listener {
+public class HighfrequencyRedstoneCleaner implements Listener {
 
 	// 保存红石频率信息，按周期判断并且清空
 	private HashMap<Location, Integer> syncRestoneRecord = new HashMap<>();
@@ -23,7 +23,7 @@ public class HighfrequencyRedStoneCleaner implements Listener {
 	private RedstoneCounter rc = RedstoneCounter.getInstance();
 	private NeverLag plg = NeverLag.getInstance();
 
-	public HighfrequencyRedStoneCleaner() {
+	public HighfrequencyRedstoneCleaner() {
 		plg.getServer().getPluginManager().registerEvents(this, plg);
 		plg.getServer().getScheduler().runTaskTimerAsynchronously(plg, new Runnable() {
 			@Override

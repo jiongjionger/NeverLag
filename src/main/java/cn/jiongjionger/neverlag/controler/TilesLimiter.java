@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.PermUtils;
+import cn.jiongjionger.neverlag.utils.PermissionUtils;
 
 public class TilesLimiter implements Listener {
 
@@ -59,7 +59,7 @@ public class TilesLimiter implements Listener {
 			if (p.isOp()) {
 				return;
 			}
-			int limit = PermUtils.getMaxPerm(p, "neverlag.limit.dispenser.");
+			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.dispenser.");
 			if (limit <= 0) {
 				limit = cm.getLimitTilesDispenserDefault();
 			}
@@ -81,7 +81,7 @@ public class TilesLimiter implements Listener {
 			if (p.isOp()) {
 				return;
 			}
-			int limit = PermUtils.getMaxPerm(p, "neverlag.limit.dropper.");
+			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.dropper.");
 			if (limit <= 0) {
 				limit = cm.getLimitTilesDropperDefault();
 			}
@@ -104,7 +104,7 @@ public class TilesLimiter implements Listener {
 			if (p.isOp()) {
 				return;
 			}
-			int limit = PermUtils.getMaxPerm(p, "neverlag.limit.hopper.");
+			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.hopper.");
 			if (limit <= 0) {
 				limit = cm.getLimitTilesHopperDefault();
 			}
@@ -133,7 +133,7 @@ public class TilesLimiter implements Listener {
 			checkType = Material.PISTON_STICKY_BASE;
 		}
 		if (checkType != null) {
-			int limit = PermUtils.getMaxPerm(p, "neverlag.limit.piston.");
+			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.piston.");
 			if (limit <= 0) {
 				limit = cm.getLimitTilesPistonDefault();
 			}

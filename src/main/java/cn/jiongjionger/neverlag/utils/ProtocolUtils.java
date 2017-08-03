@@ -11,7 +11,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import java.util.Random;
 
-public class ProtocolLibUtils {
+public class ProtocolUtils {
 
 	private static ProtocolManager plm;
 	private static Random random = new Random();

@@ -3,9 +3,9 @@ package cn.jiongjionger.neverlag.utils;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-public class PermUtils {
+public class PermissionUtils {
 
-	public static int getMaxPerm(Player p, String node) {
+	public static int getMaxPermission(Player p, String node) {
 		int maxLimit = 0;
 		for (PermissionAttachmentInfo perm : p.getEffectivePermissions()) {
 			String permission = perm.getPermission();

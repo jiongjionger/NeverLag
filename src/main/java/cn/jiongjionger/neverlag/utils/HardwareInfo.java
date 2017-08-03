@@ -11,7 +11,7 @@ import cn.jiongjionger.neverlag.hardware.UnixMemoryInfo;
 import cn.jiongjionger.neverlag.hardware.WindowsCPUInfo;
 import cn.jiongjionger.neverlag.hardware.WindowsMemoryInfo;
 
-public class HardWareInfo {
+public class HardwareInfo {
 
 	private static final String OS = System.getProperty("os.name").toLowerCase();
 	private static RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();

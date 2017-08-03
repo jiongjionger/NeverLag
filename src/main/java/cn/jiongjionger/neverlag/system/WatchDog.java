@@ -10,7 +10,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.utils.ProtocolLibUtils;
+import cn.jiongjionger.neverlag.utils.ProtocolUtils;
 
 public class WatchDog extends TimerTask {
 
@@ -42,7 +42,7 @@ public class WatchDog extends TimerTask {
 				for (World world : Bukkit.getWorlds()) {
 					onlinePlayer.addAll(world.getPlayers());
 				}
-				ProtocolLibUtils.sendKeepAlive(onlinePlayer);
+				ProtocolUtils.sendKeepAlive(onlinePlayer);
 			}
 		}
 	}

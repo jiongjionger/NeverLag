@@ -8,7 +8,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
 
 import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.utils.ProtocolLibUtils;
+import cn.jiongjionger.neverlag.utils.ProtocolUtils;
 import cn.jiongjionger.neverlag.utils.Reflection;
 import cn.jiongjionger.neverlag.utils.Reflection.MethodInvoker;
 
@@ -21,7 +21,7 @@ public class AntiAUWMod {
 		try {
 			method_asNMSCopy = Reflection.getMethod(Reflection.getCraftBukkitClass("inventory.CraftItemStack"), "asNMSCopy", ItemStack.class);
 			method_hasTag = Reflection.getMethod(Reflection.getMinecraftClass("ItemStack"), "hasTag");
-			ProtocolLibUtils.get().addPacketListener(
+			ProtocolUtils.get().addPacketListener(
 					new PacketAdapter(NeverLag.getInstance(), PacketType.Play.Client.SET_CREATIVE_SLOT) {
 						@Override
 						public void onPacketReceiving(PacketEvent e) {
