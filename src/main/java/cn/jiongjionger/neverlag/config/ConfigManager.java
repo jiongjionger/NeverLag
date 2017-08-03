@@ -5,20 +5,24 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import cn.jiongjionger.neverlag.NeverLag;
+import java.util.Locale;
 
 public class ConfigManager extends AbstractConfig {
 
 	private final static class ConfigManagerHolder {
-		private final static ConfigManager cm = new ConfigManager();
+		private final static ConfigManager INSTANCE = new ConfigManager();
 	}
 
 	public final static ConfigManager getInstance() {
-		return ConfigManagerHolder.cm;
+		return ConfigManagerHolder.INSTANCE;
 	}
 
 	/*
 	 * TO DO : 修改配置文件获取的node
 	 */
+	
+	@F("lang")
+	public String lang = Locale.getDefault().toString();
 
 	// 是否开启清理掉落物功能
 	@F("isClearDropItem")
@@ -420,58 +424,22 @@ public class ConfigManager extends AbstractConfig {
 	@F("modMagicCode")
 	public ArrayList<String> modMagicCode = new ArrayList<>();
 
-	// 命令提示
-	@F("commandNoPerm")
-	public String commandNoPerm = "你没有权限执行这个指令！";
-	@F("commandGCMessage")
-	public String commandGCMessage;
-	@F("commandGCNoEffectMessage")
-	public String commandGCNoEffectMessage;
-	@F("commandInfoBaseMessage")
-	public String commandInfoBaseMessage;
-	@F("commandWorldInfoMessage")
-	public String commandWorldInfoMessage;
-	@F("commandStartBenchmark")
-	public String commandStartBenchmark = "开始对CPU单线程性能进行测试..请稍等";
-	@F("commandFinishBenchmark")
-	public String commandFinishBenchmark = "测试完毕，单线程性能分数：%SCORE%";
-	@F("commandStartFetchHardWareInfo")
-	public String commandStartFetchHardWareInfo = "正在开始读取服务器硬件信息，请稍等...";
-	@F("commandHardWareJVMInfo")
-	public String commandHardWareJVMInfo = "JVM信息: %JVMINFO%";
-	@F("commandHardWareJVMArg")
-	public String commandHardWareJVMArg = "JVM参数: %JVMARG%";
-	@F("commandHardWareCPUInfo")
-	public String commandHardWareCPUInfo = "CPU信息: %CPUINFO%";
-	@F("commandHardWareMemoryInfo")
-	public String commandHardWareMemoryInfo = "内存信息 (剩余/总量): %MEMORYINFO%";
-	@F("commandHardWareSystemInfo")
-	public String commandHardWareSystemInfo = "系统信息: %SYSTEMINFO%";
-	@F("commandNoFinishFetchHardWareInfo")
-	public String commandNoFinishFetchHardWareInfo = "已经收到你的硬件信息查询请求，在查询完成前，请不要重复使用！";
-	@F("commandNoPlayerOnline")
-	public String commandNoPlayerOnline = "没有任何玩家在线";
-	@F("commandClearNoTypeArg")
-	public String commandClearNoTypeArg = "请输入要清理的实体类型";
-	@F("commandClearMessage")
-	public String commandClearMessage = "已成功清理实体类型 %TYPE% ，清理数量为 %COUNT% 个。";
-
-	// GUI部分
-	@F("guiPingTitle")
-	public String guiPingTitle = "玩家网络延迟列表";
-	@F("guiPingItemDisplay")
-	public String guiPingItemDisplay = "%NAME%";
-	@F("guiPingItemLore")
-	public String guiPingItemLore = "延迟: %PING%";
-	@F("guiPreItemDisplay")
-	public String guiPreItemDisplay = "上一页";
-	@F("guiNextItemDisplay")
-	public String guiNextItemDisplay = "下一页";
-
 	public ConfigManager() {
 		super(NeverLag.getInstance().getConfig(), NeverLag.getInstance().getLogger());
 	}
 
+	protected boolean checkValue(String key, Object value) {
+		switch(key) {
+		case "lang": 
+			if(!(value instanceof String)) {
+				return false;
+			}
+			return ((String) value).matches("^[a-zA-Z]{2}(-|_)[a-zA-Z]{2}$");
+		default: 
+			return super.checkValue(key, value);
+		}
+	}
+	
 	@Override
 	protected void load0() throws IOException {
 		config = NeverLag.getInstance().getConfig();
@@ -482,9 +450,4 @@ public class ConfigManager extends AbstractConfig {
 	protected void save0() throws IOException {
 		NeverLag.getInstance().saveConfig();
 	}
-
-	public String translate(String input) {
-		return input;
-	}
-
 }

@@ -13,38 +13,34 @@ public class CommandInfo extends AbstractSubCommand {
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
 		ServerInfo serverInfo = new ServerInfo();
-		String baseinfoMessage = cm.commandInfoBaseMessage
+		String baseInfo = i18n.tr("base")
 				.replace("%TPS%", String.valueOf(serverInfo.getRealtimeTPS()))
-				.replace("%AVGTPS%", String.valueOf(serverInfo.getAvgTPS()))
+				.replace("%AVG_TPS%", String.valueOf(serverInfo.getAvgTPS()))
 				.replace("%REDSTONE%", String.valueOf(serverInfo.getRealtimeRedstone()))
-				.replace("%AVGREDSTONE%", String.valueOf(serverInfo.getAvgRedstone()))
+				.replace("%AVG_REDSTONE%", String.valueOf(serverInfo.getAvgRedstone()))
 				.replace("%UPTIME%", serverInfo.getServerUpTime())
-				.replace("%MAXMEMORY%", String.valueOf(serverInfo.getRuntimeMaxMemory()))
-				.replace("%TOTALMEMORY%", String.valueOf(serverInfo.getRuntimeTotalMemory()))
-				.replace("%USEDMEMORY%", String.valueOf(serverInfo.getRuntimeUsedMemory()))
-				.replace("%FREEMEMORY%", String.valueOf(serverInfo.getRuntimeAvailableMemory()));
-		for (String message : baseinfoMessage.split("\n")) {
-			sender.sendMessage(message);
-		}
-		for (WorldInfo worldInfo : serverInfo.getWorldInfo()) {
-			String wordInfoMessage = cm.commandWorldInfoMessage
-					.replace("%WORLDNAME%", worldInfo.getWorldName())
-					.replace("%CHUNK%", String.valueOf(worldInfo.getTotalChunk()))
-					.replace("%ENTITY%", String.valueOf(worldInfo.getTotalEntity()))
-					.replace("%TILES%", String.valueOf(worldInfo.getTotalTiles()))
-					.replace("%ONLINE%", String.valueOf(worldInfo.getTotalOnline()))
-					.replace("%MONSTERS%", String.valueOf(worldInfo.getTotalMonsters()))
-					.replace("%ANIMALS%", String.valueOf(worldInfo.getTotalAnimals()))
-					.replace("%CHEST%", String.valueOf(worldInfo.getTotalChest()))
-					.replace("%HOPPER%", String.valueOf(worldInfo.getTotalHopper()))
-					.replace("%FURNACE%", String.valueOf(worldInfo.getTotalFurnace()))
-					.replace("%DISPENSER%", String.valueOf(worldInfo.getTotalDispenser()))
-					.replace("%DROPPER%", String.valueOf(worldInfo.getTotalDropper()))
-					.replace("%BRWEINGSTAND%", String.valueOf(worldInfo.getTotalBrewingStand()))
-					.replace("%DROPITEM%", String.valueOf(worldInfo.getTotalDropItem()));
-			for (String message : wordInfoMessage.split("\n")) {
-				sender.sendMessage(message);
-			}
+				.replace("%MAX_MEMORY%", String.valueOf(serverInfo.getRuntimeMaxMemory()))
+				.replace("%TOTAL_MEMORY%", String.valueOf(serverInfo.getRuntimeTotalMemory()))
+				.replace("%USED_MEMORY%", String.valueOf(serverInfo.getRuntimeUsedMemory()))
+				.replace("%FREE_MEMORY%", String.valueOf(serverInfo.getRuntimeAvailableMemory()));
+		sender.sendMessage(baseInfo.split("\n"));
+		for (WorldInfo info : serverInfo.getWorldInfo()) {
+			String worldInfo = i18n.tr("world")
+					.replace("%WORLDNAME%", info.getWorldName())
+					.replace("%CHUNK%", String.valueOf(info.getTotalChunk()))
+					.replace("%ONLINE%", String.valueOf(info.getTotalOnline()))
+					.replace("%ENTITY%", String.valueOf(info.getTotalEntity()))
+					.replace("%MONSTER%", String.valueOf(info.getTotalMonsters()))
+					.replace("%ANIMAL%", String.valueOf(info.getTotalAnimals()))
+					.replace("%TILE%", String.valueOf(info.getTotalTiles()))
+					.replace("%CHEST%", String.valueOf(info.getTotalChest()))
+					.replace("%HOPPER%", String.valueOf(info.getTotalHopper()))
+					.replace("%FURNACE%", String.valueOf(info.getTotalFurnace()))
+					.replace("%DISPENSER%", String.valueOf(info.getTotalDispenser()))
+					.replace("%DROPPER%", String.valueOf(info.getTotalDropper()))
+					.replace("%BRWEINGSTAND%", String.valueOf(info.getTotalBrewingStand()))
+					.replace("%DROPITEM%", String.valueOf(info.getTotalDropItem()));
+			sender.sendMessage(worldInfo.split("\n"));
 		}
 	}
 

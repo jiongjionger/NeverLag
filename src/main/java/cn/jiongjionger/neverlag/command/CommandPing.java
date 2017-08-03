@@ -31,7 +31,7 @@ public class CommandPing extends AbstractSubCommand {
 	private void sendSortPingInfo(CommandSender sender) {
 		LinkedHashMap<String, Integer> record = PingUtils.getPingAndSort();
 		if (record == null) {
-			sender.sendMessage(cm.commandNoPlayerOnline);
+			sender.sendMessage(i18n.tr("noPlayer"));
 		} else {
 			Iterator<Entry<String, Integer>> iterator = record.entrySet().iterator();
 			while (iterator.hasNext()) {
@@ -47,7 +47,7 @@ public class CommandPing extends AbstractSubCommand {
 	private void showSortPingInfo(Player p) {
 		LinkedHashMap<String, Integer> record = PingUtils.getPingAndSort();
 		if (record == null) {
-			p.sendMessage(cm.commandNoPlayerOnline);
+			p.sendMessage(i18n.tr("noPlayer"));
 		} else {
 			GUISortPing guiSlotPing = new GUISortPing(record);
 			p.openInventory(guiSlotPing.get());

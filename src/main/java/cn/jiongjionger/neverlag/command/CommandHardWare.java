@@ -13,10 +13,10 @@ public class CommandHardWare extends AbstractSubCommand {
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
 		if (this.isRunnning) {
-			sender.sendMessage(cm.commandNoFinishFetchHardWareInfo);
+			sender.sendMessage(i18n.tr("running"));
 		} else {
 			this.isRunnning = true;
-			sender.sendMessage(cm.commandStartFetchHardWareInfo);
+			sender.sendMessage(i18n.tr("start"));
 			this.showHardWareInfo(sender);
 		}
 	}
@@ -26,16 +26,13 @@ public class CommandHardWare extends AbstractSubCommand {
 			@Override
 			public void run() {
 				try {
-					String jvmInfo = cm.commandHardWareJVMInfo.replace("%JVMINFO%", HardwareInfo.getJVMInfo());
-					String jvmArg = cm.commandHardWareJVMArg.replace("%JVMARG%", HardwareInfo.getJVMArg());
-					String systemInfo = cm.commandHardWareSystemInfo.replace("%SYSTEMINFO%", HardwareInfo.getSystemInfo());
-					String cpuInfo = cm.commandHardWareCPUInfo.replace("%CPUINFO%", HardwareInfo.getCPUInfo());
-					String memoryInfo = cm.commandHardWareMemoryInfo.replace("%MEMORYINFO%", HardwareInfo.getMemoryInfo());
-					sender.sendMessage(systemInfo);
-					sender.sendMessage(jvmInfo);
-					sender.sendMessage(jvmArg);
-					sender.sendMessage(cpuInfo);
-					sender.sendMessage(memoryInfo);
+					String result = i18n.tr("result")
+						.replace("%JVM_INFO%", HardwareInfo.getJVMInfo())
+						.replace("%JVM_ARGS%", HardwareInfo.getJVMArg())
+						.replace("%SYSTEM_INFO%", HardwareInfo.getSystemInfo())
+						.replace("%CPU_INFO%", HardwareInfo.getCPUInfo())
+						.replace("%MEMORY_INFO%", HardwareInfo.getMemoryInfo());
+					sender.sendMessage(result.split("\n"));
 				} catch (Exception e) {
 					e.printStackTrace();
 					sender.sendMessage(e.toString());

@@ -9,11 +9,12 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.I18n;
+import cn.jiongjionger.neverlag.NeverLag;
 
 public class GUISortPingListener implements Listener {
 
-	private final ConfigManager cm = ConfigManager.getInstance();
+	private final I18n i18n = NeverLag.i18n("gui.ping");
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
 	public void onClickGUI(InventoryClickEvent e) {
@@ -21,7 +22,7 @@ public class GUISortPingListener implements Listener {
 		if (inv == null) {
 			return;
 		}
-		if (cm.guiPingTitle.equals(inv.getTitle())) {
+		if (i18n.tr("title").equals(inv.getTitle())) {
 			e.setCancelled(true);
 		}
 		if (e.getWhoClicked() instanceof Player) {
@@ -33,7 +34,7 @@ public class GUISortPingListener implements Listener {
 			GUISortPing guiSortPing = GUISortPingHolder.get(p);
 			if (guiSortPing != null) {
 				if (slot == 44) {
-					p.openInventory(guiSortPing.getPrePage());
+					p.openInventory(guiSortPing.getPreviousPage());
 				} else if (slot == 53) {
 					p.openInventory(guiSortPing.getNextPage());
 				}
@@ -47,7 +48,7 @@ public class GUISortPingListener implements Listener {
 		if (inv == null) {
 			return;
 		}
-		if (cm.guiPingTitle.equals(inv.getTitle())) {
+		if (i18n.tr("title").equals(inv.getTitle())) {
 			GUISortPingHolder.clear(e.getPlayer().getName());
 		}
 	}

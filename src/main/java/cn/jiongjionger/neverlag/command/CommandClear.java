@@ -87,16 +87,11 @@ public class CommandClear extends AbstractSubCommand {
 				}
 			}
 		}
-		sender.sendMessage(cm.commandClearMessage.replace("%TYPE%", args[1]).replace("%COUNT%", String.valueOf(count)));
+		sender.sendMessage(i18n.tr("success", args[0], count));
 	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, String[] args) {
 		return COMPLETION_LIST;
-	}
-
-	@Override
-	public String getUsage() {
-		return cm.commandClearNoTypeArg;
 	}
 }

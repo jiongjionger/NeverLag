@@ -11,13 +11,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.util.StringUtil;
+
+import cn.jiongjionger.neverlag.I18n;
+import cn.jiongjionger.neverlag.NeverLag;
 
 public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
-	private final ConfigManager cm = ConfigManager.getInstance();
+	private final I18n i18n = NeverLag.i18n();
 	private final Map<String, AbstractSubCommand> subCommandMap = new HashMap<>();
 
 	@Override
@@ -34,7 +35,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 				throw new UnsupportedOperationException();
 			}
 			if (!sender.hasPermission(executor.getPermission())) {
-				sender.sendMessage(cm.commandNoPerm);
+				sender.sendMessage(i18n.tr("command.noPermission"));
 				return true;
 			}
 			if(executor.isPlayerRequired() && !(sender instanceof Player)) {  // 如果命令要求玩家才能执行, 而发送者又不是玩家

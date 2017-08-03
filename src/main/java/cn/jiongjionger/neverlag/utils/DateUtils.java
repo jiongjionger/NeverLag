@@ -2,12 +2,12 @@ package cn.jiongjionger.neverlag.utils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.I18n;
+import cn.jiongjionger.neverlag.NeverLag;
 
 public class DateUtils {
-
-	private static ConfigManager cm = ConfigManager.getInstance();
+	/** 命名空间: <code>dateFormat</code> . */
+	private static final I18n I18N = NeverLag.i18n("dateFormat");
 
 	private static int dateDiff(int type, Calendar fromDate, Calendar toDate, boolean future) {
 		int diff = 0;
@@ -25,15 +25,21 @@ public class DateUtils {
 	public static String formatDateDiff(Calendar fromDate, Calendar toDate) {
 		boolean future = false;
 		if (toDate.equals(fromDate)) {
-			return cm.translate("now");
+			return I18N.tr("now");
 		}
 		if (toDate.after(fromDate)) {
 			future = true;
 		}
 		StringBuilder sb = new StringBuilder();
 		int[] types = new int[] { Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.SECOND };
-		String[] names = new String[] { cm.translate("year"), cm.translate("years"), cm.translate("month"), cm.translate("months"), cm.translate("day"),
-				cm.translate("days"), cm.translate("hour"), cm.translate("hours"), cm.translate("minute"), cm.translate("minutes"), cm.translate("second"), cm.translate("seconds") };
+		String[] names = new String[] { 
+				I18N.tr("year"),   I18N.tr("years"), 
+				I18N.tr("month"),  I18N.tr("months"), 
+				I18N.tr("day"),    I18N.tr("days"), 
+				I18N.tr("hour"),   I18N.tr("hours"), 
+				I18N.tr("minute"), I18N.tr("minutes"), 
+				I18N.tr("second"), I18N.tr("seconds") 
+		};
 		int accuracy = 0;
 		for (int i = 0; i < types.length; i++) {
 			if (accuracy > 2) {

@@ -4,6 +4,5 @@ version: ${version}
 author: jiongjionger
 softdepend: [ProtocolLib]
 commands:
-        neverlag:
-                usage: /neverlag <something>
- 
+    neverlag:
+        usage: /neverlag <something>

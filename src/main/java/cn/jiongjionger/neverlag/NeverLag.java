@@ -12,12 +12,14 @@ import cn.jiongjionger.neverlag.command.CommandHardWare;
 import cn.jiongjionger.neverlag.command.CommandInfo;
 import cn.jiongjionger.neverlag.command.CommandPing;
 import cn.jiongjionger.neverlag.command.CommandTimings;
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.fixer.AntiAUWMod;
 import cn.jiongjionger.neverlag.gui.GUISortPingListener;
 import cn.jiongjionger.neverlag.monitor.MonitorUtils;
 import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
 import cn.jiongjionger.neverlag.utils.PingUtils;
+import java.io.File;
 
 public class NeverLag extends JavaPlugin implements Listener {
 
@@ -26,6 +28,7 @@ public class NeverLag extends JavaPlugin implements Listener {
 	@SuppressWarnings("unused")
 	private static final String OPENSOURCE_CN = "本插件已经完全开源，你不必反编译来查看源代码，开源地址为：https://github.com/jiongjionger/NeverLag，需要注意的是，如果你使用了本插件的源码，哪怕是一部分，你也必须申明来源并且完全开源你的软件项目！";
 	private static NeverLag instance;
+	private static I18n i18n;
 	private static boolean isInstallProtocoLib;
 	private static WatchDog watchDog;
 	private static TpsWatcher tpsWatcher;
@@ -44,21 +47,25 @@ public class NeverLag extends JavaPlugin implements Listener {
 		return watchDog;
 	}
 
+	public static I18n i18n() {
+		return i18n;
+	}
+	
+	/** 返回指定了命名空间的 I18n 实例. */
+	public static I18n i18n(String namespace) {
+		return i18n.clone(namespace);
+	}
+
 	public static boolean isInstallProtocoLib() {
 		return isInstallProtocoLib;
 	}
 
 	@Override
-	public void onDisable() {
-		// 兼容PlugMan等插件
-		watchDog.stop();
-		Bukkit.getScheduler().cancelTasks(instance);
-		MonitorUtils.disable();
-	}
-
-	@Override
 	public void onEnable() {
 		instance = this;
+		ConfigManager.getInstance();
+		i18n = I18n.load(new File(getDataFolder(), "lang/"), ConfigManager.getInstance().lang);
+
 		// 判断是否安装了ProtocolLib前置插件
 		isInstallProtocoLib = Bukkit.getPluginManager().isPluginEnabled("ProtocolLib");
 		// 计算TPS
@@ -75,7 +82,19 @@ public class NeverLag extends JavaPlugin implements Listener {
 		// TO DO 一堆new实例和配置文件
 		this.registerCommand();
 		this.registerListener();
-
+	}
+	
+	@Override
+	public void onDisable() {
+		try {
+			// 兼容PlugMan等插件
+			if(watchDog != null) 
+				watchDog.stop();
+			Bukkit.getScheduler().cancelTasks(instance);
+			MonitorUtils.disable();
+		} catch (NoClassDefFoundError ex) {
+			// TODO Bukkit 插件加载系统的BUG
+		}
 	}
 
 	private void registerCommand() {

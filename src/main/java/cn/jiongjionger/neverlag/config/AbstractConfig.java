@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -91,18 +92,26 @@ public abstract class AbstractConfig {
 					return;
 				}
 				Object v = loadData(key, def);
-				if (!checkValue(key, v)) {
-					logger.log(Level.WARNING, "Illegal value \"{0}\" of {1}, use default \"{2}\"!",
-							new Object[] { v, key, def });
-					return;
+				try {
+					if (!checkValue(key, v)) {
+						logger.log(Level.WARNING, "Illegal value \"{0}\" of {1}, use default \"{2}\"!",
+								new Object[] { v, key, def });
+						return;
+					}
+				} catch (Exception ex) {
+					LogRecord record = new LogRecord(Level.WARNING, "Illegal value \"{0}\" of {1}, use default \"{2}\"!");
+					record.setParameters(new Object[] { v, key, def });
+					record.setThrown(ex);
+					logger.log(record);
 				}
 				f.set(this, v);
 			} catch (ReflectiveOperationException ex) {
-				logger.log(Level.WARNING, "Unable to update config field:{0}", f.toGenericString());
-				ex.printStackTrace();
+				LogRecord record = new LogRecord(Level.WARNING, "Unable to update config field:{0}");
+				record.setParameters(new Object[] { f.toGenericString() });
+				record.setThrown(ex);
+				logger.log(record);
 			} catch (Exception ex) {
-				logger.warning(key);
-				ex.printStackTrace();
+				logger.log(Level.WARNING, key, ex);
 			}
 		}
 	}
@@ -125,8 +134,10 @@ public abstract class AbstractConfig {
 			try {
 				saveData(key, f.get(this));
 			} catch (ReflectiveOperationException ex) {
-				logger.log(Level.WARNING, "Unable to update config field:{0}", f.toGenericString());
-				ex.printStackTrace();
+				LogRecord record = new LogRecord(Level.WARNING, "Unable to update config field:{0}");
+				record.setParameters(new Object[] { f.toGenericString() });
+				record.setThrown(ex);
+				logger.log(record);
 			}
 		}
 
