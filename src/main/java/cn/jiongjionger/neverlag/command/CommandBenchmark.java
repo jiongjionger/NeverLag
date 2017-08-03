@@ -21,13 +21,13 @@ public class CommandBenchmark extends AbstractSubCommand {
 			public void run() {
 				long operationCount = 0L;
 				long startTime = System.nanoTime();
-				while (System.nanoTime() - startTime < TimeUnit.SECONDS.toMillis(5)) {
+				while (System.nanoTime() - startTime < TimeUnit.SECONDS.toNanos(5)) {
 					Math.pow(1024.0D * Math.random(), Math.random() / 1.024D);
 					Math.sqrt(Math.random() + Math.random() * (Math.random() * 1024.0D));
 					Math.cbrt(Math.random() + Math.random() * (Math.random() * 1024.0D));
 					Math.sin(Math.random() * 360 * Math.PI / 180);
 					Math.cos(Math.random() * 360 * Math.PI / 180);
-					operationCount = operationCount + 1L;
+					operationCount++;
 				}
 				// 分数即为5秒内平均每毫秒计算的次数
 				String score = String.valueOf(new DecimalFormat("#").format(Math.ceil(operationCount / 5000)));
