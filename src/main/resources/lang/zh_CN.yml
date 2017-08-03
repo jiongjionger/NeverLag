@@ -61,7 +61,13 @@ command:
         noPlayer: "在线玩家列表为空"
     clear:
         usage: "请使用 /neverlag clear <类型>"
+        illegalType: "没有此实体类型! 可用: {0}"
         success: "已清理 {0} 个 {1}"
+    chunkinfo:
+        usage: "请使用 /neverlag chunkinfo <排序方式>"
+        chunkListEmpty: "没有已加载的区块, 无法统计!"
+    timings:
+        usage: "请使用 /neverlag timings <on|off|event|task|command> [插件名]"
 gui:
     ping:
         title: "玩家网络延迟列表"

@@ -78,10 +78,4 @@ public class CommandTimings extends AbstractSubCommand {
 		
 		return pluginNames;
 	}
-
-	@Override
-	public String getUsage() {
-		// TODO 
-		return super.getUsage();
-	}
 }

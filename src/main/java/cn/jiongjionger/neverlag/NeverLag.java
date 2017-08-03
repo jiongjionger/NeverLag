@@ -63,7 +63,7 @@ public class NeverLag extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		instance = this;
-		ConfigManager.getInstance();
+		ConfigManager.getInstance().reload();
 		i18n = I18n.load(new File(getDataFolder(), "lang/"), ConfigManager.getInstance().lang);
 
 		// 判断是否安装了ProtocolLib前置插件

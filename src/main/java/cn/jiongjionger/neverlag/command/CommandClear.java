@@ -45,8 +45,8 @@ public class CommandClear extends AbstractSubCommand {
 	public void onCommand(CommandSender sender, String[] args) {
 		String type = args[0].toLowerCase();
 		if(!COMPLETION_LIST.contains(type)) {
-			// TODO 提示没有此类型
-			throw new UnsupportedOperationException();
+			sender.sendMessage(i18n.tr("illegalType", COMPLETION_LIST));
+			return;
 		}
 		int count = 0;
 		for (World w : Bukkit.getWorlds()) {

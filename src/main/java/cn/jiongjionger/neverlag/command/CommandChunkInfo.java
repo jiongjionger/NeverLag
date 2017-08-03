@@ -31,7 +31,7 @@ public class CommandChunkInfo extends AbstractSubCommand {
 	public void onCommand(CommandSender sender, String[] args) {
 		List<Chunk> chunks = this.getAllChunk();
 		if (chunks.isEmpty()) {
-			// TODO 发送提示，没有加载的区块
+			sender.sendMessage(i18n.tr("chunkListEmpty"));
 			return;
 		}
 		if (sender instanceof Player) {
@@ -44,11 +44,5 @@ public class CommandChunkInfo extends AbstractSubCommand {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, String[] args) {
 		return COMPLETION_LIST;
-	}
-
-	@Override
-	public String getUsage() {
-		// TODO 发送提示，没有输入排序参数
-		return super.getUsage();
 	}
 }
