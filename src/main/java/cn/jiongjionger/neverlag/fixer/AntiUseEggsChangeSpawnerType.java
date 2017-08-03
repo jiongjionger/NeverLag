@@ -16,7 +16,7 @@ public class AntiUseEggsChangeSpawnerType implements Listener {
 	// 将优先级设为NORMAL以与各种小游戏插件兼容. LOWEST可能破坏一些小游戏的游戏机制
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent e) {
-		if (!cm.isAntiUseEggsChangeSpawnerType()) {
+		if (!cm.isAntiUseEggsChangeSpawnerType) {
 			return;
 		}
 		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {

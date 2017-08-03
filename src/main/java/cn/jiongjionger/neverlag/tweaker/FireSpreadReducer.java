@@ -13,12 +13,12 @@ public class FireSpreadReducer implements Listener {
 
 	@EventHandler
 	public void fireSpread(final BlockIgniteEvent e) {
-		if (!cm.isReduceFireSpread()) {
+		if (!cm.isReduceFireSpread) {
 			return;
 		}
 		if (BlockIgniteEvent.IgniteCause.SPREAD.equals(e.getCause())) {
 			long now = System.currentTimeMillis();
-			if (now > this.lastfireSpread + cm.getReduceFireSpreadTime()) {
+			if (now > this.lastfireSpread + cm.reduceFireSpreadTime) {
 				this.lastfireSpread = now;
 			} else {
 				e.setCancelled(true);

@@ -28,17 +28,17 @@ public class EntityCleaner {
 	 */
 	@SuppressWarnings("deprecation")
 	private static void doClean(boolean forceclean) {
-		if (!cm.isClearEntity()) {
+		if (!cm.isClearEntity) {
 			return;
 		}
 		if (!forceclean) {
-			if (cm.isClearLimit()) {
+			if (cm.isClearLimit) {
 				int num = 0;
 				for (World world : Bukkit.getWorlds()) {
 					num += world.getLivingEntities().size();
 				}
 				// 如果没到阀值直接返回
-				if (num < cm.getClearEntityLimit()) {
+				if (num < cm.clearEntityLimit) {
 					return;
 				}
 			}
@@ -46,20 +46,20 @@ public class EntityCleaner {
 		int count = 0;
 		// 循环世界
 		for (World world : Bukkit.getWorlds()) {
-			if (!cm.getNoClearEntityWorld().contains(world.getName())) {
+			if (!cm.noClearEntityWorld.contains(world.getName())) {
 				for (LivingEntity entity : world.getLivingEntities()) {
 					// 不清理NPC和Mypet宠物和白名单内的类型
-					if (EntityUtils.checkCustomNpc(entity) || cm.getClearEntityTypeWhiteList().contains(entity.getType().getName().toLowerCase())) {
+					if (EntityUtils.checkCustomNpc(entity) || cm.clearEntityTypeWhiteList.contains(entity.getType().getName().toLowerCase())) {
 						continue;
 					}
-					if (!cm.isClearEntityPlayerNearby() && EntityUtils.hasPlayerNearby(entity, cm.getClearEntityPlayerNearbyDistance())) {
+					if (!cm.isClearEntityPlayerNearby && EntityUtils.hasPlayerNearby(entity, cm.clearEntityPlayerNearbyDistance)) {
 						continue;
 					}
 					if (entity instanceof Animals) {
 					} else if (entity instanceof Monster) {
 					} else if (entity instanceof Squid) {
 					} else if (entity instanceof Villager) {
-					} else if (cm.getClearEntityTypeBlackList().contains(entity.getType().getName().toLowerCase())) {
+					} else if (cm.clearEntityTypeBlackList.contains(entity.getType().getName().toLowerCase())) {
 					} else{
 						continue;
 					}
@@ -68,8 +68,8 @@ public class EntityCleaner {
 				}
 			}
 		}
-		if (cm.isBroadcastClearEntity()) {
-			Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastMessage().replace("%COUNT%", String.valueOf(count)));
+		if (cm.isBroadcastClearEntity) {
+			Bukkit.getServer().broadcastMessage(cm.clearEntityBroadcastMessage.replace("%COUNT%", String.valueOf(count)));
 		}
 	}
 
@@ -81,8 +81,8 @@ public class EntityCleaner {
 			public void run() {
 				doClean();
 			}
-		}, cm.getClearMobDelay() * 20L, cm.getClearMobDelay() * 20L);
-		if (cm.getClearMobDelay() > 60) {
+		}, cm.clearMobDelay * 20L, cm.clearMobDelay * 20L);
+		if (cm.clearMobDelay > 60) {
 			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 				@Override
 				public void run() {
@@ -94,11 +94,11 @@ public class EntityCleaner {
 
 	// 提前通知
 	private void doPreMessage() {
-		if (cm.isClearEntity() && cm.isBroadcastClearEntity()) {
+		if (cm.isClearEntity && cm.isBroadcastClearEntity) {
 			this.preMessageTime++;
-			int remainSecond = cm.getClearMobDelay() - this.preMessageTime;
+			int remainSecond = cm.clearMobDelay - this.preMessageTime;
 			if(remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
-				Bukkit.getServer().broadcastMessage(cm.getClearEntityBroadcastPreMessage().replace("%TIME%", String.valueOf(remainSecond)));
+				Bukkit.getServer().broadcastMessage(cm.clearEntityBroadcastPreMessage.replace("%TIME%", String.valueOf(remainSecond)));
 			}
 			if (remainSecond <= 0) {
 				this.preMessageTime = 0;

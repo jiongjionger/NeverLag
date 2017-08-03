@@ -23,33 +23,33 @@ public class ItemCleaner {
 
 	@SuppressWarnings("deprecation")
 	public static void doClean() {
-		if (!cm.isClearDropItem()) {
+		if (!cm.isClearDropItem) {
 			return;
 		}
 		int count = 0;
 		for (World world : Bukkit.getWorlds()) {
 			// 如果当前世界不在排除列表
-			if (!cm.getNoClearItemWorld().contains(world.getName())) {
+			if (!cm.noClearItemWorld.contains(world.getName())) {
 				for (Entity entity : world.getEntities()) {
-					if (entity instanceof Item && cm.isClearItem()) {
+					if (entity instanceof Item && cm.isClearItem) {
 						Item item = (Item) entity;
 						// 判断是否不在清理的物品ID白名单中
-						if (!cm.getNoClearItemId().contains(item.getItemStack().getTypeId())) {
+						if (!cm.noClearItemId.contains(item.getItemStack().getTypeId())) {
 							// 玩家附近的时候是否还清理
-							if (!cm.isClearItemPlayerNearby() && EntityUtils.hasPlayerNearby(item, cm.getClearItemPlayerNearbyDistance())) {
+							if (!cm.isClearItemPlayerNearby && EntityUtils.hasPlayerNearby(item, cm.clearItemPlayerNearbyDistance)) {
 								continue;
 							}
 						} else {
 							continue;
 						}
-					} else if (entity instanceof ItemFrame && cm.isClearItemFrame()) {
-					} else if (entity instanceof Boat && cm.isClearBoat()) {
-					} else if (entity instanceof ExperienceOrb && cm.isClearExpBall()) {
-					} else if (entity instanceof FallingBlock && cm.isClearFallingBlock()) {
-					} else if (entity instanceof Painting && cm.isClearPainting()) {
-					} else if (entity instanceof Minecart && cm.isClearMinecart()) {
-					} else if (entity instanceof Arrow && cm.isClearArrow()) {
-					} else if (entity instanceof Snowball && cm.isClearSnowBall()) {
+					} else if (entity instanceof ItemFrame && cm.isClearItemFrame) {
+					} else if (entity instanceof Boat && cm.isClearBoat) {
+					} else if (entity instanceof ExperienceOrb && cm.isClearExpBall) {
+					} else if (entity instanceof FallingBlock && cm.isClearFallingBlock) {
+					} else if (entity instanceof Painting && cm.isClearPainting) {
+					} else if (entity instanceof Minecart && cm.isClearMinecart) {
+					} else if (entity instanceof Arrow && cm.isClearArrow) {
+					} else if (entity instanceof Snowball && cm.isClearSnowBall) {
 					} else {
 						continue;
 					}
@@ -58,8 +58,8 @@ public class ItemCleaner {
 				}
 			}
 		}
-		if (cm.isBroadcastClearItem()) {
-			Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastMessage().replace("%COUNT%", String.valueOf(count)));
+		if (cm.isBroadcastClearItem) {
+			Bukkit.getServer().broadcastMessage(cm.clearItemBroadcastMessage.replace("%COUNT%", String.valueOf(count)));
 		}
 	}
 
@@ -73,8 +73,8 @@ public class ItemCleaner {
 			public void run() {
 				doClean();
 			}
-		}, cm.getClearItemDelay() * 20L, cm.getClearItemDelay() * 20L);
-		if (cm.getClearItemDelay() > 60) {
+		}, cm.clearItemDelay * 20L, cm.clearItemDelay * 20L);
+		if (cm.clearItemDelay > 60) {
 			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 				@Override
 				public void run() {
@@ -87,11 +87,11 @@ public class ItemCleaner {
 
 	// 提前通知
 	private void doPreMessage() {
-		if (cm.isClearDropItem() && cm.isBroadcastClearItem()) {
+		if (cm.isClearDropItem && cm.isBroadcastClearItem) {
 			this.preMessageTime++;
-			int remainSecond = cm.getClearItemDelay() - this.preMessageTime;
+			int remainSecond = cm.clearItemDelay - this.preMessageTime;
 			if(remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
-				Bukkit.getServer().broadcastMessage(cm.getClearItemBroadcastPreMessage().replace("%TIME%", String.valueOf(remainSecond)));
+				Bukkit.getServer().broadcastMessage(cm.clearItemBroadcastPreMessage.replace("%TIME%", String.valueOf(remainSecond)));
 			}
 			if (remainSecond <= 0) {
 				this.preMessageTime = 0;
@@ -101,13 +101,13 @@ public class ItemCleaner {
 
 	// 悬浮提醒
 	private void holoDisplay() {
-		if (!cm.isClearDropItem() || !cm.isClearItem() || !cm.isClearItemPreHoloMessage()) {
+		if (!cm.isClearDropItem || !cm.isClearItem || !cm.isClearItemPreHoloMessage) {
 			return;
 		}
 		this.holoTime++;
-		int remainSecond = cm.getClearMobDelay() - holoTime;
+		int remainSecond = cm.clearMobDelay - holoTime;
 		if (remainSecond <= 60 && remainSecond > 0) {
-			String holoMessage = cm.getClearItemPreHoloMessage().replace("%TIME%", String.valueOf(remainSecond));
+			String holoMessage = cm.clearItemPreHoloMessage.replace("%TIME%", String.valueOf(remainSecond));
 			this.setDropItemHolo(holoMessage);
 		}
 		if (remainSecond <= 0) {
@@ -125,12 +125,12 @@ public class ItemCleaner {
 	private void setDropItemHolo(String name) {
 		for (World world : Bukkit.getWorlds()) {
 			// 如果当前世界不在排除列表
-			if (!cm.getNoClearItemWorld().contains(world.getName())) {
+			if (!cm.noClearItemWorld.contains(world.getName())) {
 				for (Entity entity : world.getEntities()) {
 					if (entity instanceof Item) {
 						Item item = (Item) entity;
 						// 判断是否在不清理的物品ID白名单
-						if (!cm.getNoClearItemId().contains(item.getItemStack().getTypeId())) {
+						if (!cm.noClearItemId.contains(item.getItemStack().getTypeId())) {
 							item.setCustomName(name);
 							item.setCustomNameVisible(true);
 						}

@@ -24,14 +24,14 @@ public class CommandBenchmark extends AbstractSubCommand {
 				}
 				// 分数即为5秒内平均每毫秒计算的次数
 				String score = String.valueOf(new DecimalFormat("#").format(Math.ceil(operationCount / 5000)));
-				sender.sendMessage(cm.getCommandFinishBenchmark().replace("%SCORE%", score));
+				sender.sendMessage(cm.commandFinishBenchmark.replace("%SCORE%", score));
 			}
 		});
 	}
 
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
-		sender.sendMessage(cm.getCommandStartBenchmark());
+		sender.sendMessage(cm.commandStartBenchmark);
 		this.cpuBenchmark(sender);
 	}
 

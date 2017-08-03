@@ -19,7 +19,7 @@ import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class MobLimtier implements Listener {
 
-	private ConfigManager cm = ConfigManager.getInstance();
+	private final ConfigManager cm = ConfigManager.getInstance();
 	private int cachedMobCount = 0;
 	private long lastCountTime = System.currentTimeMillis();
 
@@ -46,11 +46,11 @@ public class MobLimtier implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent e) {
-		if (!cm.isLimitEntitySpawn()) {
+		if (!cm.isLimitEntitySpawn) {
 			return;
 		}
 		// 如果开启了TPS阀值，当TPS大于阀值，就不限制
-		if (cm.isLimitEntitySpawnByTps() && NeverLag.getTpsWatcher().getAverageTPS() >= cm.getEntitySpawnLimitTpsLimit()) {
+		if (cm.isLimitEntitySpawnByTps && NeverLag.getTpsWatcher().getAverageTPS() >= cm.entitySpawnLimitTpsLimit) {
 			return;
 		}
 		// 实体有自定义名字的不限制，兼容MM怪物等插件
@@ -63,11 +63,11 @@ public class MobLimtier implements Listener {
 				&& e.getSpawnReason() != SpawnReason.SPAWNER_EGG && e.getSpawnReason() != SpawnReason.SPAWNER
 				&& e.getSpawnReason() != SpawnReason.CUSTOM) {
 			if (creature instanceof Animals) {
-				if (this.getMobCount() >= cm.getAnimalsSpawnLimit()) {
+				if (this.getMobCount() >= cm.animalsSpawnLimit) {
 					e.setCancelled(true);
 				}
 			} else if (creature instanceof Monster) {
-				if (this.getMobCount() >= cm.getMobSpawnLimit()) {
+				if (this.getMobCount() >= cm.mobSpawnLimit) {
 					e.setCancelled(true);
 				}
 			}
@@ -83,7 +83,7 @@ public class MobLimtier implements Listener {
 				} else if (entity instanceof Monster) {
 					count++;
 				}
-				if (count > cm.getSpawnerEntityCountPerChunkLimit()) {
+				if (count > cm.spawnerEntityCountPerChunkLimit) {
 					e.setCancelled(true);
 					break;
 				}

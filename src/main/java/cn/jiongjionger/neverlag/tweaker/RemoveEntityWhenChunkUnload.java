@@ -20,22 +20,22 @@ public class RemoveEntityWhenChunkUnload implements Listener {
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
 	public void onChunkUnload(ChunkUnloadEvent e) {
-		if (!cm.isRemoveEntityWhenChunkUnload()) {
+		if (!cm.removeEntityWhenChunkUnload) {
 			return;
 		}
 		for (Entity entity : e.getChunk().getEntities()) {
 			if (EntityUtils.checkCustomNpc(entity)) {
 				continue;
 			}
-			if (entity instanceof Monster && cm.isRemoveMonsterWhenChunkUnload()) {
+			if (entity instanceof Monster && cm.removeMonsterWhenChunkUnload) {
 				entity.remove();
-			} else if (entity instanceof Animals && cm.isRemoveAnimalsWhenChunkUnload()) {
+			} else if (entity instanceof Animals && cm.removeAnimalsWhenChunkUnload) {
 				entity.remove();
-			} else if (entity instanceof Item && cm.isRemoveDropItemWhenChunkUnload()) {
+			} else if (entity instanceof Item && cm.removeDropItemWhenChunkUnload) {
 				entity.remove();
-			} else if (entity instanceof Arrow && cm.isRemoveArrowWhenChunkUnload()) {
+			} else if (entity instanceof Arrow && cm.removeArrowWhenChunkUnload) {
 				entity.remove();
-			} else if (entity instanceof Squid && cm.isRemoveSquidWhenChunkUnload()) {
+			} else if (entity instanceof Squid && cm.removeSquidWhenChunkUnload) {
 				entity.remove();
 			}
 		}

@@ -16,9 +16,9 @@ public class CommandGC extends AbstractSubCommand {
 		long memoryAfterGC = getCurrentMemoryUsage();
 		if (memoryAfterGC < memoryBeforeGC) {
 			long gcMemory = (memoryAfterGC - memoryBeforeGC) / 1024 / 1024;
-			sender.sendMessage(cm.getCommandGCMessage().replace("%GCMEMORY%", String.valueOf(gcMemory)));
+			sender.sendMessage(cm.commandGCMessage.replace("%GCMEMORY%", String.valueOf(gcMemory)));
 		} else {
-			sender.sendMessage(cm.getCommandGCNoEffectMessage());
+			sender.sendMessage(cm.commandGCNoEffectMessage);
 		}
 	}
 	

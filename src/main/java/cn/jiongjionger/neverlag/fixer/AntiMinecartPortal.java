@@ -14,7 +14,7 @@ public class AntiMinecartPortal implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onEntityPortal(EntityPortalEvent e) {
-		if (!cm.isAntiMinecartPortal()) {
+		if (!cm.isAntiMinecartPortal) {
 			return;
 		}
 		if (e.getEntity() instanceof Minecart) {

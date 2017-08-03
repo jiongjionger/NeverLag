@@ -25,11 +25,11 @@ public class MobFarmCleaner {
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {
 			@Override
 			public void run() {
-				if (cm.isCheckMobFarm()) {
+				if (cm.isCheckMobFarm) {
 					checkAndCleanMobFarm();
 				}
 			}
-		}, cm.getCheckMobFarmDelay() * 20L, cm.getCheckMobFarmDelay() * 20L);
+		}, cm.checkMobFarmDelay * 20L, cm.checkMobFarmDelay * 20L);
 	}
 
 	// 清理密集实体
@@ -40,7 +40,7 @@ public class MobFarmCleaner {
 					if (EntityUtils.checkCustomNpc(entity)) {
 						continue;
 					}
-					if (this.getNearbyEntityCount(entity, false) >= cm.getCheckMobFarmLooseLimit() || this.getNearbyEntityCount(entity, true) >= cm.getCheckMobFarmTinyLimit()) {
+					if (this.getNearbyEntityCount(entity, false) >= cm.checkMobFarmLooseLimit || this.getNearbyEntityCount(entity, true) >= cm.checkMobFarmTinyLimit) {
 						entity.remove();
 					}
 				}

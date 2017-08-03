@@ -20,7 +20,7 @@ public class AntiNegativeItemDupe implements Listener {
 	// 投掷器/发射器
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onBlockDispense(BlockDispenseEvent e) {
-		if (!cm.isAntiNegativeItemDupe()) {
+		if (!cm.isAntiNegativeItemDupe) {
 			return;
 		}
 		Inventory content = null;
@@ -42,7 +42,7 @@ public class AntiNegativeItemDupe implements Listener {
 	// 点击容器
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onClick(InventoryClickEvent e) {
-		if (!cm.isAntiNegativeItemDupe()) {
+		if (!cm.isAntiNegativeItemDupe) {
 			return;
 		}
 		ItemStack item = null;
@@ -58,7 +58,7 @@ public class AntiNegativeItemDupe implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onSpawn(ItemSpawnEvent e) {
-		if (cm.isAntiNegativeItemDupe() && e.getEntity() != null && e.getEntity().getItemStack() != null && e.getEntity().getItemStack().getAmount() <= 0) {
+		if (cm.isAntiNegativeItemDupe && e.getEntity() != null && e.getEntity().getItemStack() != null && e.getEntity().getItemStack().getAmount() <= 0) {
 			e.setCancelled(true);
 		}
 	}

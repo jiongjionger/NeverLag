@@ -36,7 +36,7 @@ public class RedstoneCounter {
 		plg.getServer().getScheduler().runTaskTimerAsynchronously(plg, new Runnable() {
 			@Override
 			public void run() {
-				if (cm.isCheckRedstoneOnAsync()) {
+				if (cm.isCheckRedstoneOnAsync) {
 					if (asyncOneMinutesRecord.size() >= 60) { // 双重检查锁定
 						asyncLock.lock();
 						try {
@@ -54,7 +54,7 @@ public class RedstoneCounter {
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {
 			@Override
 			public void run() {
-				if (!cm.isCheckRedstoneOnAsync()) {
+				if (!cm.isCheckRedstoneOnAsync) {
 					if (syncOneMinutesRecord.size() >= 60) {
 						syncOneMinutesRecord.removeFirst();
 					}

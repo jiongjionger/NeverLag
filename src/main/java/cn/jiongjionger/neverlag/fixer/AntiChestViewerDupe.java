@@ -15,7 +15,7 @@ public class AntiChestViewerDupe implements Listener {
 	// 将优先级设为LOW以与各种小游戏插件兼容. LOWEST可能破坏一些小游戏的游戏机制
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent e) {
-		if (!cm.isAntiChestViewerDupe()) {
+		if (!cm.isAntiChestViewerDupe) {
 			return;
 		}
 		if (e.getBlock() != null && e.getBlock().getState() instanceof InventoryHolder) {
@@ -23,7 +23,7 @@ public class AntiChestViewerDupe implements Listener {
 			// 如果容器正在使用则不允许被破坏，以防止利用漏洞刷物品
 			if (!inventory.getInventory().getViewers().isEmpty()) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(cm.getAntiChestViewerDupeMessage());
+				e.getPlayer().sendMessage(cm.antiChestViewerDupeMessage);
 			}
 		}
 	}

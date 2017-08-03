@@ -13,7 +13,7 @@ public class AntiDropItemDupe implements Listener {
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
 	public void onDrop(PlayerDropItemEvent e) {
-		if (!cm.isAntiDropItemDupe()) {
+		if (!cm.isAntiDropItemDupe) {
 			return;
 		}
 		if (e.getPlayer() == null || !e.getPlayer().isOnline() || !e.getPlayer().isValid()) {

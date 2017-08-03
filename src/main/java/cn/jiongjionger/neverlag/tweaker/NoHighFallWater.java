@@ -27,7 +27,7 @@ public class NoHighFallWater implements Listener {
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
 	public void onBlockFromTo(BlockFromToEvent e) {
-		if (!cm.isNoHighFallWater()) {
+		if (!cm.noHighFallWater) {
 			return;
 		}
 		Block to = e.getToBlock();
@@ -37,7 +37,7 @@ public class NoHighFallWater implements Listener {
 		if (e.getToBlock().getLocation().getBlockY() <= 63) {
 			return;
 		}
-		if (isAirBottom(to, cm.getNoHighFallWaterDistance())) {
+		if (isAirBottom(to, cm.noHighFallWaterDistance)) {
 			e.setCancelled(true);
 		}
 	}

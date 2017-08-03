@@ -14,7 +14,7 @@ public class AntiCrashChat implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent e) {
-		if (cm.isAntiCrashChat() && VersionUtils.isLowerThan(VersionUtils.V1_8)) {
+		if (cm.isAntiCrashChat && VersionUtils.isLowerThan(VersionUtils.V1_8)) {
 			String chatMessage = e.getMessage();
 			if (chatMessage != null && chatMessage.contains("İ")) {
 				e.setCancelled(true);

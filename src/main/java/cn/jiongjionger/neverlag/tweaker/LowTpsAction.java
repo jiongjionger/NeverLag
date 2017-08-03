@@ -9,14 +9,14 @@ import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class LowTpsAction {
 
-	private static ConfigManager cm = ConfigManager.getInstance();
+	private static final ConfigManager cm = ConfigManager.getInstance();
 	private long lastActionTime = System.currentTimeMillis();
 
 	public LowTpsAction() {
 		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 			@Override
 			public void run() {
-				if (cm.isLowTPSAction() && NeverLag.getTpsWatcher().getAverageTPS() < cm.getLowTPSLimit() && lastActionTime + cm.getLowTPSActionTimeLimit() < System.currentTimeMillis()) {
+				if (cm.lowTPSAction && NeverLag.getTpsWatcher().getAverageTPS() < cm.lowTPSLimit && lastActionTime + cm.lowTPSActionTimeLimit < System.currentTimeMillis()) {
 					doAction();
 				}
 			}
@@ -24,17 +24,16 @@ public class LowTpsAction {
 	}
 
 	private void doAction() {
-		if (cm.isLowTPSCleanEntity()) {
+		if (cm.lowTPSCleanEntity) {
 			EntityCleaner.doClean();
 		}
-		if (cm.isLowTPSCleanItem()) {
+		if (cm.lowTPSCleanItem) {
 			ItemCleaner.doClean();
 		}
-		for (String command : cm.getLowTPSCommand()) {
+		for (String command : cm.lowTPSCommand) {
 			Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
 		}
-		// 显性调用GC是非常没必要的，只适合一些非常特殊的应用场景，请测试你的服务端是否需要这个功能
-		if (cm.isLowTPSForceGC()) {
+		if (cm.lowTPSForceGC) {
 			System.runFinalization();
 			System.gc();
 		}

@@ -27,8 +27,8 @@ public class AutoCleanIllegalTypeSpawner implements Listener {
 			if (tiles instanceof CreatureSpawner) {
 				CreatureSpawner spawner = (CreatureSpawner) tiles;
 				// 非法类型检测
-				if (cm.getIllegalSpawnerTypeSet().contains(spawner.getCreatureTypeName().toLowerCase())) {
-					switch (cm.getIllegalTypeSpawnerCleanMode()) {
+				if (cm.illegalSpawnerTypeSet.contains(spawner.getCreatureTypeName().toLowerCase())) {
+					switch (cm.illegalTypeSpawnerCleanMode) {
 					case 0:
 						spawner.getBlock().setType(Material.AIR);
 						break;
@@ -45,14 +45,14 @@ public class AutoCleanIllegalTypeSpawner implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onChunkLoad(ChunkLoadEvent e) {
-		if (cm.isAutoCleanIllegalTypeSpawner()) {
+		if (cm.isAutoCleanIllegalTypeSpawner) {
 			this.autoClean(e.getChunk());
 		}
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onChunkUnLoad(ChunkUnloadEvent e) {
-		if (cm.isAutoCleanIllegalTypeSpawner()) {
+		if (cm.isAutoCleanIllegalTypeSpawner) {
 			this.autoClean(e.getChunk());
 		}
 	}

@@ -12,11 +12,11 @@ import cn.jiongjionger.neverlag.config.ConfigManager;
 public class SpawnRater {
 
 	private final Random rnd = new Random();
-	private ConfigManager cm = ConfigManager.getInstance();
+	private final ConfigManager cm = ConfigManager.getInstance();
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void rateControler(CreatureSpawnEvent e) {
-		if (!cm.isSpawnRate()) {
+		if (!cm.isSpawnRate) {
 			return;
 		}
 		// 获取刷怪原因（来源）
@@ -24,35 +24,33 @@ public class SpawnRater {
 		switch (spawnReason) {
 		// 特殊区块
 		case CHUNK_GEN:
-			if (cm.getChunkGenSpawnRate() <= 0 || rnd.nextInt(100) > cm.getChunkGenSpawnRate()) {
+			if (cm.chunkGenSpawnRate <= 0 || rnd.nextInt(100) > cm.chunkGenSpawnRate) {
 				e.setCancelled(true);
 			}
 			break;
 		// 刷怪笼
 		case SPAWNER:
-			if (cm.getSpawnerSpawnRate() <= 0 || rnd.nextInt(100) > cm.getSpawnerSpawnRate()) {
+			if (cm.spawnerSpawnRate <= 0 || rnd.nextInt(100) > cm.spawnerSpawnRate) {
 				e.setCancelled(true);
 			}
 			break;
 		// 刷铁塔
 		case VILLAGE_DEFENSE:
-			if (cm.getVillageSpawnRate() <= 0 || rnd.nextInt(100) > cm.getVillageSpawnRate()) {
+			if (cm.villageSpawnRate <= 0 || rnd.nextInt(100) > cm.villageSpawnRate) {
 				e.setCancelled(true);
 			}
 			break;
 		// 自然条件
 		case NATURAL:
-			if (cm.getNormalSpawnRate() <= 0 || rnd.nextInt(100) > cm.getNormalSpawnRate()) {
+			if (cm.normalSpawnRate <= 0 || rnd.nextInt(100) > cm.normalSpawnRate) {
 				e.setCancelled(true);
 			}
 			break;
 		// 下界传送门
 		case NETHER_PORTAL:
-			if (cm.getPortalSpawnRate() <= 0 || rnd.nextInt(100) > cm.getPortalSpawnRate()) {
+			if (cm.portalSpawnRate <= 0 || rnd.nextInt(100) > cm.portalSpawnRate) {
 				e.setCancelled(true);
 			}
-			break;
-		default:
 			break;
 		}
 	}

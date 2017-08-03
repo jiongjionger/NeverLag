@@ -51,7 +51,7 @@ public class TilesLimiter implements Listener {
 	// 限制发射器
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlaceDispenser(final BlockPlaceEvent e) {
-		if (!cm.isLimitTiles()) {
+		if (!cm.isLimitTiles) {
 			return;
 		}
 		if (e.getBlock().getType().equals(Material.DISPENSER)) {
@@ -61,11 +61,11 @@ public class TilesLimiter implements Listener {
 			}
 			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.dispenser.");
 			if (limit <= 0) {
-				limit = cm.getLimitTilesDispenserDefault();
+				limit = cm.limitTilesDispenserDefault;
 			}
 			if (isLimit(e.getBlock().getLocation(), Material.DISPENSER, limit)) {
 				e.setCancelled(true);
-				p.sendMessage(cm.getLimitTilesMessage());
+				p.sendMessage(cm.limitTilesMessage);
 			}
 		}
 	}
@@ -73,7 +73,7 @@ public class TilesLimiter implements Listener {
 	// 限制投掷器
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlaceDropper(final BlockPlaceEvent e) {
-		if (!cm.isLimitTiles()) {
+		if (!cm.isLimitTiles) {
 			return;
 		}
 		if (e.getBlock().getType().equals(Material.DROPPER)) {
@@ -83,11 +83,11 @@ public class TilesLimiter implements Listener {
 			}
 			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.dropper.");
 			if (limit <= 0) {
-				limit = cm.getLimitTilesDropperDefault();
+				limit = cm.limitTilesDropperDefault;
 			}
 			if (isLimit(e.getBlock().getLocation(), Material.DROPPER, limit)) {
 				e.setCancelled(true);
-				p.sendMessage(cm.getLimitTilesMessage());
+				p.sendMessage(cm.limitTilesMessage);
 			}
 		}
 	}
@@ -96,7 +96,7 @@ public class TilesLimiter implements Listener {
 	// 将优先级设为NORMAL以与各种小游戏插件兼容. LOWEST可能破坏一些小游戏的游戏机制
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlaceHopper(final BlockPlaceEvent e) {
-		if (!cm.isLimitTiles()) {
+		if (!cm.isLimitTiles) {
 			return;
 		}
 		if (e.getBlock().getType().equals(Material.HOPPER)) {
@@ -106,11 +106,11 @@ public class TilesLimiter implements Listener {
 			}
 			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.hopper.");
 			if (limit <= 0) {
-				limit = cm.getLimitTilesHopperDefault();
+				limit = cm.limitTilesHopperDefault;
 			}
 			if (isLimit(e.getBlock().getLocation(), Material.HOPPER, limit)) {
 				e.setCancelled(true);
-				p.sendMessage(cm.getLimitTilesMessage());
+				p.sendMessage(cm.limitTilesMessage);
 			}
 		}
 	}
@@ -118,7 +118,7 @@ public class TilesLimiter implements Listener {
 	// 限制活塞
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlacePistion(final BlockPlaceEvent e) {
-		if (!cm.isLimitTiles()) {
+		if (!cm.isLimitTiles) {
 			return;
 		}
 		Player p = e.getPlayer();
@@ -135,11 +135,11 @@ public class TilesLimiter implements Listener {
 		if (checkType != null) {
 			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.piston.");
 			if (limit <= 0) {
-				limit = cm.getLimitTilesPistonDefault();
+				limit = cm.limitTilesPistonDefault;
 			}
 			if (isLimit(e.getBlock().getLocation(), Material.DISPENSER, limit)) {
 				e.setCancelled(true);
-				p.sendMessage(cm.getLimitTilesMessage());
+				p.sendMessage(cm.limitTilesMessage);
 			}
 		}
 	}

@@ -31,11 +31,11 @@ public class GUISortPing {
 	private void drawPageGUI() {
 		this.guiMaker.fillItem(new IconMaker(Material.STAINED_GLASS_PANE)
 				.setDurability((short) 5) // 5: Lime
-				.setDisplayName(cm.getGuiPreItemDisplay())
+				.setDisplayName(cm.guiPreItemDisplay)
 				.getItem(), 1, 6);
 		this.guiMaker.fillItem(new IconMaker(Material.STAINED_GLASS_PANE)
 				.setDurability((short) 5) // 5: Lime
-				.setDisplayName(cm.getGuiNextItemDisplay())
+				.setDisplayName(cm.guiNextItemDisplay)
 				.getItem(), 9, 6);
 	}
 
@@ -44,7 +44,7 @@ public class GUISortPing {
 	}
 
 	public Inventory get(int page) {
-		this.guiMaker = new GUIMaker(54, cm.getGuiPingTitle());
+		this.guiMaker = new GUIMaker(54, cm.guiPingTitle);
 		this.slot = 0;
 		this.drawPageGUI();
 		int startPos = (page - 1) * 45;

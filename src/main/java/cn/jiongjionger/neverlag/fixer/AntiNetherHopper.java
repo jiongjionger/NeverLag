@@ -15,7 +15,7 @@ public class AntiNetherHopper implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onHopper(InventoryMoveItemEvent e) {
-		if (cm.isAntiNetherHopper()) {
+		if (cm.isAntiNetherHopper) {
 			if (e.getInitiator().getHolder() instanceof Hopper) {
 				Hopper hopper = (Hopper) e.getInitiator().getHolder();
 				if (hopper.getWorld().getEnvironment() == World.Environment.NETHER) {

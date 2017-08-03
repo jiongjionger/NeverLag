@@ -34,7 +34,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 				throw new UnsupportedOperationException();
 			}
 			if (!sender.hasPermission(executor.getPermission())) {
-				sender.sendMessage(cm.getCommandNoPerm());
+				sender.sendMessage(cm.commandNoPerm);
 				return true;
 			}
 			if(executor.isPlayerRequired() && !(sender instanceof Player)) {  // 如果命令要求玩家才能执行, 而发送者又不是玩家

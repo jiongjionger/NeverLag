@@ -32,7 +32,7 @@ public class AntiDoubleLogin implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onLogin(AsyncPlayerPreLoginEvent e) {
-		if (!cm.isAntiDoubleLogin()) {
+		if (!cm.isAntiDoubleLogin) {
 			return;
 		}
 		String username = e.getName();
@@ -40,7 +40,7 @@ public class AntiDoubleLogin implements Listener {
 			return;
 		}
 		if (this.checkOnline(username)) {
-			e.disallow(Result.KICK_OTHER, cm.getAntiDoubleLoginMessage());
+			e.disallow(Result.KICK_OTHER, cm.antiDoubleLoginMessage);
 		}
 	}
 

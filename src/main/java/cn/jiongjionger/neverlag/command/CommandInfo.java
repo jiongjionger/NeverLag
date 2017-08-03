@@ -13,7 +13,7 @@ public class CommandInfo extends AbstractSubCommand {
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
 		ServerInfo serverInfo = new ServerInfo();
-		String baseinfoMessage = cm.getCommandInfoBaseMessage()
+		String baseinfoMessage = cm.commandInfoBaseMessage
 				.replace("%TPS%", String.valueOf(serverInfo.getRealtimeTPS()))
 				.replace("%AVGTPS%", String.valueOf(serverInfo.getAvgTPS()))
 				.replace("%REDSTONE%", String.valueOf(serverInfo.getRealtimeRedstone()))
@@ -27,7 +27,7 @@ public class CommandInfo extends AbstractSubCommand {
 			sender.sendMessage(message);
 		}
 		for (WorldInfo worldInfo : serverInfo.getWorldInfo()) {
-			String wordInfoMessage = cm.getCommandWorldInfoMessage()
+			String wordInfoMessage = cm.commandWorldInfoMessage
 					.replace("%WORLDNAME%", worldInfo.getWorldName())
 					.replace("%CHUNK%", String.valueOf(worldInfo.getTotalChunk()))
 					.replace("%ENTITY%", String.valueOf(worldInfo.getTotalEntity()))

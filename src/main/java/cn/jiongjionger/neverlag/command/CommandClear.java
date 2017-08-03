@@ -87,7 +87,7 @@ public class CommandClear extends AbstractSubCommand {
 				}
 			}
 		}
-		sender.sendMessage(cm.getCommandClearMessage().replace("%TYPE%", args[1]).replace("%COUNT%", String.valueOf(count)));
+		sender.sendMessage(cm.commandClearMessage.replace("%TYPE%", args[1]).replace("%COUNT%", String.valueOf(count)));
 	}
 
 	@Override
@@ -97,6 +97,6 @@ public class CommandClear extends AbstractSubCommand {
 
 	@Override
 	public String getUsage() {
-		return cm.getCommandClearNoTypeArg();
+		return cm.commandClearNoTypeArg;
 	}
 }

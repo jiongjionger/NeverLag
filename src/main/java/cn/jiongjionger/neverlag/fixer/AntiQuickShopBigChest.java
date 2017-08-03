@@ -13,7 +13,7 @@ import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class AntiQuickShopBigChest implements Listener {
 
-	private ConfigManager cm = ConfigManager.getInstance();
+	private final ConfigManager cm = ConfigManager.getInstance();
 	private final BlockFace[] BLOCKFACE = { BlockFace.EAST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST };
 
 	/*
@@ -26,7 +26,7 @@ public class AntiQuickShopBigChest implements Listener {
 	 * @return 附近的方块，没有返回null
 	 */
 	private Block getBlockNearby(Block b, Material type) {
-		Block relativeBlock = null;
+		Block relativeBlock;
 		for (BlockFace face : BLOCKFACE) {
 			relativeBlock = b.getRelative(face);
 			if (relativeBlock != null && type.equals(relativeBlock.getType())) {
@@ -60,7 +60,7 @@ public class AntiQuickShopBigChest implements Listener {
 			Block maybeSign = nearChest.getRelative(face);
 			if (maybeSign != null && Material.WALL_SIGN.equals(maybeSign.getType())) {
 				Sign sign = (Sign) maybeSign.getState();
-				if (sign.getLines().length > 0 && sign.getLines()[0].contains(cm.getQuickshopFlag())) {
+				if (sign.getLines().length > 0 && sign.getLines()[0].contains(cm.quickshopFlag)) {
 					return true;
 				}
 			}
@@ -70,7 +70,7 @@ public class AntiQuickShopBigChest implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlaceChest(BlockPlaceEvent e) {
-		if (!cm.isAntiQuickShopBigShop()) {
+		if (!cm.isAntiQuickShopBigShop) {
 			return;
 		}
 		Block block = e.getBlock();
@@ -81,7 +81,7 @@ public class AntiQuickShopBigChest implements Listener {
 		if (Material.CHEST.equals(blockType) || Material.TRAPPED_CHEST.equals(blockType)) {
 			if (isShopBlockNearby(block)) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(cm.getAntiQuickShopBigShopMessage());
+				e.getPlayer().sendMessage(cm.antiQuickShopBigShopMessage);
 			}
 		}
 	}

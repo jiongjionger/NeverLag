@@ -21,7 +21,7 @@ public class GUISortPingListener implements Listener {
 		if (inv == null) {
 			return;
 		}
-		if (cm.getGuiPingTitle().equals(inv.getTitle())) {
+		if (cm.guiPingTitle.equals(inv.getTitle())) {
 			e.setCancelled(true);
 		}
 		if (e.getWhoClicked() instanceof Player) {
@@ -47,7 +47,7 @@ public class GUISortPingListener implements Listener {
 		if (inv == null) {
 			return;
 		}
-		if (cm.getGuiPingTitle().equals(inv.getTitle())) {
+		if (cm.guiPingTitle.equals(inv.getTitle())) {
 			GUISortPingHolder.clear(e.getPlayer().getName());
 		}
 	}

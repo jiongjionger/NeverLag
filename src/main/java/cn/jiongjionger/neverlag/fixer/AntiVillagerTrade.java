@@ -17,7 +17,7 @@ public class AntiVillagerTrade implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onTouchEntity(PlayerInteractEntityEvent e) {
-		if (!cm.isAntiVillagerTrade()) {
+		if (!cm.isAntiVillagerTrade) {
 			return;
 		}
 		Entity entity = e.getRightClicked();
@@ -28,7 +28,7 @@ public class AntiVillagerTrade implements Listener {
 		if (world == null) {
 			return;
 		}
-		if (cm.getDisableVillagerTradeWorldSet().contains(world.getName())) {
+		if (cm.disableVillagerTradeWorldSet.contains(world.getName())) {
 			if (entity instanceof Villager) {
 				e.setCancelled(true);
 			}

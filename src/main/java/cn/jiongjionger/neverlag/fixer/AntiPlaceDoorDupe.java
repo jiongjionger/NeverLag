@@ -18,7 +18,7 @@ public class AntiPlaceDoorDupe implements Listener {
 	// 手里拿着门无法捡甘蔗
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPickup(PlayerPickupItemEvent e) {
-		if (!cm.isAntiPlaceDoorDupe()) {
+		if (!cm.isAntiPlaceDoorDupe) {
 			return;
 		}
 		if (e.getPlayer().getItemInHand().getType() == Material.WOOD_DOOR || e.getPlayer().getItemInHand().getType() == Material.IRON_DOOR) {
@@ -30,7 +30,7 @@ public class AntiPlaceDoorDupe implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlace(BlockPlaceEvent e) {
-		if (!cm.isAntiPlaceDoorDupe()) {
+		if (!cm.isAntiPlaceDoorDupe) {
 			return;
 		}
 		// 判断手里的物品是否为门

@@ -14,11 +14,11 @@ public class ClientModDisabler implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
-		if (cm.isClientModDisabler()) {
+		if (cm.clientModDisabler) {
 			Player p = e.getPlayer();
 			if (p.isOp() || p.hasPermission("neverlag.nosendmagiccode"))
 				return;
-			for (String code : cm.getModMagicCode()) {
+			for (String code : cm.modMagicCode) {
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&', code));
 			}
 		}

@@ -38,9 +38,9 @@ public class CommandAndChatCooldown implements Listener {
 		long now = System.currentTimeMillis();
 		Long lastChatTime;
 		if ((lastChatTime = chatCoolDown.get(username)) != null) {
-			if (now - lastChatTime <= cm.getChatCooldownTime()) {
+			if (now - lastChatTime <= cm.chatCooldownTime) {
 				e.setCancelled(true);
-				p.sendMessage(cm.getChatCooldownMessage());
+				p.sendMessage(cm.chatCooldownMessage);
 				return;
 			}
 		}
@@ -62,7 +62,7 @@ public class CommandAndChatCooldown implements Listener {
 		// 命令白名单
 		String command[] = e.getMessage().toLowerCase().split(" ");
 		if (command.length >= 1) {
-			if (cm.getCommandCooldownWhiteList().contains(command[0])) {
+			if (cm.commandCooldownWhiteList.contains(command[0])) {
 				return;
 			}
 		}
@@ -71,9 +71,9 @@ public class CommandAndChatCooldown implements Listener {
 		long now = System.currentTimeMillis();
 		if (commandCoolDown.containsKey(username)) {
 			long lastUseCommandTime = commandCoolDown.get(username);
-			if (now - lastUseCommandTime <= cm.getCommandCooldownTime()) {
+			if (now - lastUseCommandTime <= cm.commandCooldownTime) {
 				e.setCancelled(true);
-				p.sendMessage(cm.getCommandCooldownMessage());
+				p.sendMessage(cm.commandCooldownMessage);
 				return;
 			}
 		}

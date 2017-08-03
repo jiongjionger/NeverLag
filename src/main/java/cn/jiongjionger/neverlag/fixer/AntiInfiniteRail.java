@@ -31,7 +31,7 @@ public class AntiInfiniteRail implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onBlockPhysics(BlockPhysicsEvent e) {
-		if (cm.isAntiInfiniteRail() && this.isDupeBlock(e.getChangedType()) && this.isRails(e.getBlock().getType())) {
+		if (cm.isAntiInfiniteRail && this.isDupeBlock(e.getChangedType()) && this.isRails(e.getBlock().getType())) {
 			e.setCancelled(true);
 		}
 	}
