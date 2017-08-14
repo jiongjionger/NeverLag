@@ -3,7 +3,6 @@ package cn.jiongjionger.neverlag;
 import cn.jiongjionger.neverlag.utils.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,29 +27,46 @@ public class I18n extends ResourceBundle {
 	public static String colorize(String str) {
 		return ChatColor.translateAlternateColorCodes('&', str);
 	}
-	
-	// TODO: 增加自动对旧版的语言文件升级的功能
+
 	public static I18n load(File directory, String locale) {
 		Locale localeObj = StringUtils.toLocale(locale);
 		File file = new File(directory, localeObj.toString().concat(".yml"));
-		try(Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
-			FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
-			return new I18n(localeObj, config.getRoot());
-		} catch (FileNotFoundException ex) {   // 本地找不到语言文件, 尝试在 jar 中寻找
-			InputStream in = I18n.class.getResourceAsStream("/lang/" + file.getName());
-			if(in == null) {  // jar中也不存在
-				throw new RuntimeException("Language file \"" + file.getName() + "\" isn't exists!");
+		try(InputStream in = I18n.class.getResourceAsStream("/lang/" + file.getName())) {
+			if(!file.isFile()) {
+				if(in != null) {
+					try {
+						file.getParentFile().mkdirs();
+						Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING); // 复制jar中的语言文件到本地
+					} catch (IOException ex) {
+						throw new RuntimeException("Unable to extract " + file.getName(), ex);
+					}
+				} else {
+					throw new RuntimeException("Language file " + file.getName() + " not found!");
+				}
 			}
 			
-			try {
-				file.getParentFile().mkdirs();  // 复制jar中的语言文件到本地
-				Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException ex1) {
-				throw new RuntimeException(ex);
+			boolean needSave = false;
+			FileConfiguration fileConfig = null;
+			try(Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
+				Configuration jarConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(in, StandardCharsets.UTF_8)).getRoot();
+				fileConfig = YamlConfiguration.loadConfiguration(reader);
+
+				// 升级语言文件
+				for(String key : jarConfig.getKeys(true)) {
+					if(!fileConfig.contains(key)) {
+						fileConfig.set(key, jarConfig.get(key));
+						needSave = true;
+					}
+				}
+
+				return new I18n(localeObj, fileConfig.getRoot());
+			} finally {
+				if(needSave && fileConfig != null) {
+					fileConfig.save(file);
+				}
 			}
-			return load(directory, locale);   // 重试
 		} catch (IOException ex) {
-			throw new RuntimeException(ex);
+			throw new RuntimeException("Unable to load language file " + file.getName(), ex);
 		}
 	}
 	
@@ -163,11 +179,6 @@ public class I18n extends ResourceBundle {
 		return map.get(key);
 	}
 
-	@Override
-	public Enumeration<String> getKeys() {
-		return Collections.enumeration(map.keySet());
-	}
-
 	/**
 	 * clone 出一个具有指定命名空间的 I18n 实例. 
 	 * <p>
@@ -178,5 +189,10 @@ public class I18n extends ResourceBundle {
 	public I18n clone(String namespace) {
 		I18n cloned = new I18n(locale, map, namespace);
 		return cloned;
+	}
+	
+	@Override
+	public Enumeration<String> getKeys() {
+		return Collections.enumeration(map.keySet());
 	}
 }
