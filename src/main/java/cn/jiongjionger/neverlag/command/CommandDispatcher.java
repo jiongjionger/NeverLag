@@ -18,7 +18,7 @@ import cn.jiongjionger.neverlag.NeverLag;
 
 public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
-	private final I18n i18n = NeverLag.i18n();
+	private final I18n i18n = NeverLag.i18n("command");
 	private final Map<String, AbstractSubCommand> subCommandMap = new HashMap<>();
 
 	@Override
@@ -31,16 +31,15 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 			
 			AbstractSubCommand executor = subCommandMap.get(args[0].toLowerCase());
 			if(executor == null) {
-				// TODO 提示命令不存在
-				throw new UnsupportedOperationException();
+				sender.sendMessage(i18n.tr("subCommandNotFound"));
+				return true;
 			}
 			if (!sender.hasPermission(executor.getPermission())) {
-				sender.sendMessage(i18n.tr("command.noPermission"));
+				sender.sendMessage(i18n.tr("noPermission"));
 				return true;
 			}
 			if(executor.isPlayerRequired() && !(sender instanceof Player)) {  // 如果命令要求玩家才能执行, 而发送者又不是玩家
-				// TODO 提示命令只能由玩家执行
-				throw new UnsupportedOperationException();
+				sender.sendMessage(i18n.tr("playerOnly"));
 			}
 			String[] subCommandArgs = Arrays.copyOfRange(args, 1, args.length);
 			if(executor.getMinimumArgCount() > 0 && subCommandArgs.length < executor.getMinimumArgCount()) {

@@ -14,6 +14,8 @@ dateFormat:
     seconds: 秒
 command:
     noPermission: "你没有权限执行此命令!"
+    subCommandNotFound: "此子命令不存在! 使用 /neverlag help 查看帮助"
+    playerOnly: "此命令只能在游戏中执行!"
     gc:
         success: "回收了 {0}MB 内存"
         noEffect: "垃圾回收操作执行无效果"
