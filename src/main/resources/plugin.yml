@@ -1,4 +1,4 @@
-name: ${name}
+name: NeverLag
 main: cn.jiongjionger.neverlag.NeverLag
 version: ${version}
 author: jiongjionger
