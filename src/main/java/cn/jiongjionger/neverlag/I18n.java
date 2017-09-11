@@ -55,14 +55,16 @@ public class I18n extends ResourceBundle {
 			boolean needSave = false;
 			FileConfiguration fileConfig = null;
 			try(Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
-				Configuration jarConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(in, StandardCharsets.UTF_8)).getRoot();
 				fileConfig = YamlConfiguration.loadConfiguration(reader);
 
-				// 升级语言文件
-				for(String key : jarConfig.getKeys(true)) {
-					if(!fileConfig.contains(key)) {
-						fileConfig.set(key, jarConfig.get(key));
-						needSave = true;
+				if(in != null) {   // 升级语言文件
+					Reader jarReader = new InputStreamReader(in, StandardCharsets.UTF_8);
+					Configuration jarConfig = YamlConfiguration.loadConfiguration(jarReader).getRoot();
+					for(String key : jarConfig.getKeys(true)) {
+						if(!fileConfig.contains(key)) {
+							fileConfig.set(key, jarConfig.get(key));
+							needSave = true;
+						}
 					}
 				}
 
