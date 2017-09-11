@@ -20,6 +20,7 @@ import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
 import cn.jiongjionger.neverlag.utils.PingUtils;
 import java.io.File;
+import java.util.logging.Logger;
 
 public class NeverLag extends JavaPlugin implements Listener {
 
@@ -28,6 +29,7 @@ public class NeverLag extends JavaPlugin implements Listener {
 	@SuppressWarnings("unused")
 	private static final String OPENSOURCE_CN = "本插件已经完全开源，你不必反编译来查看源代码，开源地址为：https://github.com/jiongjionger/NeverLag，需要注意的是，如果你使用了本插件的源码，哪怕是一部分，你也必须申明来源并且完全开源你的软件项目！";
 	private static NeverLag instance;
+	private static Logger logger;
 	private static I18n i18n;
 	private static boolean isInstallProtocoLib;
 	private static WatchDog watchDog;
@@ -39,6 +41,19 @@ public class NeverLag extends JavaPlugin implements Listener {
 		return instance;
 	}
 
+	public static Logger logger() {
+		return logger;
+	}
+
+	public static I18n i18n() {
+		return i18n;
+	}
+
+	/** 返回指定了命名空间的 I18n 实例. */
+	public static I18n i18n(String namespace) {
+		return i18n.clone(namespace);
+	}
+
 	public static TpsWatcher getTpsWatcher() {
 		return tpsWatcher;
 	}
@@ -47,22 +62,19 @@ public class NeverLag extends JavaPlugin implements Listener {
 		return watchDog;
 	}
 
-	public static I18n i18n() {
-		return i18n;
-	}
-	
-	/** 返回指定了命名空间的 I18n 实例. */
-	public static I18n i18n(String namespace) {
-		return i18n.clone(namespace);
-	}
-
 	public static boolean isInstallProtocoLib() {
 		return isInstallProtocoLib;
 	}
 
 	@Override
-	public void onEnable() {
+	public void onLoad() {
 		instance = this;
+		logger = getLogger();
+	}
+
+	@Override
+	public void onEnable() {
+		
 		ConfigManager.getInstance().reload();
 		i18n = I18n.load(new File(getDataFolder(), "lang/"), ConfigManager.getInstance().lang);
 
@@ -83,7 +95,7 @@ public class NeverLag extends JavaPlugin implements Listener {
 		this.registerCommand();
 		this.registerListener();
 	}
-	
+
 	@Override
 	public void onDisable() {
 		try {

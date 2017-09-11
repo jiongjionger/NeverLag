@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -41,6 +42,12 @@ public class I18n extends ResourceBundle {
 						throw new RuntimeException("Unable to extract " + file.getName(), ex);
 					}
 				} else {
+					if(!localeObj.getCountry().isEmpty()) {
+						String newLocale = new Locale(localeObj.getLanguage()).toString();
+						NeverLag.logger().log(Level.INFO, "Language file {0}.yml not found, trying {1}.yml ...", 
+							new Object[]{ locale, newLocale });
+						return load(directory, newLocale);
+					}
 					throw new RuntimeException("Language file " + file.getName() + " not found!");
 				}
 			}
