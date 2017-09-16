@@ -17,8 +17,8 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-/nb-configuration.xml
-/nbactions.xml
+nb-configuration.xml
+nbactions.xml
 
 # Eclipse Project
 .metadata
@@ -28,3 +28,8 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+
+# IntelliJ Idea Project
+.idea/
+*.iml
+*.iws
