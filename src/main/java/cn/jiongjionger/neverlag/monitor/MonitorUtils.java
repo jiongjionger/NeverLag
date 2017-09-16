@@ -1,9 +1,10 @@
 package cn.jiongjionger.neverlag.monitor;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import cn.jiongjionger.neverlag.monitor.inject.CommandInjector;
+import cn.jiongjionger.neverlag.monitor.inject.EventExecutorInjector;
+import cn.jiongjionger.neverlag.monitor.inject.SchedulerTaskInjector;
+import cn.jiongjionger.neverlag.utils.Reflection;
+import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,13 +17,11 @@ import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.scheduler.BukkitTask;
 
-import cn.jiongjionger.neverlag.monitor.inject.CommandInjector;
-import cn.jiongjionger.neverlag.monitor.inject.EventExecutorInjector;
-import cn.jiongjionger.neverlag.monitor.inject.SchedulerTaskInjector;
-import cn.jiongjionger.neverlag.utils.Reflection;
-import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
-public class MonitorUtils {
+public final class MonitorUtils {
 
 	private static boolean enable = false;
 	private static long enable_time;
@@ -84,6 +83,8 @@ public class MonitorUtils {
 		return getCommandTimingsByPlugin(Bukkit.getPluginManager().getPlugin(name));
 	}
 
+	private MonitorUtils() {}
+
 	public static long getEnableTime() {
 		return enable_time;
 	}
@@ -102,7 +103,7 @@ public class MonitorUtils {
 					String eventName = eventExecutorInjector.getEventName();
 					if (eventName != null) {
 						MonitorRecord monitorRecord = getMonitorRecord(eventName, eventExecutorInjector.getTotalTime(), eventExecutorInjector.getTotalCount(),
-								eventExecutorInjector.getMaxExecuteTime());
+							eventExecutorInjector.getMaxExecuteTime());
 						if (record.containsKey(eventName)) {
 							MonitorRecord otherMonitorRecord = record.get(eventName);
 							record.put(eventName, otherMonitorRecord.merge(monitorRecord));
@@ -144,7 +145,7 @@ public class MonitorUtils {
 					if (runnable instanceof SchedulerTaskInjector) {
 						SchedulerTaskInjector schedulerTaskInjector = (SchedulerTaskInjector) runnable;
 						monitorRecord = monitorRecord
-								.merge(getMonitorRecord("Scheduler", schedulerTaskInjector.getTotalTime(), schedulerTaskInjector.getTotalCount(), schedulerTaskInjector.getMaxExecuteTime()));
+							.merge(getMonitorRecord("Scheduler", schedulerTaskInjector.getTotalTime(), schedulerTaskInjector.getTotalCount(), schedulerTaskInjector.getMaxExecuteTime()));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

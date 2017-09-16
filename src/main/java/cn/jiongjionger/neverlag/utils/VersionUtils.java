@@ -1,18 +1,18 @@
 package cn.jiongjionger.neverlag.utils;
 
+import org.bukkit.Bukkit;
+
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.bukkit.Bukkit;
-
-public class VersionUtils {
+public final class VersionUtils {
 
 	/*
 	 * 延迟加载处理. 在服务器未启动的情况下试图读取当前版本会抛错.
 	 */
 	private static final class CurrentVersionHolder {
-		private static Version currentVersion = new Version(getCurrentMinecraftVersion());
+		private static final Version currentVersion = new Version(getCurrentMinecraftVersion());
 	}
 
 	public static class Version implements Comparable<Version>, Serializable {

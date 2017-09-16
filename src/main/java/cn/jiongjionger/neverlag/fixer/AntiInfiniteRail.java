@@ -1,12 +1,11 @@
 package cn.jiongjionger.neverlag.fixer;
 
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPhysicsEvent;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class AntiInfiniteRail implements Listener {
 
@@ -14,19 +13,13 @@ public class AntiInfiniteRail implements Listener {
 
 	@SuppressWarnings("deprecation")
 	private boolean isDupeBlock(Material type) {
-		if (Material.PISTON_EXTENSION.equals(type) || Material.PISTON_STICKY_BASE.equals(type) || Material.PISTON_BASE.equals(type)
-				|| Material.PISTON_MOVING_PIECE.equals(type) || Material.PUMPKIN.equals(type) || Material.DISPENSER.equals(type)
-				|| Material.DROPPER.equals(type) || type.getId() == 165) {
-			return true;
-		}
-		return false;
+		return Material.PISTON_EXTENSION == type || Material.PISTON_STICKY_BASE == type || Material.PISTON_BASE == type
+			|| Material.PISTON_MOVING_PIECE == type || Material.PUMPKIN == type || Material.DISPENSER == type
+			|| Material.DROPPER == type || type.getId() == 165;
 	}
 
 	private boolean isRails(Material type) {
-		if (Material.RAILS.equals(type) || Material.DETECTOR_RAIL.equals(type) || Material.POWERED_RAIL.equals(type) || Material.ACTIVATOR_RAIL.equals(type)) {
-			return true;
-		}
-		return false;
+		return Material.RAILS == type || Material.DETECTOR_RAIL == type || Material.POWERED_RAIL == type || Material.ACTIVATOR_RAIL == type;
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)

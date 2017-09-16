@@ -1,5 +1,6 @@
 package cn.jiongjionger.neverlag.fixer;
 
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -8,8 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class AntiQuickShopBigChest implements Listener {
 
@@ -29,7 +28,7 @@ public class AntiQuickShopBigChest implements Listener {
 		Block relativeBlock;
 		for (BlockFace face : BLOCKFACE) {
 			relativeBlock = b.getRelative(face);
-			if (relativeBlock != null && type.equals(relativeBlock.getType())) {
+			if (relativeBlock != null && type == relativeBlock.getType()) {
 				return relativeBlock;
 			}
 		}
@@ -48,9 +47,9 @@ public class AntiQuickShopBigChest implements Listener {
 			return false;
 		}
 		Block nearChest = null;
-		if (b.getType().equals(Material.CHEST)) {
+		if (b.getType() == Material.CHEST) {
 			nearChest = getBlockNearby(b, Material.CHEST);
-		} else if (b.getType().equals(Material.TRAPPED_CHEST)) {
+		} else if (b.getType() == Material.TRAPPED_CHEST) {
 			nearChest = getBlockNearby(b, Material.TRAPPED_CHEST);
 		}
 		if (nearChest == null) {
@@ -58,7 +57,7 @@ public class AntiQuickShopBigChest implements Listener {
 		}
 		for (BlockFace face : BLOCKFACE) {
 			Block maybeSign = nearChest.getRelative(face);
-			if (maybeSign != null && Material.WALL_SIGN.equals(maybeSign.getType())) {
+			if (maybeSign != null && Material.WALL_SIGN == maybeSign.getType()) {
 				Sign sign = (Sign) maybeSign.getState();
 				if (sign.getLines().length > 0 && sign.getLines()[0].contains(cm.quickshopFlag)) {
 					return true;
@@ -78,7 +77,7 @@ public class AntiQuickShopBigChest implements Listener {
 			return;
 		}
 		Material blockType = block.getType();
-		if (Material.CHEST.equals(blockType) || Material.TRAPPED_CHEST.equals(blockType)) {
+		if (Material.CHEST == blockType || Material.TRAPPED_CHEST == blockType) {
 			if (isShopBlockNearby(block)) {
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(cm.antiQuickShopBigShopMessage);

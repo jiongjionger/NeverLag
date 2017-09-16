@@ -1,19 +1,20 @@
 package cn.jiongjionger.neverlag.command;
 
 import cn.jiongjionger.neverlag.I18n;
-import java.util.List;
-import java.util.Objects;
-import org.bukkit.command.CommandSender;
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import org.bukkit.command.CommandSender;
+
+import java.util.List;
+import java.util.Objects;
 
 public abstract class AbstractSubCommand {
 	protected final NeverLag plg = NeverLag.getInstance();
 	protected final ConfigManager cm = ConfigManager.getInstance();
-	
+
 	/** 命名空间: <code>command.[name]</code> . */
 	protected final I18n i18n;
-	
+
 	protected final String name;
 	protected final String permission;
 	protected final int minimumArgCount;
@@ -24,7 +25,7 @@ public abstract class AbstractSubCommand {
 		this.minimumArgCount = minimumArgCount;
 		this.i18n = NeverLag.i18n("command.".concat(this.name));
 	}
-	
+
 	public AbstractSubCommand(String name) {
 		this(name, -1);
 	}
@@ -42,7 +43,7 @@ public abstract class AbstractSubCommand {
 	public boolean isPlayerRequired() {
 		return false;
 	}
-	
+
 	public final String getName() {
 		return name;
 	}
@@ -60,10 +61,8 @@ public abstract class AbstractSubCommand {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null || getClass() != obj.getClass()) {
-			return false;
-		}
-		return Objects.equals(this.name, ((AbstractSubCommand) obj).name);
+		return !(obj == null || getClass() != obj.getClass()) &&
+			Objects.equals(this.name, ((AbstractSubCommand) obj).name);
 	}
 
 	@Override

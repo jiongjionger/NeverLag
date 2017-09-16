@@ -1,11 +1,10 @@
 package cn.jiongjionger.neverlag.config;
 
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+
 import java.io.IOException;
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
@@ -16,9 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-
 /**
  * @author andylizi
  */
@@ -27,7 +23,7 @@ public abstract class AbstractConfig {
 	@Target(ElementType.FIELD)
 	@Retention(RetentionPolicy.RUNTIME)
 	@Documented
-	protected static @interface F {
+	protected @interface F {
 		String value();
 	}
 
@@ -95,19 +91,19 @@ public abstract class AbstractConfig {
 				try {
 					if (!checkValue(key, v)) {
 						logger.log(Level.WARNING, "Illegal value \"{0}\" of {1}, use default \"{2}\"!",
-								new Object[] { v, key, def });
+							new Object[]{ v, key, def });
 						return;
 					}
 				} catch (Exception ex) {
 					LogRecord record = new LogRecord(Level.WARNING, "Illegal value \"{0}\" of {1}, use default \"{2}\"!");
-					record.setParameters(new Object[] { v, key, def });
+					record.setParameters(new Object[]{ v, key, def });
 					record.setThrown(ex);
 					logger.log(record);
 				}
 				f.set(this, v);
 			} catch (ReflectiveOperationException ex) {
 				LogRecord record = new LogRecord(Level.WARNING, "Unable to update config field:{0}");
-				record.setParameters(new Object[] { f.toGenericString() });
+				record.setParameters(new Object[]{ f.toGenericString() });
 				record.setThrown(ex);
 				logger.log(record);
 			} catch (Exception ex) {
@@ -135,7 +131,7 @@ public abstract class AbstractConfig {
 				saveData(key, f.get(this));
 			} catch (ReflectiveOperationException ex) {
 				LogRecord record = new LogRecord(Level.WARNING, "Unable to update config field:{0}");
-				record.setParameters(new Object[] { f.toGenericString() });
+				record.setParameters(new Object[]{ f.toGenericString() });
 				record.setThrown(ex);
 				logger.log(record);
 			}

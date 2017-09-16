@@ -1,5 +1,6 @@
 package cn.jiongjionger.neverlag.fixer;
 
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,8 +11,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class AntiNegativeItemDupe implements Listener {
 
@@ -31,7 +30,7 @@ public class AntiNegativeItemDupe implements Listener {
 			return;
 		}
 		for (ItemStack item : content.getContents()) {
-			if (item != null && !item.getType().equals(Material.AIR)) {
+			if (item != null && item.getType() != Material.AIR) {
 				if (item.getAmount() <= 0) {
 					item.setType(Material.AIR);
 				}
@@ -46,9 +45,9 @@ public class AntiNegativeItemDupe implements Listener {
 			return;
 		}
 		ItemStack item = null;
-		if (e.getCurrentItem() != null && !e.getCurrentItem().getType().equals(Material.AIR)) {
+		if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
 			item = e.getCurrentItem();
-		} else if (e.getCursor() != null && !e.getCursor().getType().equals(Material.AIR)) {
+		} else if (e.getCursor() != null && e.getCursor().getType() != Material.AIR) {
 			item = e.getCursor();
 		}
 		if (item != null && item.getAmount() <= 0) {

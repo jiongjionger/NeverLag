@@ -1,5 +1,7 @@
 package cn.jiongjionger.neverlag.gui;
 
+import cn.jiongjionger.neverlag.I18n;
+import cn.jiongjionger.neverlag.NeverLag;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,9 +10,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-
-import cn.jiongjionger.neverlag.I18n;
-import cn.jiongjionger.neverlag.NeverLag;
 
 public class GUISortPingListener implements Listener {
 

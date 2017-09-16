@@ -1,13 +1,13 @@
 package cn.jiongjionger.neverlag.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IconMaker {
 	private ItemStack item;

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HardwareInfoUtils {
+public final class HardwareInfoUtils {
 
 	private static final String CRLF = "\r\n";
 	private static final String NOT_FOUND = "NOT_FOUND";
@@ -54,7 +54,7 @@ public class HardwareInfoUtils {
 	}
 
 	public static boolean isSudo() {
-		return executeCommand("sudo", "-n", "true").length() == 0;
+		return executeCommand("sudo", "-n", "true").isEmpty();
 	}
 
 	private static String readData(Process process) {

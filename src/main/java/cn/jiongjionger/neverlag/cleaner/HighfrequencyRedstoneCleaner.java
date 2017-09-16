@@ -1,27 +1,26 @@
 package cn.jiongjionger.neverlag.cleaner;
 
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-
+import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.system.RedstoneCounter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
-import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.system.RedstoneCounter;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HighfrequencyRedstoneCleaner implements Listener {
 
 	// 保存红石频率信息，按周期判断并且清空
-	private HashMap<Location, Integer> syncRestoneRecord = new HashMap<>();
-	private ConcurrentHashMap<Location, Integer> asyncRestoneRecord = new ConcurrentHashMap<>();
+	private final HashMap<Location, Integer> syncRestoneRecord = new HashMap<>();
+	private final ConcurrentHashMap<Location, Integer> asyncRestoneRecord = new ConcurrentHashMap<>();
 
-	private ConfigManager cm = ConfigManager.getInstance();
-	private RedstoneCounter rc = RedstoneCounter.getInstance();
-	private NeverLag plg = NeverLag.getInstance();
+	private final ConfigManager cm = ConfigManager.getInstance();
+	private final RedstoneCounter rc = RedstoneCounter.getInstance();
+	private final NeverLag plg = NeverLag.getInstance();
 
 	public HighfrequencyRedstoneCleaner() {
 		plg.getServer().getPluginManager().registerEvents(this, plg);

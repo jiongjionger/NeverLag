@@ -1,10 +1,10 @@
 package cn.jiongjionger.neverlag.gui;
 
-import java.util.HashMap;
-
 import org.bukkit.entity.Player;
 
-public class GUISortPingHolder {
+import java.util.HashMap;
+
+public final class GUISortPingHolder {
 
 	private static HashMap<String, GUISortPing> record = new HashMap<>();
 
@@ -32,4 +32,5 @@ public class GUISortPingHolder {
 		record.put(username, sortPing);
 	}
 
+	private GUISortPingHolder() {}
 }

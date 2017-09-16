@@ -1,20 +1,13 @@
 package cn.jiongjionger.neverlag.monitor.inject;
 
-import java.util.List;
-
+import cn.jiongjionger.neverlag.utils.Reflection;
+import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.command.TabExecutor;
+import org.bukkit.command.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 
-import cn.jiongjionger.neverlag.utils.Reflection;
-import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
+import java.util.List;
 
 public class CommandInjector extends AbstractMultipleInjector implements TabExecutor {
 
@@ -88,15 +81,13 @@ public class CommandInjector extends AbstractMultipleInjector implements TabExec
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (Bukkit.isPrimaryThread()) {
 			long startTime = System.nanoTime();
-			boolean commandResult;
 			try {
-				commandResult = this.commandExecutor.onCommand(sender, command, label, args);
+				return this.commandExecutor.onCommand(sender, command, label, args);
 			} finally {
 				long endTime = System.nanoTime();
 				long useTime = endTime - startTime;
 				this.record(command.getName(), useTime);
 			}
-			return commandResult;
 		} else {
 			return this.commandExecutor.onCommand(sender, command, label, args);
 		}

@@ -1,20 +1,14 @@
 package cn.jiongjionger.neverlag.cleaner;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Villager;
-
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.EntityUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MobFarmCleaner {
 

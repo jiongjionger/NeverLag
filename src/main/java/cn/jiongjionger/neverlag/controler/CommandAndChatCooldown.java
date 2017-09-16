@@ -1,8 +1,6 @@
 package cn.jiongjionger.neverlag.controler;
 
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,15 +9,16 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CommandAndChatCooldown implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
 	// 保存命令间隔时间列表
-	private HashMap<String, Long> commandCoolDown = new HashMap<>();
+	private final HashMap<String, Long> commandCoolDown = new HashMap<>();
 	// 保存聊天间隔时间列表
-	private ConcurrentHashMap<String, Long> chatCoolDown = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<String, Long> chatCoolDown = new ConcurrentHashMap<>();
 
 	// 限制聊天频率
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)

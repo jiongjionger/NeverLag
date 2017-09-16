@@ -1,6 +1,6 @@
 package cn.jiongjionger.neverlag.hardware;
 
-public class WMI4JavaUtil {
+public final class WMI4JavaUtil {
 
 	public static String join(String delimiter, Iterable<?> parts) {
 		StringBuilder joinedString = new StringBuilder();
@@ -11,4 +11,6 @@ public class WMI4JavaUtil {
 		joinedString.delete(joinedString.length() - delimiter.length(), joinedString.length());
 		return joinedString.toString();
 	}
+
+	private WMI4JavaUtil() {}
 }

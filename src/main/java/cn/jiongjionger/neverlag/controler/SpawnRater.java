@@ -1,13 +1,12 @@
 package cn.jiongjionger.neverlag.controler;
 
-import java.util.Random;
-
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
+import java.util.Random;
 
 public class SpawnRater {
 

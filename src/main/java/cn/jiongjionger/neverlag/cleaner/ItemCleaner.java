@@ -1,21 +1,11 @@
 package cn.jiongjionger.neverlag.cleaner;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Boat;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ExperienceOrb;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Painting;
-import org.bukkit.entity.Snowball;
-
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.EntityUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.*;
 
 public class ItemCleaner {
 
@@ -90,7 +80,7 @@ public class ItemCleaner {
 		if (cm.isClearDropItem && cm.isBroadcastClearItem) {
 			this.preMessageTime++;
 			int remainSecond = cm.clearItemDelay - this.preMessageTime;
-			if(remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
+			if (remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
 				Bukkit.getServer().broadcastMessage(cm.clearItemBroadcastPreMessage.replace("%TIME%", String.valueOf(remainSecond)));
 			}
 			if (remainSecond <= 0) {

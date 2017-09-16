@@ -1,9 +1,7 @@
 package cn.jiongjionger.neverlag.hardware;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WMIPowerShell implements WMIStub {
 
@@ -16,14 +14,13 @@ public class WMIPowerShell implements WMIStub {
 		PowerShell powerShell = null;
 		try {
 			powerShell = PowerShell.openSession();
-			Map<String, String> config = new HashMap<>();
-			config.put("maxWait", "20000");
 			PowerShellResponse psResponse = powerShell.executeCommand(command);
 			if (psResponse.isError()) {
 				throw new WMIException("WMI operation finished in error: " + psResponse.getCommandOutput());
 			}
 			commandResponse = psResponse.getCommandOutput().trim();
 			powerShell.close();
+			return commandResponse;
 		} catch (PowerShellNotAvailableException ex) {
 			throw new WMIException(ex.getMessage(), ex);
 		} finally {
@@ -31,7 +28,6 @@ public class WMIPowerShell implements WMIStub {
 				powerShell.close();
 			}
 		}
-		return commandResponse;
 	}
 
 	private String initCommand(String wmiClass, String namespace, String computerName) {
@@ -74,7 +70,7 @@ public class WMIPowerShell implements WMIStub {
 
 	@Override
 	public String queryObject(String wmiClass, List<String> wmiProperties, List<String> conditions, String namespace, String computerName) throws WMIException {
-		String command = initCommand(wmiClass, namespace, computerName);
+		StringBuilder command = new StringBuilder(initCommand(wmiClass, namespace, computerName));
 
 		List<String> usedWMIProperties;
 		if (wmiProperties == null || wmiProperties.isEmpty()) {
@@ -82,14 +78,14 @@ public class WMIPowerShell implements WMIStub {
 		} else {
 			usedWMIProperties = wmiProperties;
 		}
-		command += " | ";
-		command += "Select-Object " + WMI4JavaUtil.join(", ", usedWMIProperties) + " -excludeproperty \"_*\" | ";
+		command.append(" | ");
+		command.append("Select-Object ").append(WMI4JavaUtil.join(", ", usedWMIProperties)).append(" -excludeproperty \"_*\" | ");
 		if (conditions != null && !conditions.isEmpty()) {
 			for (String condition : conditions) {
-				command += "Where-Object -FilterScript {" + condition + "} | ";
+				command.append("Where-Object -FilterScript {").append(condition).append("} | ");
 			}
 		}
-		command += "Format-List *";
-		return executeCommand(command);
+		command.append("Format-List *");
+		return executeCommand(command.toString());
 	}
 }

@@ -1,5 +1,6 @@
 package cn.jiongjionger.neverlag.fixer;
 
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -8,8 +9,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class AntiPlaceDoorDupe implements Listener {
 

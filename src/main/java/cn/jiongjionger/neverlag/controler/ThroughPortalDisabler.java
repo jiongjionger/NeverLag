@@ -1,16 +1,11 @@
 package cn.jiongjionger.neverlag.controler;
 
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Projectile;
+import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityPortalEvent;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class ThroughPortalDisabler {
 

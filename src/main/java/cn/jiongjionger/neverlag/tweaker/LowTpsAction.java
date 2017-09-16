@@ -1,11 +1,10 @@
 package cn.jiongjionger.neverlag.tweaker;
 
-import org.bukkit.Bukkit;
-
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.cleaner.EntityCleaner;
 import cn.jiongjionger.neverlag.cleaner.ItemCleaner;
 import cn.jiongjionger.neverlag.config.ConfigManager;
+import org.bukkit.Bukkit;
 
 public class LowTpsAction {
 

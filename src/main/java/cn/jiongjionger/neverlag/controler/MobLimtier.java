@@ -1,21 +1,15 @@
 package cn.jiongjionger.neverlag.controler;
 
+import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Villager;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-
-import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class MobLimtier implements Listener {
 
@@ -60,8 +54,8 @@ public class MobLimtier implements Listener {
 		}
 		// 不限制插件、刷怪蛋、刷怪笼刷出的实体和凋零、铁傀儡、雪人
 		if (creature.getType() != EntityType.IRON_GOLEM && creature.getType() != EntityType.SNOWMAN && creature.getType() != EntityType.WITHER
-				&& e.getSpawnReason() != SpawnReason.SPAWNER_EGG && e.getSpawnReason() != SpawnReason.SPAWNER
-				&& e.getSpawnReason() != SpawnReason.CUSTOM) {
+			&& e.getSpawnReason() != SpawnReason.SPAWNER_EGG && e.getSpawnReason() != SpawnReason.SPAWNER
+			&& e.getSpawnReason() != SpawnReason.CUSTOM) {
 			if (creature instanceof Animals) {
 				if (this.getMobCount() >= cm.animalsSpawnLimit) {
 					e.setCancelled(true);
@@ -73,7 +67,7 @@ public class MobLimtier implements Listener {
 			}
 		}
 		// 刷怪笼不按照总数量限制，而是按照区块内实体数量
-		if (e.getSpawnReason().equals(SpawnReason.SPAWNER)) {
+		if (SpawnReason.SPAWNER == e.getSpawnReason()) {
 			int count = 0;
 			for (Entity entity : e.getLocation().getChunk().getEntities()) {
 				if (creature instanceof Monster && entity instanceof Monster) {

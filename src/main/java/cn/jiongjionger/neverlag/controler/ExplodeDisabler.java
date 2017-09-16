@@ -1,7 +1,8 @@
 package cn.jiongjionger.neverlag.controler;
 
-import java.util.Collection;
-
+import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.Reflection;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventException;
@@ -10,9 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.plugin.EventExecutor;
 
-import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.Reflection;
+import java.util.Collection;
 
 public class ExplodeDisabler implements Listener {
 
@@ -22,7 +21,7 @@ public class ExplodeDisabler implements Listener {
 		public void execute(Listener listener, Event event) throws EventException {
 			if (cm.isDisableExplode) {
 				((Collection<?>) Reflection.getMethod(event.getClass(), "blockList")
-						.invoke(event)).clear();
+					.invoke(event)).clear();
 			}
 		}
 	};
@@ -41,6 +40,6 @@ public class ExplodeDisabler implements Listener {
 
 	private void registerEvent(Class<? extends Event> clazz) {
 		Bukkit.getPluginManager().registerEvent(clazz, this, EventPriority.NORMAL,
-				executor, NeverLag.getInstance(), true);
+			executor, NeverLag.getInstance(), true);
 	}
 }

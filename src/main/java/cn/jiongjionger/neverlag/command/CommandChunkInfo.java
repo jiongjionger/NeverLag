@@ -1,14 +1,14 @@
 package cn.jiongjionger.neverlag.command;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandChunkInfo extends AbstractSubCommand {
 	private static final List<String> COMPLETION_LIST = Arrays.asList("entity", "tiles", "monsters", "animals", "dropitem", "player", "villager", "squid", "chest", "hopper",
@@ -37,7 +37,7 @@ public class CommandChunkInfo extends AbstractSubCommand {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
 		} else {
-
+			throw new UnsupportedOperationException();
 		}
 	}
 

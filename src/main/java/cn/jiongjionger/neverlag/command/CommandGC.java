@@ -7,7 +7,7 @@ public class CommandGC extends AbstractSubCommand {
 	public CommandGC() {
 		super("gc");
 	}
-	
+
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
 		long memoryBeforeGC = getCurrentMemoryUsage();
@@ -21,7 +21,7 @@ public class CommandGC extends AbstractSubCommand {
 			sender.sendMessage(i18n.tr("noEffect"));
 		}
 	}
-	
+
 	protected long getCurrentMemoryUsage() {
 		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}

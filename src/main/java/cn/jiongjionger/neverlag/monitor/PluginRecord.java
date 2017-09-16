@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class PluginRecord {
 
-	private String name;
+	private final String name;
 	private long totalTime;
 	private long totalCount;
 
@@ -14,11 +14,9 @@ public class PluginRecord {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-		return Objects.equals(this.name, ((PluginRecord) obj).name);
+		return this == obj || obj != null &&
+			getClass() == obj.getClass() &&
+			Objects.equals(this.name, ((PluginRecord) obj).name);
 	}
 
 	public long getAvgProportion() {

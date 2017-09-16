@@ -17,7 +17,7 @@ public class WMIVBScript implements WMIStub {
 	private static final String CRLF = "\r\n";
 
 	private static String executeScript(String scriptCode) throws WMIException {
-		String scriptResponse = "";
+		StringBuilder scriptResponse = new StringBuilder();
 		File tmpFile = null;
 		FileWriter writer = null;
 		BufferedReader errorOutput = null;
@@ -32,18 +32,18 @@ public class WMIVBScript implements WMIStub {
 			String line;
 			while ((line = processOutput.readLine()) != null) {
 				if (!line.isEmpty()) {
-					scriptResponse += line + CRLF;
+					scriptResponse.append(line).append(CRLF);
 				}
 			}
-			if (scriptResponse.isEmpty()) {
+			if (scriptResponse.length() == 0) {
 				errorOutput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-				String errorResponse = "";
+				StringBuilder errorResponse = new StringBuilder();
 				while ((line = errorOutput.readLine()) != null) {
 					if (!line.isEmpty()) {
-						errorResponse += line + CRLF;
+						errorResponse.append(line).append(CRLF);
 					}
 				}
-				if (!errorResponse.isEmpty()) {
+				if (errorResponse.length() > 0) {
 					throw new WMIException("WMI operation finished in error: " + errorResponse);
 				}
 			}
@@ -64,7 +64,7 @@ public class WMIVBScript implements WMIStub {
 				Logger.getLogger(WMI4Java.class.getName()).log(Level.SEVERE, "Exception closing in finally", ioe);
 			}
 		}
-		return scriptResponse.trim();
+		return scriptResponse.toString().trim();
 	}
 
 	@Override

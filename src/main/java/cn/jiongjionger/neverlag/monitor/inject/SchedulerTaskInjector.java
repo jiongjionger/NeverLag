@@ -1,11 +1,10 @@
 package cn.jiongjionger.neverlag.monitor.inject;
 
+import cn.jiongjionger.neverlag.utils.Reflection;
+import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
-
-import cn.jiongjionger.neverlag.utils.Reflection;
-import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
 public class SchedulerTaskInjector extends AbstractInjector implements Runnable {
 

@@ -1,23 +1,21 @@
 package cn.jiongjionger.neverlag.gui;
 
-import java.text.DecimalFormat;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
-
 import cn.jiongjionger.neverlag.I18n;
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.utils.PingUtils;
+import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
+
+import java.text.DecimalFormat;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class GUISortPing {
 
 	private final I18n i18n = NeverLag.i18n("gui.ping");
 	private GUIMaker guiMaker;
 	private int slot = 0;
-	private Map<String, Integer> content;
+	private final Map<String, Integer> content;
 	private int page;
 	private int maxPage;
 
@@ -29,13 +27,13 @@ public class GUISortPing {
 
 	private void drawPageGUI() {
 		this.guiMaker.fillItem(new IconMaker(Material.STAINED_GLASS_PANE)
-				.setDurability((short) 5) // 5: Lime
-				.setDisplayName(i18n.tr("previous"))
-				.getItem(), 1, 6);
+			.setDurability((short) 5) // 5: Lime
+			.setDisplayName(i18n.tr("previous"))
+			.getItem(), 1, 6);
 		this.guiMaker.fillItem(new IconMaker(Material.STAINED_GLASS_PANE)
-				.setDurability((short) 5) // 5: Lime
-				.setDisplayName(i18n.tr("next"))
-				.getItem(), 9, 6);
+			.setDurability((short) 5) // 5: Lime
+			.setDisplayName(i18n.tr("next"))
+			.getItem(), 9, 6);
 	}
 
 	public Inventory get() {
@@ -49,9 +47,7 @@ public class GUISortPing {
 		int startPos = (page - 1) * 45;
 		int endPos = page * 45;
 		int pos = 0;
-		Iterator<Entry<String, Integer>> iterator = this.content.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Entry<String, Integer> entry = iterator.next();
+		for (Entry<String, Integer> entry : this.content.entrySet()) {
 			pos++;
 			if (pos >= startPos && pos <= endPos) {
 				this.put(entry.getKey(), PingUtils.colorPing(entry.getValue()));
@@ -90,10 +86,10 @@ public class GUISortPing {
 			return;
 		}
 		this.guiMaker.fillItem(new IconMaker(Material.SKULL_ITEM)
-				.setOwner(username)
-				.setDisplayName(i18n.tr("item.name", username))
-				.setLore(i18n.tr("item.lore", ping))
-				.getItem(), this.slot);
+			.setOwner(username)
+			.setDisplayName(i18n.tr("item.name", username))
+			.setLore(i18n.tr("item.lore", ping))
+			.getItem(), this.slot);
 		this.slot++;
 	}
 }

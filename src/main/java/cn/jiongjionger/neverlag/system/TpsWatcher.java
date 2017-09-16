@@ -25,11 +25,11 @@ public class TpsWatcher implements Runnable {
 	public double getTps() {
 		return history.getLast();
 	}
-	
+
 	protected double calcuateTPS(long interval) {
 		return 1D / (interval / 1000D);
 	}
-	
+
 	// 测试用
 	protected long currentTime() {
 		return System.currentTimeMillis();

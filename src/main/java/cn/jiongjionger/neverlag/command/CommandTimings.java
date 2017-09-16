@@ -1,17 +1,16 @@
 package cn.jiongjionger.neverlag.command;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.command.CommandSender;
-
 import cn.jiongjionger.neverlag.monitor.MonitorRecord;
 import cn.jiongjionger.neverlag.monitor.MonitorUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class CommandTimings extends AbstractSubCommand {
 	private static final List<String> COMPLETION_LIST = Arrays.asList("on", "off", "event", "task", "command");
@@ -33,7 +32,7 @@ public class CommandTimings extends AbstractSubCommand {
 			MonitorUtils.disable();
 			break;
 		case "event":
-			if(args.length < 2) {
+			if (args.length < 2) {
 				throw MissingCommandArgumentException.INSTANCE;
 			}
 			Map<String, MonitorRecord> map = MonitorUtils.getEventTimingsByPluginName(args[1]);
@@ -41,13 +40,13 @@ public class CommandTimings extends AbstractSubCommand {
 				sender.sendMessage("eventName: " + entry.getKey() + " ," + entry.getValue().toString());
 			}
 		case "task":
-			if(args.length < 2) {
+			if (args.length < 2) {
 				throw MissingCommandArgumentException.INSTANCE;
 			}
 			sender.sendMessage(MonitorUtils.getTaskTimingsByPluginName(args[1]).toString());
 			break;
 		case "command":
-			if(args.length < 2) {
+			if (args.length < 2) {
 				throw MissingCommandArgumentException.INSTANCE;
 			}
 			Map<String, MonitorRecord> commandRecordMap = MonitorUtils.getCommandTimingsByPluginName(args[1]);
@@ -62,20 +61,20 @@ public class CommandTimings extends AbstractSubCommand {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, String[] args) {
-		if(args.length <= 1) {
+		if (args.length <= 1) {
 			return COMPLETION_LIST;
 		}
-		
+
 		// 延迟加载, 因为此类构造方法被调用时, 插件可能还没全部 enable
-		if(pluginNames == null) {
+		if (pluginNames == null) {
 			pluginNames = new ArrayList<>();
-			for(Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-				if(plugin.isEnabled()) {
+			for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+				if (plugin.isEnabled()) {
 					pluginNames.add(plugin.getName());
 				}
 			}
 		}
-		
+
 		return pluginNames;
 	}
 }

@@ -1,5 +1,7 @@
 package cn.jiongjionger.neverlag.monitor.inject;
 
+import cn.jiongjionger.neverlag.utils.Reflection;
+import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventException;
 import org.bukkit.event.HandlerList;
@@ -7,9 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
-
-import cn.jiongjionger.neverlag.utils.Reflection;
-import cn.jiongjionger.neverlag.utils.Reflection.FieldAccessor;
 
 public class EventExecutorInjector extends AbstractInjector implements EventExecutor {
 

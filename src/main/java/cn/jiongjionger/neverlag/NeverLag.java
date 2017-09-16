@@ -1,17 +1,6 @@
 package cn.jiongjionger.neverlag;
 
-import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import cn.jiongjionger.neverlag.command.CommandDispatcher;
-import cn.jiongjionger.neverlag.command.CommandBenchmark;
-import cn.jiongjionger.neverlag.command.CommandClear;
-import cn.jiongjionger.neverlag.command.CommandGC;
-import cn.jiongjionger.neverlag.command.CommandHardWare;
-import cn.jiongjionger.neverlag.command.CommandInfo;
-import cn.jiongjionger.neverlag.command.CommandPing;
-import cn.jiongjionger.neverlag.command.CommandTimings;
+import cn.jiongjionger.neverlag.command.*;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.fixer.AntiAUWMod;
 import cn.jiongjionger.neverlag.gui.GUISortPingListener;
@@ -19,6 +8,10 @@ import cn.jiongjionger.neverlag.monitor.MonitorUtils;
 import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
 import cn.jiongjionger.neverlag.utils.PingUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.File;
 import java.util.logging.Logger;
 
@@ -37,7 +30,7 @@ public class NeverLag extends JavaPlugin implements Listener {
 
 	public static NeverLag getInstance() {
 		// 如果还没初始化就直接抛错, 不然过了很久才抛NPE, 定位起来麻烦
-		if(instance == null) throw new IllegalStateException();
+		if (instance == null) throw new IllegalStateException();
 		return instance;
 	}
 
@@ -74,7 +67,6 @@ public class NeverLag extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
-		
 		ConfigManager.getInstance().reload();
 		i18n = I18n.load(new File(getDataFolder(), "lang/"), ConfigManager.getInstance().lang);
 
@@ -100,7 +92,7 @@ public class NeverLag extends JavaPlugin implements Listener {
 	public void onDisable() {
 		try {
 			// 兼容PlugMan等插件
-			if(watchDog != null) 
+			if (watchDog != null)
 				watchDog.stop();
 			Bukkit.getScheduler().cancelTasks(instance);
 			MonitorUtils.disable();

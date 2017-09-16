@@ -1,10 +1,9 @@
 package cn.jiongjionger.neverlag.tweaker;
 
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockIgniteEvent;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class FireSpreadReducer implements Listener {
 

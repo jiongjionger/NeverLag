@@ -1,10 +1,10 @@
 package cn.jiongjionger.neverlag.config;
 
+import cn.jiongjionger.neverlag.NeverLag;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import cn.jiongjionger.neverlag.NeverLag;
 import java.util.Locale;
 
 public class ConfigManager extends AbstractConfig {
@@ -20,7 +20,7 @@ public class ConfigManager extends AbstractConfig {
 	/*
 	 * TO DO : 修改配置文件获取的node
 	 */
-	
+
 	@F("lang")
 	public String lang = Locale.getDefault().toString();
 
@@ -429,17 +429,17 @@ public class ConfigManager extends AbstractConfig {
 	}
 
 	protected boolean checkValue(String key, Object value) {
-		switch(key) {
-		case "lang": 
-			if(!(value instanceof String)) {
+		switch (key) {
+		case "lang":
+			if (!(value instanceof String)) {
 				return false;
 			}
-			return ((String) value).matches("^[a-zA-Z]{2}(-|_)[a-zA-Z]{2}$");
-		default: 
+			return ((String) value).matches("^[a-zA-Z]{2}([-_])[a-zA-Z]{2}$");
+		default:
 			return super.checkValue(key, value);
 		}
 	}
-	
+
 	@Override
 	protected void load0() throws IOException {
 		config = NeverLag.getInstance().getConfig();

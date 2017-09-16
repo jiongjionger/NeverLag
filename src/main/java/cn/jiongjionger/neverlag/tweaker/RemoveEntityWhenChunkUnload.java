@@ -1,18 +1,12 @@
 package cn.jiongjionger.neverlag.tweaker;
 
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Squid;
+import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class RemoveEntityWhenChunkUnload implements Listener {
 

@@ -1,34 +1,27 @@
 package cn.jiongjionger.neverlag.command;
 
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
-
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.*;
 
-import cn.jiongjionger.neverlag.utils.EntityUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CommandClear extends AbstractSubCommand {
 	private static final List<String> COMPLETION_LIST;
-	
+
 	static {
-		List<String> list = new ArrayList<>();
-		list.addAll(Arrays.asList(new String[]{ "monsters", "monster", "animals", "animal", "dropitems", "dropitem", "items", "item" }));
-		for(EntityType type : EntityType.values()) {
-			if(type != EntityType.PLAYER) {
+		List<String> list = new ArrayList<>(Arrays.asList("monsters", "monster", "animals", "animal", "dropitems", "dropitem", "items", "item"));
+		for (EntityType type : EntityType.values()) {
+			if (type != EntityType.PLAYER) {
 				@SuppressWarnings("deprecation")
 				String name = type.getName();
-				if(name != null) {
+				if (name != null) {
 					list.add(name.toLowerCase());
 				}
 			}
@@ -44,7 +37,7 @@ public class CommandClear extends AbstractSubCommand {
 	@Override
 	public void onCommand(CommandSender sender, String[] args) {
 		String type = args[0].toLowerCase();
-		if(!COMPLETION_LIST.contains(type)) {
+		if (!COMPLETION_LIST.contains(type)) {
 			sender.sendMessage(i18n.tr("illegalType", COMPLETION_LIST));
 			return;
 		}

@@ -1,14 +1,12 @@
 package cn.jiongjionger.neverlag.tweaker;
 
-import org.bukkit.Material;
+import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
 
 public class NoHighFallWater implements Listener {
 
@@ -18,7 +16,7 @@ public class NoHighFallWater implements Listener {
 		Block nowCheckBlock = b;
 		while (checkDistance-- > 0) {
 			nowCheckBlock = nowCheckBlock.getRelative(BlockFace.DOWN);
-			if (nowCheckBlock != null && !Material.AIR.equals(nowCheckBlock.getType())) {
+			if (nowCheckBlock != null) {
 				return false;
 			}
 		}

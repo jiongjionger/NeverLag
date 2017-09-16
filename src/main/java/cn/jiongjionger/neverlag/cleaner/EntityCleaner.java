@@ -1,16 +1,11 @@
 package cn.jiongjionger.neverlag.cleaner;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Squid;
-import org.bukkit.entity.Villager;
-
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.EntityUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.*;
 
 public class EntityCleaner {
 
@@ -60,7 +55,7 @@ public class EntityCleaner {
 					} else if (entity instanceof Squid) {
 					} else if (entity instanceof Villager) {
 					} else if (cm.clearEntityTypeBlackList.contains(entity.getType().getName().toLowerCase())) {
-					} else{
+					} else {
 						continue;
 					}
 					entity.remove();
@@ -97,7 +92,7 @@ public class EntityCleaner {
 		if (cm.isClearEntity && cm.isBroadcastClearEntity) {
 			this.preMessageTime++;
 			int remainSecond = cm.clearMobDelay - this.preMessageTime;
-			if(remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
+			if (remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
 				Bukkit.getServer().broadcastMessage(cm.clearEntityBroadcastPreMessage.replace("%TIME%", String.valueOf(remainSecond)));
 			}
 			if (remainSecond <= 0) {

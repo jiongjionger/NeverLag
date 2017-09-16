@@ -1,5 +1,7 @@
 package cn.jiongjionger.neverlag.fixer;
 
+import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.EntityUtils;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
@@ -7,9 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-
-import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.EntityUtils;
 
 public class AntiVillagerTrade implements Listener {
 

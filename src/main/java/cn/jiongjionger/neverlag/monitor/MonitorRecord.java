@@ -15,11 +15,9 @@ public class MonitorRecord {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-		return Objects.equals(this.name, ((MonitorRecord) obj).name);
+		return this == obj || obj != null &&
+			getClass() == obj.getClass() &&
+			Objects.equals(this.name, ((MonitorRecord) obj).name);
 	}
 
 	public long getAvgExecuteTime() {

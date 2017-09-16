@@ -1,13 +1,13 @@
 package cn.jiongjionger.neverlag.system;
 
+import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.config.ConfigManager;
+
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.config.ConfigManager;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class RedstoneCounter {
 
@@ -21,7 +21,7 @@ public class RedstoneCounter {
 
 	// 保存红石每触发的次数
 	private int syncRestoneCount;
-	private AtomicInteger asyncRestoneCount = new AtomicInteger(0);
+	private final AtomicInteger asyncRestoneCount = new AtomicInteger(0);
 
 	// 记录一分钟内的红石触发次数
 	private final ConcurrentLinkedDeque<Integer> asyncOneMinutesRecord = new ConcurrentLinkedDeque<>();
@@ -92,10 +92,10 @@ public class RedstoneCounter {
 			leaveThreadSafe(forceSync);
 		}
 	}
-	
+
 	private Deque<Integer> enterThreadSafe(boolean forceSync) {
 		Deque<Integer> deque;
-		if(forceSync) {
+		if (forceSync) {
 			deque = syncOneMinutesRecord;
 		} else {
 			deque = asyncOneMinutesRecord;
@@ -103,10 +103,10 @@ public class RedstoneCounter {
 		}
 		return deque;
 	}
-	
+
 	private void leaveThreadSafe(boolean forceSync) {
 		try {
-			if(!forceSync) asyncLock.unlock();
+			if (!forceSync) asyncLock.unlock();
 		} catch (IllegalMonitorStateException ex) {
 			// ignore
 		}

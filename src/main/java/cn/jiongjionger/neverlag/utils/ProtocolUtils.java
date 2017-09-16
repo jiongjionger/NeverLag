@@ -1,20 +1,19 @@
 package cn.jiongjionger.neverlag.utils;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
-import org.bukkit.entity.Player;
-
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import org.bukkit.entity.Player;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Random;
 
 public class ProtocolUtils {
 
 	private static ProtocolManager plm;
-	private static Random random = new Random();
+	private static final Random random = new Random();
 
 	public static ProtocolManager get() {
 		if (plm == null) {
@@ -34,4 +33,6 @@ public class ProtocolUtils {
 			}
 		}
 	}
+
+	private ProtocolUtils() {}
 }

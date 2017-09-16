@@ -1,11 +1,12 @@
 package cn.jiongjionger.neverlag.command;
 
+import cn.jiongjionger.neverlag.utils.HardwareInfo;
+import org.bukkit.command.CommandSender;
+
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import org.bukkit.command.CommandSender;
-import cn.jiongjionger.neverlag.utils.HardwareInfo;
 
 public class CommandHardWare extends AbstractSubCommand {
 	private volatile Future<?> future = null;

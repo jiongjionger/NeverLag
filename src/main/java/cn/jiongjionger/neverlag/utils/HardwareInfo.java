@@ -1,21 +1,21 @@
 package cn.jiongjionger.neverlag.utils;
 
+import cn.jiongjionger.neverlag.hardware.UnixCPUInfo;
+import cn.jiongjionger.neverlag.hardware.UnixMemoryInfo;
+import cn.jiongjionger.neverlag.hardware.WindowsCPUInfo;
+import cn.jiongjionger.neverlag.hardware.WindowsMemoryInfo;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.RuntimeMXBean;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.jiongjionger.neverlag.hardware.UnixCPUInfo;
-import cn.jiongjionger.neverlag.hardware.UnixMemoryInfo;
-import cn.jiongjionger.neverlag.hardware.WindowsCPUInfo;
-import cn.jiongjionger.neverlag.hardware.WindowsMemoryInfo;
-
 public class HardwareInfo {
 
 	private static final String OS = System.getProperty("os.name").toLowerCase();
-	private static RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-	private static OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+	private static final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+	private static final OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
 	private static Map<String, String> cpuInfoMap = new HashMap<>();
 
 	// 获取CPU信息（类似Intel(R) Xeon(R) CPU E5-2679V4 @ 3.2GHz 20 cores B0 stepping）
@@ -37,11 +37,11 @@ public class HardwareInfo {
 				}
 				StringBuilder sb = new StringBuilder();
 				sb.append(cpuInfoMap.get("model name"))
-						.append(" ")
-						.append(cpuInfoMap.get("cpu cores"))
-						.append(" cores ")
-						.append(cpuInfoMap.get("stepping"))
-						.append(" stepping");
+					.append(" ")
+					.append(cpuInfoMap.get("cpu cores"))
+					.append(" cores ")
+					.append(cpuInfoMap.get("stepping"))
+					.append(" stepping");
 				return sb.toString();
 			}
 		} catch (Exception e) {
@@ -60,12 +60,7 @@ public class HardwareInfo {
 
 	// 获取JVM名称和版本号
 	public static String getJVMInfo() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(runtimeMXBean.getVmName())
-				.append(" (")
-				.append(runtimeMXBean.getVmVersion())
-				.append(")");
-		return sb.toString();
+		return runtimeMXBean.getVmName() + " (" + runtimeMXBean.getVmVersion() + ")";
 	}
 
 	// 获取物理内存使用情况（使用量 / 总量）类似 109621MB / 262144MB
@@ -128,13 +123,7 @@ public class HardwareInfo {
 			arch = "x86";
 		}
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(operatingSystemMXBean.getName())
-				.append(" version ")
-				.append(operatingSystemMXBean.getVersion())
-				.append(" ")
-				.append(arch);
-		return sb.toString();
+		return operatingSystemMXBean.getName() + " version " + operatingSystemMXBean.getVersion() + " " + arch;
 	}
 
 	public static boolean isUnix() {

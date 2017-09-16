@@ -1,7 +1,7 @@
 package cn.jiongjionger.neverlag.controler;
 
-import java.util.HashSet;
-
+import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.PermissionUtils;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,8 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.PermissionUtils;
+import java.util.HashSet;
 
 public class TilesLimiter implements Listener {
 
@@ -54,7 +53,7 @@ public class TilesLimiter implements Listener {
 		if (!cm.isLimitTiles) {
 			return;
 		}
-		if (e.getBlock().getType().equals(Material.DISPENSER)) {
+		if (e.getBlock().getType() == Material.DISPENSER) {
 			Player p = e.getPlayer();
 			if (p.isOp()) {
 				return;
@@ -76,7 +75,7 @@ public class TilesLimiter implements Listener {
 		if (!cm.isLimitTiles) {
 			return;
 		}
-		if (e.getBlock().getType().equals(Material.DROPPER)) {
+		if (e.getBlock().getType() == Material.DROPPER) {
 			Player p = e.getPlayer();
 			if (p.isOp()) {
 				return;
@@ -99,7 +98,7 @@ public class TilesLimiter implements Listener {
 		if (!cm.isLimitTiles) {
 			return;
 		}
-		if (e.getBlock().getType().equals(Material.HOPPER)) {
+		if (e.getBlock().getType() == Material.HOPPER) {
 			Player p = e.getPlayer();
 			if (p.isOp()) {
 				return;
@@ -127,9 +126,9 @@ public class TilesLimiter implements Listener {
 		}
 		Material type = e.getBlock().getType();
 		Material checkType = null;
-		if (type.equals(Material.PISTON_BASE)) {
+		if (type == Material.PISTON_BASE) {
 			checkType = Material.PISTON_BASE;
-		} else if (type.equals(Material.PISTON_STICKY_BASE)) {
+		} else if (type == Material.PISTON_STICKY_BASE) {
 			checkType = Material.PISTON_STICKY_BASE;
 		}
 		if (checkType != null) {

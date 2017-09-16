@@ -1,13 +1,12 @@
 package cn.jiongjionger.neverlag.utils;
 
-import java.lang.management.ManagementFactory;
-import java.util.ArrayList;
-
+import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.system.RedstoneCounter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.system.RedstoneCounter;
+import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
 
 public class ServerInfo {
 

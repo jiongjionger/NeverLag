@@ -3,7 +3,7 @@ package cn.jiongjionger.neverlag.utils;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-public class PermissionUtils {
+public final class PermissionUtils {
 
 	public static int getMaxPermission(Player p, String node) {
 		int maxLimit = 0;
@@ -24,4 +24,6 @@ public class PermissionUtils {
 		}
 		return maxLimit;
 	}
+
+	private PermissionUtils() {}
 }

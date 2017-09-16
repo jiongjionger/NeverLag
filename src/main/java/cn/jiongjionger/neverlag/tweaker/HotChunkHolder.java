@@ -1,18 +1,17 @@
 package cn.jiongjionger.neverlag.tweaker;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.WeakHashMap;
-
+import cn.jiongjionger.neverlag.NeverLag;
+import cn.jiongjionger.neverlag.config.ConfigManager;
+import cn.jiongjionger.neverlag.utils.ChunkInfo;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
-import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.ChunkInfo;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.WeakHashMap;
 
 public class HotChunkHolder implements Listener {
 
