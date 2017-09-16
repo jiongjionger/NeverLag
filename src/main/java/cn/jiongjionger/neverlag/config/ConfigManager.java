@@ -431,10 +431,8 @@ public class ConfigManager extends AbstractConfig {
 	protected boolean checkValue(String key, Object value) {
 		switch (key) {
 		case "lang":
-			if (!(value instanceof String)) {
-				return false;
-			}
-			return ((String) value).matches("^[a-zA-Z]{2}([-_])[a-zA-Z]{2}$");
+			return value instanceof String &&
+				((String) value).matches("^[a-zA-Z]{2}([-_])[a-zA-Z]{2}$");
 		default:
 			return super.checkValue(key, value);
 		}

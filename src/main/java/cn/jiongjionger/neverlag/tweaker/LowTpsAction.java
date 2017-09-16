@@ -23,6 +23,7 @@ public class LowTpsAction {
 	}
 
 	private void doAction() {
+		lastActionTime = System.currentTimeMillis();
 		if (cm.lowTPSCleanEntity) {
 			EntityCleaner.doClean();
 		}
