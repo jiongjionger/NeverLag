@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.lang.annotation.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -83,26 +81,31 @@ public abstract class AbstractConfig {
 			Field f = entry.getValue();
 			try {
 				Object def = f.get(this);
-				if (!config.contains(key)) {
-					config.addDefault(key, def);
-					return;
-				}
 				Object v = loadData(key, def);
 				try {
 					if (!checkValue(key, v)) {
-						logger.log(Level.WARNING, "Illegal value \"{0}\" of {1}, use default \"{2}\"!",
+						logger.log(Level.WARNING, "Illegal value \"{0}\" of {1}, using default \"{2}\"!",
 							new Object[]{ v, key, def });
 						return;
 					}
 				} catch (Exception ex) {
-					LogRecord record = new LogRecord(Level.WARNING, "Illegal value \"{0}\" of {1}, use default \"{2}\"!");
+					LogRecord record = new LogRecord(Level.WARNING, "Illegal value \"{0}\" of {1}, using default \"{2}\"!");
 					record.setParameters(new Object[]{ v, key, def });
 					record.setThrown(ex);
 					logger.log(record);
 				}
+
+				if (v instanceof Collection &&
+					!(v instanceof Set) &&
+					Set.class.isAssignableFrom(f.getType())) {
+					@SuppressWarnings("unchecked")
+					Set set = new LinkedHashSet((Collection) v);
+					v = set;
+				}
+
 				f.set(this, v);
 			} catch (ReflectiveOperationException ex) {
-				LogRecord record = new LogRecord(Level.WARNING, "Unable to update config field:{0}");
+				LogRecord record = new LogRecord(Level.WARNING, "Unable to update config field: {0}");
 				record.setParameters(new Object[]{ f.toGenericString() });
 				record.setThrown(ex);
 				logger.log(record);
@@ -128,7 +131,14 @@ public abstract class AbstractConfig {
 			String key = entry.getKey();
 			Field f = entry.getValue();
 			try {
-				saveData(key, f.get(this));
+				Object value = f.get(this);
+				if (value instanceof Set) {
+					@SuppressWarnings("unchecked")
+					List list = new ArrayList((Collection) value);
+					value = list;
+				}
+
+				saveData(key, value);
 			} catch (ReflectiveOperationException ex) {
 				LogRecord record = new LogRecord(Level.WARNING, "Unable to update config field:{0}");
 				record.setParameters(new Object[]{ f.toGenericString() });

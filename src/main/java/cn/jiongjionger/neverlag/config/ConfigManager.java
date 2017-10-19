@@ -3,9 +3,10 @@ package cn.jiongjionger.neverlag.config;
 import cn.jiongjionger.neverlag.NeverLag;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class ConfigManager extends AbstractConfig {
 
@@ -29,7 +30,7 @@ public class ConfigManager extends AbstractConfig {
 	public boolean isClearDropItem;
 	// 不清除物品的世界列表
 	@F("noClearItemWorld")
-	public HashSet<String> noClearItemWorld;
+	public Set<String> noClearItemWorld = Collections.emptySet();
 	// 玩家在掉落物附近时是否还清理这个物品
 	@F("isClearItemPlayerNearby")
 	public boolean isClearItemPlayerNearby;
@@ -44,7 +45,7 @@ public class ConfigManager extends AbstractConfig {
 	public int clearItemDelay;
 	// 不清理的物品ID
 	@F("noClearItemId")
-	public HashSet<Integer> noClearItemId;
+	public Set<Integer> noClearItemId = Collections.emptySet();
 	// 是否清除展示框
 	@F("isClearItemFrame")
 	public boolean isClearItemFrame;
@@ -90,7 +91,7 @@ public class ConfigManager extends AbstractConfig {
 	public boolean isClearEntity;
 	// 不清除实体的世界列表
 	@F("noClearEntityWorld")
-	public HashSet<String> noClearEntityWorld;
+	public Set<String> noClearEntityWorld = Collections.emptySet();
 	// 玩家在实体附近时是否还清理这个实体
 	@F("isClearEntityPlayerNearby")
 	public boolean isClearEntityPlayerNearby;
@@ -120,10 +121,10 @@ public class ConfigManager extends AbstractConfig {
 	public boolean isClearVillager;
 	// 清理实体的黑名单
 	@F("clearEntityTypeBlackList")
-	public HashSet<String> clearEntityTypeBlackList;
+	public Set<String> clearEntityTypeBlackList = Collections.emptySet();
 	// 清理实体的白名单
 	@F("clearEntityTypeWhiteList")
-	public HashSet<String> clearEntityTypeWhiteList;
+	public Set<String> clearEntityTypeWhiteList = Collections.emptySet();
 	// 清理实体的时候是否公告
 	@F("isBroadcastClearEntity")
 	public boolean isBroadcastClearEntity;
@@ -151,7 +152,7 @@ public class ConfigManager extends AbstractConfig {
 	public int redstoneCheckDelay;
 	// 红石清理列表
 	@F("redstoneClearType")
-	public HashSet<Integer> redstoneClearType;
+	public Set<Integer> redstoneClearType = Collections.emptySet();
 	// 直接清理还是自然掉落
 	@F("isRedstoneDrop")
 	public boolean isRedstoneDrop;
@@ -183,7 +184,7 @@ public class ConfigManager extends AbstractConfig {
 	public boolean isAntiBonemealDupe;
 	// 骨粉右键方块ID的黑名单
 	@F("antiBonemealBlackList")
-	public HashSet<Integer> antiBonemealBlackList;
+	public Set<Integer> antiBonemealBlackList = Collections.emptySet();
 	// 是否开启防止矿车通过传送门
 	@F("isAntiMinecartPortal")
 	public boolean isAntiMinecartPortal;
@@ -232,7 +233,7 @@ public class ConfigManager extends AbstractConfig {
 	public boolean isAutoCleanIllegalTypeSpawner;
 	// 非法刷怪笼的类型（保存小写）
 	@F("illegalSpawnerTypeSet")
-	public HashSet<String> illegalSpawnerTypeSet = new HashSet<>();
+	public Set<String> illegalSpawnerTypeSet = Collections.emptySet();
 	// 清理模式 0：删除刷怪笼 1：自动修改为自然类型（骷髅、蜘蛛、僵尸）
 	@F("illegalTypeSpawnerCleanMode")
 	public int illegalTypeSpawnerCleanMode;
@@ -241,7 +242,7 @@ public class ConfigManager extends AbstractConfig {
 	public boolean isAntiVillagerTrade;
 	// 禁止村民交易的世界
 	@F("disableVillagerTradeWorldSet")
-	public HashSet<String> disableVillagerTradeWorldSet = new HashSet<>();
+	public Set<String> disableVillagerTradeWorldSet = Collections.emptySet();
 	// 禁止使用铁锭破坏皮肤头
 	@F("isAntiDamageSkull")
 	public boolean isAntiDamageSkull;
@@ -251,7 +252,7 @@ public class ConfigManager extends AbstractConfig {
 	public boolean isCooldownChatAndCommand;
 	// 命令白名单
 	@F("commandCooldownWhiteList")
-	public HashSet<String> commandCooldownWhiteList;
+	public Set<String> commandCooldownWhiteList = Collections.emptySet();
 	// 命令间隔（毫秒）
 	@F("commandCooldownTime")
 	public long commandCooldownTime;
@@ -416,13 +417,13 @@ public class ConfigManager extends AbstractConfig {
 	@F("lowTPSActionTimeLimit")
 	public long lowTPSActionTimeLimit;
 	@F("lowTPSCommand")
-	public ArrayList<String> lowTPSCommand = new ArrayList<>();
+	public List<String> lowTPSCommand = Collections.emptyList();
 
 	// 是否开启客户端MOD关闭功能
 	@F("clientModDisabler")
 	public boolean clientModDisabler;
 	@F("modMagicCode")
-	public ArrayList<String> modMagicCode = new ArrayList<>();
+	public List<String> modMagicCode = Collections.emptyList();
 
 	public ConfigManager() {
 		super(NeverLag.getInstance().getConfig(), NeverLag.getInstance().getLogger());
@@ -430,11 +431,11 @@ public class ConfigManager extends AbstractConfig {
 
 	protected boolean checkValue(String key, Object value) {
 		switch (key) {
-		case "lang":
-			return value instanceof String &&
-				((String) value).matches("^[a-zA-Z]{2}([-_])[a-zA-Z]{2}$");
-		default:
-			return super.checkValue(key, value);
+			case "lang":
+				return value instanceof String &&
+					((String) value).matches("^[a-zA-Z]{2}([-_])[a-zA-Z]{2}$");
+			default:
+				return super.checkValue(key, value);
 		}
 	}
 
