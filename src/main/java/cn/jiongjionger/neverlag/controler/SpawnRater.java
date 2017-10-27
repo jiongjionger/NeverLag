@@ -3,12 +3,13 @@ package cn.jiongjionger.neverlag.controler;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 import java.util.Random;
 
-public class SpawnRater {
+public class SpawnRater implements Listener {
 
 	private final Random rnd = new Random();
 	private final ConfigManager cm = ConfigManager.getInstance();

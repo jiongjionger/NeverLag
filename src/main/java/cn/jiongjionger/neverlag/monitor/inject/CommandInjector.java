@@ -49,7 +49,7 @@ public class CommandInjector extends AbstractMultipleInjector implements TabExec
 							}
 							TabCompleter completer = tabField.get(pluginCommand);
 							if (completer instanceof CommandInjector) {
-								tabField.set(pluginCommand, ((CommandInjector) executor).getTabCompleter());
+								tabField.set(pluginCommand, ((CommandInjector) completer).getTabCompleter());
 							}
 						}
 					}
