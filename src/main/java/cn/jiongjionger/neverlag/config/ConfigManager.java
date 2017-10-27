@@ -10,11 +10,11 @@ import java.util.Set;
 
 public class ConfigManager extends AbstractConfig {
 
-	private final static class ConfigManagerHolder {
-		private final static ConfigManager INSTANCE = new ConfigManager();
+	private static final class ConfigManagerHolder {
+		private static final ConfigManager INSTANCE = new ConfigManager();
 	}
 
-	public final static ConfigManager getInstance() {
+	public static final ConfigManager getInstance() {
 		return ConfigManagerHolder.INSTANCE;
 	}
 

@@ -19,10 +19,10 @@ public class I18n extends ResourceBundle {
 		return ChatColor.translateAlternateColorCodes('&', str);
 	}
 
-	public static I18n load(File directory, String locale) {
+	public static I18n load(File directory, String locale) throws FileNotFoundException {
 		Locale localeObj = StringUtils.toLocale(locale);
 		File file = new File(directory, localeObj.toString().concat(".yml"));
-		try (InputStream in = I18n.class.getResourceAsStream("/lang/" + file.getName())) {
+		try (InputStream in = I18n.class.getResourceAsStream("/assets/lang/" + file.getName())) {
 			if (!file.isFile()) {
 				if (in != null) {
 					try {
@@ -38,7 +38,7 @@ public class I18n extends ResourceBundle {
 							new Object[]{ locale, newLocale });
 						return load(directory, newLocale);
 					}
-					throw new RuntimeException("Language file " + file.getName() + " not found!");
+					throw new FileNotFoundException("Language file " + file.getName() + " not found!");
 				}
 			}
 
@@ -48,6 +48,8 @@ public class I18n extends ResourceBundle {
 				fileConfig = YamlConfiguration.loadConfiguration(reader);
 
 				if (in != null) {   // 升级语言文件
+					// loadConfiguration 方法会自动关闭传入的 Reader
+					//noinspection IOResourceOpenedButNotSafelyClosed
 					Reader jarReader = new InputStreamReader(in, StandardCharsets.UTF_8);
 					Configuration jarConfig = YamlConfiguration.loadConfiguration(jarReader).getRoot();
 					for (String key : jarConfig.getKeys(true)) {
@@ -64,6 +66,8 @@ public class I18n extends ResourceBundle {
 					fileConfig.save(file);
 				}
 			}
+		} catch (FileNotFoundException ex) {
+			throw ex;
 		} catch (IOException ex) {
 			throw new RuntimeException("Unable to load language file " + file.getName(), ex);
 		}
