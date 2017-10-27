@@ -59,7 +59,7 @@ public class GUIMaker {
 	 */
 	public GUIMaker fillBlank(ItemStack item) {
 		for (int i = 0; i < this.inv.getSize(); i++) {
-			if (this.inv.getItem(i) == null || this.inv.getItem(i).getType().equals(Material.AIR)) {
+			if (this.inv.getItem(i) == null || this.inv.getItem(i).getType() == Material.AIR) {
 				this.inv.setItem(i, item);
 			}
 		}
@@ -135,16 +135,16 @@ public class GUIMaker {
 	 */
 	public GUIMaker fillWhite(ItemStack item) {
 		for (int i = 0; i < this.inv.getSize(); i++) {
-			if (this.inv.getItem(i) != null && !this.inv.getItem(i).getType().equals(Material.AIR) && !this.inv.getItem(i).isSimilar(item)) {
+			if (this.inv.getItem(i) != null && this.inv.getItem(i).getType() != Material.AIR && !this.inv.getItem(i).isSimilar(item)) {
 				int left_slot = i - 1;
 				int right_slot = i + 1;
 				if (getRow(i) == getRow(left_slot) && left_slot >= 0) {
-					if (this.inv.getItem(left_slot) == null || this.inv.getItem(left_slot).getType().equals(Material.AIR)) {
+					if (this.inv.getItem(left_slot) == null || this.inv.getItem(left_slot).getType() == Material.AIR) {
 						this.inv.setItem(left_slot, item);
 					}
 				}
 				if (getRow(i) == getRow(right_slot) && right_slot <= this.inv.getSize() - 1) {
-					if (this.inv.getItem(right_slot) == null || this.inv.getItem(right_slot).getType().equals(Material.AIR)) {
+					if (this.inv.getItem(right_slot) == null || this.inv.getItem(right_slot).getType() == Material.AIR) {
 						this.inv.setItem(right_slot, item);
 					}
 				}

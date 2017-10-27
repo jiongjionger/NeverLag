@@ -12,8 +12,8 @@ import java.util.List;
 
 public class MobFarmCleaner {
 
-	private NeverLag plg = NeverLag.getInstance();
-	private ConfigManager cm = ConfigManager.getInstance();
+	private final NeverLag plg = NeverLag.getInstance();
+	private final ConfigManager cm = ConfigManager.getInstance();
 
 	public MobFarmCleaner() {
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {

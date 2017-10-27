@@ -71,8 +71,6 @@ public class ChunkInfo {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("ChunkInfo [world=").append(world).append(", chunkx=").append(chunkx).append(", chunkz=").append(chunkz).append("]");
-		return sb.toString();
+		return String.format("ChunkInfo [world=%s, chunkx=%d, chunkz=%d]", world, chunkx, chunkz);
 	}
 }

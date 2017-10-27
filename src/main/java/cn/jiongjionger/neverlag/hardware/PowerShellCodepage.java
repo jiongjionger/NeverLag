@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class PowerShellCodepage {
+public final class PowerShellCodepage {
 	static Map<String, String> codePages = new HashMap<>();
 	static {
 		codePages.put("37", "IBM037");
@@ -176,4 +176,5 @@ public class PowerShellCodepage {
 		return "65001";
 	}
 
+	private PowerShellCodepage() {}
 }

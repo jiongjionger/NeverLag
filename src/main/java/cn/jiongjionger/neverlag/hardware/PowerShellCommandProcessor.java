@@ -36,10 +36,10 @@ public class PowerShellCommandProcessor implements Callable<String> {
 				readData(powerShellOutput);
 			}
 		} catch (IOException ioe) {
-			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error reading PowerShell output", ioe);
+			Logger.getLogger(PowerShellCommandProcessor.class.getName()).log(Level.SEVERE, "Unexpected error reading PowerShell output", ioe);
 			return ioe.getMessage();
 		} catch (Exception e) {
-			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "Unexpected error reading PowerShell output", e);
+			Logger.getLogger(PowerShellCommandProcessor.class.getName()).log(Level.SEVERE, "Unexpected error reading PowerShell output", e);
 		}
 		return powerShellOutput.toString();
 	}

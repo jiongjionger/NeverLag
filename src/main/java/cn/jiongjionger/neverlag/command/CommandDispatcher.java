@@ -18,7 +18,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("neverlag")) {
+		if ("neverlag".equalsIgnoreCase(cmd.getName())) {
 			if (args.length == 0) {
 				// TODO 显示帮助信息
 				throw new UnsupportedOperationException();

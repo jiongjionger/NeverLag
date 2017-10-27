@@ -111,7 +111,8 @@ public class NeverLag extends JavaPlugin implements Listener {
 	private void registerCommand() {
 		CommandDispatcher dispatcher = new CommandDispatcher();
 		getCommand("neverlag").setExecutor(dispatcher);
-		getCommand("neverlag").setTabCompleter(dispatcher);
+		// 无需再 setTabCompleter, 当没有指定 completer 时会默认使用 executor
+		// getCommand("neverlag").setTabCompleter(dispatcher);
 		dispatcher.registerSubCommand(new CommandBenchmark());
 		dispatcher.registerSubCommand(new CommandHardWare());
 		dispatcher.registerSubCommand(new CommandGC());

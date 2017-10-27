@@ -39,7 +39,7 @@ public class AntiDamageSkull implements Listener {
 				return;
 			}
 			Skull skull = (Skull) b.getState();
-			if (type.equals(SkullType.PLAYER)) {
+			if (type == SkullType.PLAYER) {
 				skull.setSkullType(type);
 				skull.setOwner(owner);
 			} else {
@@ -49,7 +49,7 @@ public class AntiDamageSkull implements Listener {
 		}
 	}
 
-	private ConfigManager cm = ConfigManager.getInstance();
+	private final ConfigManager cm = ConfigManager.getInstance();
 
 	private final BlockFace[] BLOCKFACE = { BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST };
 

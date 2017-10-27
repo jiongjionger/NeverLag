@@ -18,8 +18,8 @@ public final class PermissionUtils {
 				if (number > maxLimit) {
 					maxLimit = number;
 				}
-			} catch (NumberFormatException e) {
-				continue;
+			} catch (NumberFormatException ignore) {
+				// just ignore it
 			}
 		}
 		return maxLimit;

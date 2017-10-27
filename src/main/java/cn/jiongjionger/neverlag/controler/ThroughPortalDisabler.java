@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityPortalEvent;
 
 public class ThroughPortalDisabler {
 
-	private ConfigManager cm = ConfigManager.getInstance();
+	private final ConfigManager cm = ConfigManager.getInstance();
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onEntityPortal(EntityPortalEvent e) {

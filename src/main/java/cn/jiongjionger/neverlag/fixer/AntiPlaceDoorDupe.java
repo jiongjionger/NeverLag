@@ -38,7 +38,7 @@ public class AntiPlaceDoorDupe implements Listener {
 			for (Entity entity : e.getPlayer().getLocation().getChunk().getEntities()) {
 				if (entity instanceof Item) {
 					Material itemType = ((Item) entity).getItemStack().getType();
-					if (itemType.equals(Material.SUGAR_CANE) || itemType.equals(Material.CACTUS)) {
+					if (itemType == Material.SUGAR_CANE || itemType == Material.CACTUS) {
 						entity.remove();
 					}
 				}

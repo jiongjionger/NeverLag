@@ -1,12 +1,6 @@
 package cn.jiongjionger.neverlag.hardware;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -136,7 +130,7 @@ public class WMI4Java {
 	}
 
 	public List<String> listClasses() throws WMIException {
-		List<String> wmiClasses = new ArrayList<>();
+		Set<String> wmiClasses = new LinkedHashSet<>();
 		String rawData;
 		try {
 			rawData = getWMIStub().listClasses(this.namespace, this.computerName);
@@ -148,12 +142,8 @@ public class WMI4Java {
 					wmiClasses.addAll(Arrays.asList(infos));
 				}
 			}
-			Set<String> hs = new HashSet<>();
-			hs.addAll(wmiClasses);
-			wmiClasses.clear();
-			wmiClasses.addAll(hs);
 
-			return wmiClasses;
+			return new ArrayList<>(wmiClasses);
 		} catch (Exception ex) {
 			Logger.getLogger(WMI4Java.class.getName()).log(Level.SEVERE, GENERIC_ERROR_MSG, ex);
 			throw new WMIException(ex);

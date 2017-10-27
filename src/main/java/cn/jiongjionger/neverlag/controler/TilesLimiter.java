@@ -39,7 +39,7 @@ public class TilesLimiter implements Listener {
 		// 计算这个类型的Tiles数量
 		for (Chunk chunk : chunksAroundBlock) {
 			for (BlockState tiles : chunk.getTileEntities()) {
-				if (tiles.getBlock().getType().equals(type)) {
+				if (tiles.getBlock().getType() == type) {
 					count++;
 				}
 			}

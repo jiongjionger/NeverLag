@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public final class GUISortPingHolder {
 
-	private static HashMap<String, GUISortPing> record = new HashMap<>();
+	private static final HashMap<String, GUISortPing> record = new HashMap<>();
 
 	public static void clear(Player p) {
 		record.remove(p.getName());
