@@ -11,11 +11,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class RedstoneCounter {
 
-	private final static class RedstoneCounterHolder {
-		private final static RedstoneCounter INSTANCE = new RedstoneCounter();
+	private static final class RedstoneCounterHolder {
+		private static final RedstoneCounter INSTANCE = new RedstoneCounter();
 	}
 
-	public final static RedstoneCounter getInstance() {
+	public static final RedstoneCounter getInstance() {
 		return RedstoneCounterHolder.INSTANCE;
 	}
 
@@ -28,9 +28,9 @@ public class RedstoneCounter {
 	private final ReentrantLock asyncLock = new ReentrantLock();
 	private final LinkedList<Integer> syncOneMinutesRecord = new LinkedList<>();
 
-	private NeverLag plg = NeverLag.getInstance();
+	private final NeverLag plg = NeverLag.getInstance();
 
-	private ConfigManager cm = ConfigManager.getInstance();
+	private final ConfigManager cm = ConfigManager.getInstance();
 
 	public RedstoneCounter() {
 		plg.getServer().getScheduler().runTaskTimerAsynchronously(plg, new Runnable() {

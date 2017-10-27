@@ -59,7 +59,8 @@ public class CommandAndChatCooldown implements Listener {
 			return;
 		}
 		// 命令白名单
-		String command[] = e.getMessage().toLowerCase().split(" ");
+		// TODO 修复大小写的问题
+		String[] command = e.getMessage().toLowerCase().split(" ");
 		if (command.length >= 1) {
 			if (cm.commandCooldownWhiteList.contains(command[0])) {
 				return;

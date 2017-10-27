@@ -11,7 +11,7 @@ import java.lang.management.RuntimeMXBean;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HardwareInfo {
+public final class HardwareInfo {
 
 	private static final String OS = System.getProperty("os.name").toLowerCase();
 	private static final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
@@ -35,14 +35,10 @@ public class HardwareInfo {
 				} else {
 					return null;
 				}
-				StringBuilder sb = new StringBuilder();
-				sb.append(cpuInfoMap.get("model name"))
-					.append(" ")
-					.append(cpuInfoMap.get("cpu cores"))
-					.append(" cores ")
-					.append(cpuInfoMap.get("stepping"))
-					.append(" stepping");
-				return sb.toString();
+				return String.format("%s %s cores %s stepping",
+					cpuInfoMap.get("model name"),
+					cpuInfoMap.get("cpu cores"),
+					cpuInfoMap.get("stepping"));
 			}
 		} catch (Exception e) {
 			return null;
@@ -106,9 +102,7 @@ public class HardwareInfo {
 					freeMemory = "Unknown";
 				}
 			}
-			StringBuilder sb = new StringBuilder();
-			sb.append(freeMemory).append("MB / ").append(totalMemory).append("MB");
-			return sb.toString();
+			return String.format("%sMB / %sMB", freeMemory, totalMemory);
 		} catch (Exception e) {
 			return null;
 		}
@@ -133,4 +127,6 @@ public class HardwareInfo {
 	public static boolean isWindows() {
 		return OS.contains("win");
 	}
+
+	private HardwareInfo() {}
 }

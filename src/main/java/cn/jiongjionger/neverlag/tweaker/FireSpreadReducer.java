@@ -15,7 +15,7 @@ public class FireSpreadReducer implements Listener {
 		if (!cm.isReduceFireSpread) {
 			return;
 		}
-		if (BlockIgniteEvent.IgniteCause.SPREAD.equals(e.getCause())) {
+		if (BlockIgniteEvent.IgniteCause.SPREAD == e.getCause()) {
 			long now = System.currentTimeMillis();
 			if (now > this.lastfireSpread + cm.reduceFireSpreadTime) {
 				this.lastfireSpread = now;

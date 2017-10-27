@@ -58,11 +58,9 @@ public abstract class AbstractSubCommand {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		return !(obj == null || getClass() != obj.getClass()) &&
-			Objects.equals(this.name, ((AbstractSubCommand) obj).name);
+		return this == obj ||
+			!(obj == null || getClass() != obj.getClass()) &&
+				Objects.equals(this.name, ((AbstractSubCommand) obj).name);
 	}
 
 	@Override

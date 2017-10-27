@@ -20,16 +20,15 @@ public final class HardwareInfoUtils {
 	private static final Logger log = Logger.getLogger(HardwareInfoUtils.class.getName());
 
 	public static String executeCommand(String... command) {
-		String commandOutput = null;
 		try {
 			ProcessBuilder processBuilder = new ProcessBuilder(command);
 			processBuilder.redirectErrorStream(true);
 
-			commandOutput = readData(processBuilder.start());
+			return readData(processBuilder.start());
 		} catch (IOException ex) {
 			Logger.getLogger(HardwareInfoUtils.class.getName()).log(Level.SEVERE, null, ex);
+			return null;
 		}
-		return commandOutput;
 	}
 
 	public static String extractText(String text, String regex) {
@@ -103,11 +102,11 @@ public final class HardwareInfoUtils {
 
 	public static String toCamelCase(String s) {
 		String[] parts = s.split("_");
-		String camelCaseString = "";
+		StringBuilder camelCaseString = new StringBuilder();
 		for (String part : parts) {
-			camelCaseString = camelCaseString + toProperCase(part);
+			camelCaseString.append(toProperCase(part));
 		}
-		return camelCaseString;
+		return camelCaseString.toString();
 	}
 
 	private static String toProperCase(String s) {

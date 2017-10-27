@@ -13,10 +13,9 @@ public class PowerShell {
 
 	public static PowerShellResponse executeSingleCommand(String command) {
 		PowerShell session = null;
-		PowerShellResponse response = null;
 		try {
 			session = PowerShell.openSession();
-			response = session.executeCommand(command);
+			return session.executeCommand(command);
 		} catch (PowerShellNotAvailableException ex) {
 			Logger.getLogger(PowerShell.class.getName()).log(Level.SEVERE, "PowerShell not available", ex);
 		} finally {
@@ -24,7 +23,7 @@ public class PowerShell {
 				session.close();
 			}
 		}
-		return response;
+		return null;
 	}
 
 	public static PowerShell openSession() throws PowerShellNotAvailableException {

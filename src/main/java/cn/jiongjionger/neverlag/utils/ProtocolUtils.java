@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Random;
 
-public class ProtocolUtils {
+public final class ProtocolUtils {
 
 	private static ProtocolManager plm;
 	private static final Random random = new Random();

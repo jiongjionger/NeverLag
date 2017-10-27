@@ -147,7 +147,7 @@ public class IconMaker {
 	 * @return 返回自身的IconMaker实例以实现链式调用方法
 	 */
 	public IconMaker setOwner(String username) {
-		if (this.item != null && this.item.getType().equals(Material.SKULL_ITEM)) {
+		if (this.item != null && this.item.getType() == Material.SKULL_ITEM) {
 			this.item.setDurability((short) 3); // 3: Player
 			SkullMeta sm = (SkullMeta) item.getItemMeta();
 			sm.setOwner(username);

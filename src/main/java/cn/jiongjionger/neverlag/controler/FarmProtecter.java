@@ -23,8 +23,8 @@ public class FarmProtecter implements Listener {
 		}
 
 		// 防止农作物被踩踏
-		if (e.getAction().equals(Action.PHYSICAL)) {
-			if (e.getClickedBlock().getType().equals(Material.SOIL)) {
+		if (e.getAction() == Action.PHYSICAL) {
+			if (e.getClickedBlock().getType() == Material.SOIL) {
 				e.setCancelled(true);
 			}
 		}
@@ -36,10 +36,10 @@ public class FarmProtecter implements Listener {
 		if (!cm.isFarmProtect) {
 			return;
 		}
-		if (e.getEntityType().equals(EntityType.PLAYER)) {
+		if (e.getEntityType() == EntityType.PLAYER) {
 			return;
 		}
-		if (e.getBlock().getType().equals(Material.SOIL)) {
+		if (e.getBlock().getType() == Material.SOIL) {
 			e.setCancelled(true);
 		}
 	}

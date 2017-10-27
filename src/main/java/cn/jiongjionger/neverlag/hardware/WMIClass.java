@@ -887,7 +887,7 @@ public enum WMIClass {
 
 	private final String wmiClassName;
 
-	private WMIClass(String wmiClassName) {
+	WMIClass(String wmiClassName) {
 		this.wmiClassName = wmiClassName;
 	}
 

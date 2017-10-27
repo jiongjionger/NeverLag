@@ -61,7 +61,7 @@ public class WMIVBScript implements WMIStub {
 					errorOutput.close();
 				}
 			} catch (IOException ioe) {
-				Logger.getLogger(WMI4Java.class.getName()).log(Level.SEVERE, "Exception closing in finally", ioe);
+				Logger.getLogger(WMIVBScript.class.getName()).log(Level.SEVERE, "Exception closing in finally", ioe);
 			}
 		}
 		return scriptResponse.toString().trim();
@@ -136,7 +136,7 @@ public class WMIVBScript implements WMIStub {
 			scriptCode.append("\")").append(CRLF);
 			scriptCode.append("For Each element In wmiQueryData").append(CRLF);
 			for (final String wmiProperty : usedWMIProperties) {
-				if (!wmiProperty.equals("ConfigOptions")) {
+				if (!"ConfigOptions".equals(wmiProperty)) {
 					scriptCode.append("Wscript.Echo \"").append(wmiProperty).append(": \" & ").append("element.").append(wmiProperty).append(CRLF);
 				} else {
 					scriptCode.append("Wscript.Echo \"").append(wmiProperty).append(": \" & ").append("Join(element.").append(wmiProperty).append(", \"|\")").append(CRLF);

@@ -18,7 +18,7 @@ public class AntiUseEggsChangeSpawnerType implements Listener {
 		if (!cm.isAntiUseEggsChangeSpawnerType) {
 			return;
 		}
-		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (e.getClickedBlock().getType() == Material.MOB_SPAWNER) {
 				if (e.getItem() == null) {
 					return;

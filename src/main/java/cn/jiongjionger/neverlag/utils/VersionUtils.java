@@ -122,7 +122,7 @@ public final class VersionUtils {
 
 	public static final Version V1_13 = new Version("1.13");
 
-	private static final Pattern MC_VERSION_PATTERN = Pattern.compile(".*\\(.*MC.\\s*([\\w\\-\\.]+)\\s*\\)");
+	private static final Pattern MC_VERSION_PATTERN = Pattern.compile(".*\\(.*MC.\\s*([\\w\\-.]+)\\s*\\)");
 
 	/** @return e.g. 1.11.2 */
 	public static String extractVersion(String bukkitVersion) {
@@ -149,7 +149,7 @@ public final class VersionUtils {
 
 	public static boolean isLowerThan(Version version) {
 		return !isAtLeast(version);
-	};
+	}
 
 	/** 是否为Mod服. */
 	public static boolean isModServer() {
