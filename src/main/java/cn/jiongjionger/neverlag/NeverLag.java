@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
 public class NeverLag extends JavaPlugin implements Listener {
@@ -68,7 +69,13 @@ public class NeverLag extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		ConfigManager.getInstance().reload();
-		i18n = I18n.load(new File(getDataFolder(), "lang/"), ConfigManager.getInstance().lang);
+		try {
+			i18n = I18n.load(new File(getDataFolder(), "lang/"), ConfigManager.getInstance().lang);
+		} catch (FileNotFoundException e) {
+			Bukkit.getConsoleSender().sendMessage(String.format("[%s] §c找不到指定的语言文件 §e%s§c, 插件无法正常加载! 请在配置文件中更改 §elang §c选项",
+				getName(), ConfigManager.getInstance().lang));              // 输出中文提示 (彩色)
+			throw new RuntimeException(e.getLocalizedMessage(), e.getCause());  // 输出英文提示 (抛错)
+		}
 
 		// 判断是否安装了ProtocolLib前置插件
 		isInstallProtocoLib = Bukkit.getPluginManager().isPluginEnabled("ProtocolLib");
