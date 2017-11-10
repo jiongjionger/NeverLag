@@ -48,7 +48,7 @@ public class ItemCleaner {
 				}
 			}
 		}
-		if (cm.isBroadcastClearItem) {
+		if (cm.isBroadcastClearItem && count > 0) {
 			Bukkit.getServer().broadcastMessage(cm.clearItemBroadcastMessage.replace("%COUNT%", String.valueOf(count)));
 		}
 	}
