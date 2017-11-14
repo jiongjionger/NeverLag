@@ -23,13 +23,7 @@ public class ItemCleaner {
 				for (Entity entity : world.getEntities()) {
 					if (entity instanceof Item && cm.isClearItem) {
 						Item item = (Item) entity;
-						// 判断是否不在清理的物品ID白名单中
-						if (!cm.noClearItemId.contains(item.getItemStack().getTypeId())) {
-							// 玩家附近的时候是否还清理
-							if (!cm.isClearItemPlayerNearby && NeverLagUtils.hasPlayerNearby(item, cm.clearItemPlayerNearbyDistance)) {
-								continue;
-							}
-						} else {
+						if (!canClean(item)) {
 							continue;
 						}
 					} else if (entity instanceof ItemFrame && cm.isClearItemFrame) {
@@ -53,8 +47,22 @@ public class ItemCleaner {
 		}
 	}
 
-	private int preMessageTime = 0;
+	@SuppressWarnings("RedundantIfStatement")
+	private static boolean canClean(Item item) {
+		// 判断是否不在清理的物品ID白名单中
+		if (cm.noClearItemId.contains(item.getItemStack().getTypeId())) {
+			return false;
+		}
 
+		// 玩家在附近时是否还清理
+		if (!cm.isClearItemPlayerNearby && NeverLagUtils.hasPlayerNearby(item, cm.clearItemPlayerNearbyDistance)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private int preMessageTime = 0;
 	private int holoTime = 0;
 
 	public ItemCleaner() {
@@ -119,8 +127,7 @@ public class ItemCleaner {
 				for (Entity entity : world.getEntities()) {
 					if (entity instanceof Item) {
 						Item item = (Item) entity;
-						// 判断是否在不清理的物品ID白名单
-						if (!cm.noClearItemId.contains(item.getItemStack().getTypeId())) {
+						if (canClean(item)) {
 							item.setCustomName(name);
 							item.setCustomNameVisible(true);
 						}
