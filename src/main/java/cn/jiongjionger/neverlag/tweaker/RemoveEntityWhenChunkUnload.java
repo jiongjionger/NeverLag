@@ -25,7 +25,7 @@ public class RemoveEntityWhenChunkUnload implements Listener {
 				entity.remove();
 			} else if (entity instanceof Animals && cm.removeAnimalsWhenChunkUnload) {
 				entity.remove();
-			} else if (entity instanceof Item && cm.removeDropItemWhenChunkUnload) {
+			} else if (entity instanceof Item && cm.removeItemWhenChunkUnload) {
 				entity.remove();
 			} else if (entity instanceof Arrow && cm.removeArrowWhenChunkUnload) {
 				entity.remove();

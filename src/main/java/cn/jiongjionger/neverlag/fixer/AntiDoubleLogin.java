@@ -1,5 +1,7 @@
 package cn.jiongjionger.neverlag.fixer;
 
+import cn.jiongjionger.neverlag.I18n;
+import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -13,6 +15,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 public class AntiDoubleLogin implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
+	private final I18n i18n = NeverLag.i18n("bugFix");
 
 	private boolean checkOnline(String username) {
 		try {
@@ -39,7 +42,7 @@ public class AntiDoubleLogin implements Listener {
 			return;
 		}
 		if (this.checkOnline(username)) {
-			e.disallow(Result.KICK_OTHER, cm.antiDoubleLoginMessage);
+			e.disallow(Result.KICK_OTHER, i18n.tr("antiDoubleLoginMessage"));
 		}
 	}
 

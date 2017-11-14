@@ -1,5 +1,6 @@
 package cn.jiongjionger.neverlag.cleaner;
 
+import cn.jiongjionger.neverlag.I18n;
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import cn.jiongjionger.neverlag.utils.NeverLagUtils;
@@ -10,6 +11,7 @@ import org.bukkit.entity.*;
 public class EntityCleaner {
 
 	private static final ConfigManager cm = ConfigManager.getInstance();
+	private static final I18n i18n = NeverLag.i18n("cleaner.entity");
 
 	// 外部调用实体清理任务
 	public static void doClean() {
@@ -23,17 +25,17 @@ public class EntityCleaner {
 	 */
 	@SuppressWarnings("deprecation")
 	private static void doClean(boolean forceclean) {
-		if (!cm.isClearEntity) {
+		if (!cm.cleanEntity) {
 			return;
 		}
 		if (!forceclean) {
-			if (cm.isClearLimit) {
+			if (cm.cleanEntityThreshold > 0) {
 				int num = 0;
 				for (World world : Bukkit.getWorlds()) {
 					num += world.getLivingEntities().size();
 				}
 				// 如果没到阀值直接返回
-				if (num < cm.clearEntityLimit) {
+				if (num < cm.cleanEntityThreshold) {
 					return;
 				}
 			}
@@ -41,13 +43,13 @@ public class EntityCleaner {
 		int count = 0;
 		// 循环世界
 		for (World world : Bukkit.getWorlds()) {
-			if (!cm.noClearEntityWorld.contains(world.getName())) {
+			if (!cm.cleanEntityWorldWhitelist.contains(world.getName())) {
 				for (LivingEntity entity : world.getLivingEntities()) {
 					// 不清理NPC和Mypet宠物和白名单内的类型
 					if (NeverLagUtils.checkCustomNpc(entity) || cm.clearEntityTypeWhiteList.contains(entity.getType().getName().toLowerCase())) {
 						continue;
 					}
-					if (!cm.isClearEntityPlayerNearby && NeverLagUtils.hasPlayerNearby(entity, cm.clearEntityPlayerNearbyDistance)) {
+					if (cm.cleanEntityPlayerNearbyDistance > 0 && NeverLagUtils.hasPlayerNearby(entity, cm.cleanEntityPlayerNearbyDistance)) {
 						continue;
 					}
 					if (entity instanceof Animals) {
@@ -63,8 +65,8 @@ public class EntityCleaner {
 				}
 			}
 		}
-		if (cm.isBroadcastClearEntity && count > 0) {
-			NeverLagUtils.broadcastIfOnline(cm.clearEntityBroadcastMessage.replace("%COUNT%", String.valueOf(count)));
+		if (cm.cleanEntityBroadcast && count > 0) {
+			NeverLagUtils.broadcastIfOnline(i18n.tr("broadcast", count));
 		}
 	}
 
@@ -76,8 +78,8 @@ public class EntityCleaner {
 			public void run() {
 				doClean();
 			}
-		}, cm.clearMobDelay * 20L, cm.clearMobDelay * 20L);
-		if (cm.clearMobDelay > 60) {
+		}, cm.cleanEntityInterval * 20L, cm.cleanEntityInterval * 20L);
+		if (cm.cleanEntityInterval > 60) {
 			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 				@Override
 				public void run() {
@@ -89,11 +91,11 @@ public class EntityCleaner {
 
 	// 提前通知
 	private void doPreMessage() {
-		if (cm.isClearEntity && cm.isBroadcastClearEntity) {
+		if (cm.cleanEntity && cm.cleanEntityBroadcast) {
 			this.preMessageTime++;
-			int remainSecond = cm.clearMobDelay - this.preMessageTime;
+			int remainSecond = cm.cleanEntityInterval - this.preMessageTime;
 			if (remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
-				NeverLagUtils.broadcastIfOnline(cm.clearEntityBroadcastPreMessage.replace("%TIME%", String.valueOf(remainSecond)));
+				NeverLagUtils.broadcastIfOnline(i18n.tr("forenotice", remainSecond));
 			}
 			if (remainSecond <= 0) {
 				this.preMessageTime = 0;

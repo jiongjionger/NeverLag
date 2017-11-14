@@ -27,7 +27,7 @@ public class AntiVillagerTrade implements Listener {
 		if (world == null) {
 			return;
 		}
-		if (cm.disableVillagerTradeWorldSet.contains(world.getName())) {
+		if (cm.disableVillagerTradeWorld.contains(world.getName())) {
 			if (entity instanceof Villager) {
 				e.setCancelled(true);
 			}

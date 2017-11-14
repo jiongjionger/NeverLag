@@ -14,7 +14,7 @@ public class NoTNTChainReaction implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onTNTExplode(EntityExplodeEvent e) {
-		if (!cm.noTNTChainReaction) {
+		if (!cm.disableChainReaction) {
 			return;
 		}
 		Entity entity = e.getEntity();

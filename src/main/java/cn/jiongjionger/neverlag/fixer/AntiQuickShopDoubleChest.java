@@ -1,5 +1,7 @@
 package cn.jiongjionger.neverlag.fixer;
 
+import cn.jiongjionger.neverlag.I18n;
+import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,21 +12,19 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class AntiQuickShopBigChest implements Listener {
-
-	private final ConfigManager cm = ConfigManager.getInstance();
-	private final BlockFace[] BLOCKFACE = { BlockFace.EAST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST };
+public class AntiQuickShopDoubleChest implements Listener {
+	private static final BlockFace[] BLOCKFACE = { BlockFace.EAST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST };
 
 	/*
 	 * 判断某个方块附近是否有对应的某种方块（东南西北方向）
-	 * 
+	 *
 	 * @param b 需要判断的方块
-	 * 
+	 *
 	 * @param type 需要判断的方块类型
-	 * 
+	 *
 	 * @return 附近的方块，没有返回null
 	 */
-	private Block getBlockNearby(Block b, Material type) {
+	private static Block getBlockNearby(Block b, Material type) {
 		Block relativeBlock;
 		for (BlockFace face : BLOCKFACE) {
 			relativeBlock = b.getRelative(face);
@@ -34,6 +34,9 @@ public class AntiQuickShopBigChest implements Listener {
 		}
 		return null;
 	}
+
+	private final ConfigManager cm = ConfigManager.getInstance();
+	private final I18n i18n = NeverLag.i18n("bugFix");
 
 	/*
 	 * 判断某个方块附近是否存在商店箱子方块
@@ -59,7 +62,7 @@ public class AntiQuickShopBigChest implements Listener {
 			Block maybeSign = nearChest.getRelative(face);
 			if (maybeSign != null && Material.WALL_SIGN == maybeSign.getType()) {
 				Sign sign = (Sign) maybeSign.getState();
-				if (sign.getLines().length > 0 && sign.getLines()[0].contains(cm.quickshopFlag)) {
+				if (sign.getLines().length > 0 && sign.getLines()[0].contains(cm.quickshopSignFlag)) {
 					return true;
 				}
 			}
@@ -69,7 +72,7 @@ public class AntiQuickShopBigChest implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlaceChest(BlockPlaceEvent e) {
-		if (!cm.isAntiQuickShopBigShop) {
+		if (!cm.isAntiQuickDoubleChest) {
 			return;
 		}
 		Block block = e.getBlock();
@@ -80,7 +83,7 @@ public class AntiQuickShopBigChest implements Listener {
 		if (Material.CHEST == blockType || Material.TRAPPED_CHEST == blockType) {
 			if (isShopBlockNearby(block)) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(cm.antiQuickShopBigShopMessage);
+				e.getPlayer().sendMessage(i18n.tr("antiQuickShopDoubleChest"));
 			}
 		}
 	}

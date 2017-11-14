@@ -47,7 +47,7 @@ public class HotChunkHolder implements Listener {
 			chunkFastLoadCount.put(chunkInfo, 1);
 		} else {
 			chunkFastLoadCount.put(chunkInfo, count + 1);
-			if (count + 1 >= cm.hotChunkHolderCountLimit) {
+			if (count + 1 >= cm.hotChunkReloadCountThreshold) {
 				hotChunkRecord.add(chunkInfo);
 			}
 		}
@@ -59,7 +59,7 @@ public class HotChunkHolder implements Listener {
 			hotChunkTryUnloadRecord.put(chunkInfo, 1);
 		} else {
 			hotChunkTryUnloadRecord.put(chunkInfo, count + 1);
-			if (count + 1 >= cm.hotChunkUnloadTimeLimit) {
+			if (count + 1 >= cm.hotChunkUnloadCountThreshold) {
 				hotChunkRecord.remove(chunkInfo);
 			}
 		}
@@ -67,7 +67,7 @@ public class HotChunkHolder implements Listener {
 
 	// 定时检测记录数量，如果记录过多，则重置
 	private void doClean() {
-		if (cm.isHotChunkHolder) {
+		if (cm.hotChunkEnabled) {
 			if (chunkUnLoadTime.size() >= 5000) {
 				chunkUnLoadTime.clear();
 			}
@@ -79,13 +79,13 @@ public class HotChunkHolder implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onChunkLoad(ChunkLoadEvent e) {
-		if (!cm.isHotChunkHolder || e.isNewChunk()) {
+		if (!cm.hotChunkEnabled || e.isNewChunk()) {
 			return;
 		}
 		ChunkInfo chunkInfo = new ChunkInfo(e.getChunk());
 		Long unloadtime = chunkUnLoadTime.get(chunkInfo);
 		if (unloadtime != null) {
-			if (System.currentTimeMillis() - unloadtime <= cm.hotChunkHolderTimeLimit) {
+			if (System.currentTimeMillis() - unloadtime <= cm.hotChunkReloadIntervalThreshold) {
 				this.addChunkFastLoadCount(chunkInfo);
 			}
 		}
@@ -93,7 +93,7 @@ public class HotChunkHolder implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onUnloadChunk(ChunkUnloadEvent e) {
-		if (!cm.isHotChunkHolder || NeverLag.getTpsWatcher().getAverageTPS() < cm.hotChunkHolderTpsLimit) {
+		if (!cm.hotChunkEnabled || NeverLag.getTpsWatcher().getAverageTPS() < cm.hotChunkTpsThreshold) {
 			return;
 		}
 		ChunkInfo chunkInfo = new ChunkInfo(e.getChunk());
@@ -105,7 +105,7 @@ public class HotChunkHolder implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onUnloadChunkMonitor(ChunkUnloadEvent e) {
-		if (!cm.isHotChunkHolder || NeverLag.getTpsWatcher().getAverageTPS() < cm.hotChunkHolderTpsLimit) {
+		if (!cm.hotChunkEnabled || NeverLag.getTpsWatcher().getAverageTPS() < cm.hotChunkTpsThreshold) {
 			return;
 		}
 		ChunkInfo chunkInfo = new ChunkInfo(e.getChunk());
@@ -114,11 +114,11 @@ public class HotChunkHolder implements Listener {
 
 	// 定时清理多余的热点区块（先进先出）
 	private void removeLeastHotRecord() {
-		if (cm.isHotChunkHolder && hotChunkRecord.size() > cm.hotChunkHolderNum) {
+		if (cm.hotChunkEnabled && hotChunkRecord.size() > cm.hotChunkMaxCount) {
 			HashSet<ChunkInfo> removeSet = new HashSet<>();
 			for (ChunkInfo chunkInfo : hotChunkRecord) {
 				removeSet.add(chunkInfo);
-				if (hotChunkRecord.size() - removeSet.size() <= cm.hotChunkHolderNum) {
+				if (hotChunkRecord.size() - removeSet.size() <= cm.hotChunkMaxCount) {
 					break;
 				}
 			}

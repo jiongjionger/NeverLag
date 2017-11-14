@@ -27,7 +27,7 @@ public class AutoCleanIllegalTypeSpawner implements Listener {
 			if (tiles instanceof CreatureSpawner) {
 				CreatureSpawner spawner = (CreatureSpawner) tiles;
 				// 非法类型检测
-				if (cm.illegalSpawnerTypeSet.contains(spawner.getCreatureTypeName().toLowerCase())) {
+				if (cm.illegalSpawnerType.contains(spawner.getCreatureTypeName().toLowerCase())) {
 					switch (cm.illegalTypeSpawnerCleanMode) {
 					case 0:
 						spawner.getBlock().setType(Material.AIR);

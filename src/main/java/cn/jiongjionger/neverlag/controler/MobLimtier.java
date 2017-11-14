@@ -40,11 +40,12 @@ public class MobLimtier implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent e) {
-		if (!cm.isLimitEntitySpawn) {
+		if (!cm.spawnLimitEnabled) {
 			return;
 		}
 		// 如果开启了TPS阀值，当TPS大于阀值，就不限制
-		if (cm.isLimitEntitySpawnByTps && NeverLag.getTpsWatcher().getAverageTPS() >= cm.entitySpawnLimitTpsLimit) {
+		if (cm.spawnLimitTpsThreshold > 0 && cm.spawnLimitTpsThreshold <= 20 &&
+			NeverLag.getTpsWatcher().getAverageTPS() >= cm.spawnLimitTpsThreshold) {
 			return;
 		}
 		// 实体有自定义名字的不限制，兼容MM怪物等插件
@@ -57,11 +58,11 @@ public class MobLimtier implements Listener {
 			&& e.getSpawnReason() != SpawnReason.SPAWNER_EGG && e.getSpawnReason() != SpawnReason.SPAWNER
 			&& e.getSpawnReason() != SpawnReason.CUSTOM) {
 			if (creature instanceof Animals) {
-				if (this.getMobCount() >= cm.animalsSpawnLimit) {
+				if (this.getMobCount() >= cm.spawnLimitAnimalThreshold) {
 					e.setCancelled(true);
 				}
 			} else if (creature instanceof Monster) {
-				if (this.getMobCount() >= cm.mobSpawnLimit) {
+				if (this.getMobCount() >= cm.spawnLimitMonsterThreshold) {
 					e.setCancelled(true);
 				}
 			}
@@ -77,7 +78,7 @@ public class MobLimtier implements Listener {
 				} else if (entity instanceof Monster) {
 					count++;
 				}
-				if (count > cm.spawnerEntityCountPerChunkLimit) {
+				if (count > cm.maxSpawnEntityPerChunk) {
 					e.setCancelled(true);
 					break;
 				}

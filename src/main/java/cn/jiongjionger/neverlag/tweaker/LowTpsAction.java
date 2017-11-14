@@ -15,7 +15,7 @@ public class LowTpsAction {
 		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
 			@Override
 			public void run() {
-				if (cm.lowTPSAction && NeverLag.getTpsWatcher().getAverageTPS() < cm.lowTPSLimit && lastActionTime + cm.lowTPSActionTimeLimit < System.currentTimeMillis()) {
+				if (cm.lowTPSActionEnabled && NeverLag.getTpsWatcher().getAverageTPS() < cm.lowTPSThreshold && lastActionTime + cm.lowTPSActionInterval < System.currentTimeMillis()) {
 					doAction();
 				}
 			}

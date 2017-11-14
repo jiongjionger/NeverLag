@@ -12,6 +12,6 @@ public class NoSpawnChunkInMemory implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onWorldLoad(WorldInitEvent e) {
-		e.getWorld().setKeepSpawnInMemory(cm.isSpawnChunkKeepInMemory);
+		e.getWorld().setKeepSpawnInMemory(cm.isKeepSpawnChunkInMemory);
 	}
 }

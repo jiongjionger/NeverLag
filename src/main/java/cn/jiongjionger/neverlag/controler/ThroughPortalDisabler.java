@@ -13,17 +13,17 @@ public class ThroughPortalDisabler {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onEntityPortal(EntityPortalEvent e) {
-		if (!cm.isDisableEntityPortal) {
+		if (!cm.portalDisallowEnabled) {
 			return;
 		}
 		Entity entity = e.getEntity();
 		if (entity == null || NeverLagUtils.checkCustomNpc(entity)) {
 			return;
 		}
-		if ((entity instanceof Monster && cm.isDisableMonsterPortal)
-			|| (entity instanceof Animals && cm.isDisableAnimalsPortal)
-			|| (entity instanceof Item && cm.isDisableDropItemPortal)
-			|| (entity instanceof Projectile && cm.isDisableProjectilePortal)) {
+		if ((entity instanceof Monster && cm.portalDisallowMonster)
+			|| (entity instanceof Animals && cm.portalDisallowAnimals)
+			|| (entity instanceof Item && cm.portalDisallowItem)
+			|| (entity instanceof Projectile && cm.portalDisallowProjectile)) {
 			e.setCancelled(true);
 		}
 	}

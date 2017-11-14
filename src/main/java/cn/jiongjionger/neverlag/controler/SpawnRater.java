@@ -16,7 +16,7 @@ public class SpawnRater implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void rateControler(CreatureSpawnEvent e) {
-		if (!cm.isSpawnRate) {
+		if (!cm.spawnRateTweakerEnabled) {
 			return;
 		}
 		// 获取刷怪原因（来源）
@@ -24,31 +24,31 @@ public class SpawnRater implements Listener {
 		switch (spawnReason) {
 		// 特殊区块
 		case CHUNK_GEN:
-			if (cm.chunkGenSpawnRate <= 0 || rnd.nextInt(100) > cm.chunkGenSpawnRate) {
+			if (cm.spawnRateChunkGen <= 0 || rnd.nextInt(100) > cm.spawnRateChunkGen) {
 				e.setCancelled(true);
 			}
 			break;
 		// 刷怪笼
 		case SPAWNER:
-			if (cm.spawnerSpawnRate <= 0 || rnd.nextInt(100) > cm.spawnerSpawnRate) {
+			if (cm.spawnRateSpawner <= 0 || rnd.nextInt(100) > cm.spawnRateSpawner) {
 				e.setCancelled(true);
 			}
 			break;
 		// 刷铁塔
 		case VILLAGE_DEFENSE:
-			if (cm.villageSpawnRate <= 0 || rnd.nextInt(100) > cm.villageSpawnRate) {
+			if (cm.spawnRateVillage <= 0 || rnd.nextInt(100) > cm.spawnRateVillage) {
 				e.setCancelled(true);
 			}
 			break;
 		// 自然条件
 		case NATURAL:
-			if (cm.normalSpawnRate <= 0 || rnd.nextInt(100) > cm.normalSpawnRate) {
+			if (cm.spawnRateNatural <= 0 || rnd.nextInt(100) > cm.spawnRateNatural) {
 				e.setCancelled(true);
 			}
 			break;
 		// 下界传送门
 		case NETHER_PORTAL:
-			if (cm.portalSpawnRate <= 0 || rnd.nextInt(100) > cm.portalSpawnRate) {
+			if (cm.spawnRatePortal <= 0 || rnd.nextInt(100) > cm.spawnRatePortal) {
 				e.setCancelled(true);
 			}
 			break;

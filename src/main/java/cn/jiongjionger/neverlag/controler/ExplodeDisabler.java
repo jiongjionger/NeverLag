@@ -19,7 +19,7 @@ public class ExplodeDisabler implements Listener {
 	final EventExecutor executor = new EventExecutor() {
 		@Override
 		public void execute(Listener listener, Event event) throws EventException {
-			if (cm.isDisableExplode) {
+			if (cm.disableExplode) {
 				((Collection<?>) Reflection.getMethod(event.getClass(), "blockList")
 					.invoke(event)).clear();
 			}

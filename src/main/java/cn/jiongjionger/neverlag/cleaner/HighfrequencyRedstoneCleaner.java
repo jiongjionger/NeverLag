@@ -27,19 +27,19 @@ public class HighfrequencyRedstoneCleaner implements Listener {
 		plg.getServer().getScheduler().runTaskTimerAsynchronously(plg, new Runnable() {
 			@Override
 			public void run() {
-				if (cm.isCheckRedstoneOnAsync) {
+				if (cm.redstoneAsyncCheck) {
 					asyncRestoneRecord.clear();
 				}
 			}
-		}, cm.redstoneCheckDelay * 20L, cm.redstoneCheckDelay * 20L);
+		}, cm.redstoneCheckInterval * 20L, cm.redstoneCheckInterval * 20L);
 		plg.getServer().getScheduler().runTaskTimer(plg, new Runnable() {
 			@Override
 			public void run() {
-				if (!cm.isCheckRedstoneOnAsync) {
+				if (!cm.redstoneAsyncCheck) {
 					syncRestoneRecord.clear();
 				}
 			}
-		}, cm.redstoneCheckDelay * 20L, cm.redstoneCheckDelay * 20L);
+		}, cm.redstoneCheckInterval * 20L, cm.redstoneCheckInterval * 20L);
 	}
 
 	/*
@@ -63,13 +63,13 @@ public class HighfrequencyRedstoneCleaner implements Listener {
 				count++;
 				// 中继器需要单独判断
 				if (typeId == 93 || typeId == 94) {
-					if (count >= cm.diodeLimit) {
+					if (count >= cm.redstoneDiodeThreshold) {
 						breakRestone(loc, false);
 						asyncRestoneRecord.remove(loc);
 						return;
 					}
 				} else {
-					if (count >= cm.redstoneLimit) {
+					if (count >= cm.redstoneThreshold) {
 						breakRestone(loc, false);
 						asyncRestoneRecord.remove(loc);
 						return;
@@ -90,7 +90,7 @@ public class HighfrequencyRedstoneCleaner implements Listener {
 	 */
 	private void breakRestone(final Location loc, boolean isOnSync) {
 		if (isOnSync) {
-			if (cm.isRedstoneDrop) {
+			if (cm.redstoneDropOnRemove) {
 				loc.getBlock().breakNaturally();
 			} else {
 				loc.getBlock().setType(Material.AIR);
@@ -102,7 +102,7 @@ public class HighfrequencyRedstoneCleaner implements Listener {
 				public void run() {
 					// 防止重新加载已经卸载的区块
 					if (loc.getWorld().isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4)) {
-						if (cm.isRedstoneDrop) {
+						if (cm.redstoneDropOnRemove) {
 							loc.getBlock().breakNaturally();
 						} else {
 							loc.getBlock().setType(Material.AIR);
@@ -118,11 +118,11 @@ public class HighfrequencyRedstoneCleaner implements Listener {
 	// 当红石触发的时候，记录当前坐标红石事件的次数，超出阀值则清理
 	public void onBlockRedstone(BlockRedstoneEvent e) {
 		int typeId = e.getBlock().getTypeId();
-		if (!cm.redstoneClearType.contains(typeId)) {
+		if (!cm.redstoneRemoveType.contains(typeId)) {
 			return;
 		}
 		final Location loc = e.getBlock().getLocation();
-		if (cm.isCheckRedstoneOnAsync) {
+		if (cm.redstoneAsyncCheck) {
 			asyncCheckAndRecord(loc, typeId);
 		} else {
 			syncCheckAndRecord(loc, typeId);
@@ -146,13 +146,13 @@ public class HighfrequencyRedstoneCleaner implements Listener {
 		count++;
 		// 中继器需要单独判断
 		if (typeId == 93 || typeId == 94) {
-			if (count >= cm.diodeLimit) {
+			if (count >= cm.redstoneDiodeThreshold) {
 				breakRestone(loc, true);
 				syncRestoneRecord.remove(loc);
 				return;
 			}
 		} else {
-			if (count >= cm.redstoneLimit) {
+			if (count >= cm.redstoneThreshold) {
 				breakRestone(loc, true);
 				syncRestoneRecord.remove(loc);
 				return;

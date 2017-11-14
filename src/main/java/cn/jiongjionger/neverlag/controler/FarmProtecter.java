@@ -18,7 +18,7 @@ public class FarmProtecter implements Listener {
 	// 将优先级设为NORMAL以与各种小游戏插件兼容. LOWEST可能破坏一些小游戏的游戏机制
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onJump(PlayerInteractEvent e) {
-		if (!cm.isFarmProtect) {
+		if (!cm.farmProtectEnabled) {
 			return;
 		}
 
@@ -33,7 +33,7 @@ public class FarmProtecter implements Listener {
 	// 防止怪物破坏农作物
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onMobJump(EntityInteractEvent e) {
-		if (!cm.isFarmProtect) {
+		if (!cm.farmProtectEnabled) {
 			return;
 		}
 		if (e.getEntityType() == EntityType.PLAYER) {

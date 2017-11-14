@@ -14,7 +14,7 @@ public class AntiCrashSign implements Listener {
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
 	public void onSignChange(SignChangeEvent e) {
-		if (cm.isAntiCrashSign && VersionUtils.isLowerThan(VersionUtils.V1_11)) {
+		if (cm.isAntiSignCrash && VersionUtils.isLowerThan(VersionUtils.V1_11)) {
 			for (int i = 0; i < 4; i++) {
 				if (e.getLine(i).length() > 50) {
 					e.setCancelled(true);

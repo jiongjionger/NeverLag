@@ -1,5 +1,7 @@
 package cn.jiongjionger.neverlag.controler;
 
+import cn.jiongjionger.neverlag.I18n;
+import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CommandAndChatCooldown implements Listener {
 
 	private final ConfigManager cm = ConfigManager.getInstance();
+	private final I18n i18n = NeverLag.i18n("cooldown.commandCooldown");
 	// 保存命令间隔时间列表
 	private final HashMap<String, Long> commandCoolDown = new HashMap<>();
 	// 保存聊天间隔时间列表
@@ -37,9 +40,10 @@ public class CommandAndChatCooldown implements Listener {
 		long now = System.currentTimeMillis();
 		Long lastChatTime;
 		if ((lastChatTime = chatCoolDown.get(username)) != null) {
-			if (now - lastChatTime <= cm.chatCooldownTime) {
+			long remain = cm.commandCooldownTime - (now - lastChatTime);
+			if (remain > 0) {
 				e.setCancelled(true);
-				p.sendMessage(cm.chatCooldownMessage);
+				p.sendMessage(i18n.tr("chat", Math.ceil(remain / 1000)));
 				return;
 			}
 		}
@@ -69,11 +73,12 @@ public class CommandAndChatCooldown implements Listener {
 		// 判断间隔时间
 		String username = e.getPlayer().getName();
 		long now = System.currentTimeMillis();
-		if (commandCoolDown.containsKey(username)) {
-			long lastUseCommandTime = commandCoolDown.get(username);
-			if (now - lastUseCommandTime <= cm.commandCooldownTime) {
+		Long lastCommandTime;
+		if((lastCommandTime = commandCoolDown.get(username)) != null) {
+			long remain = cm.commandCooldownTime - (now - lastCommandTime);
+			if (remain > 0) {
 				e.setCancelled(true);
-				p.sendMessage(cm.commandCooldownMessage);
+				p.sendMessage(i18n.tr("command", Math.ceil(remain / 1000)));
 				return;
 			}
 		}
