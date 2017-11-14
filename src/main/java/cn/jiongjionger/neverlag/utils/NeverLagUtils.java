@@ -1,5 +1,6 @@
 package cn.jiongjionger.neverlag.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -80,6 +81,11 @@ public final class NeverLagUtils {
 		}
 
 		return new Locale(language, country);
+	}
+
+	public static void broadcastIfOnline(String message) {
+		if (!Bukkit.getOnlinePlayers().isEmpty())
+			Bukkit.broadcastMessage(message);
 	}
 
 	private NeverLagUtils() {}

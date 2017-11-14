@@ -48,8 +48,8 @@ public class ItemCleaner {
 				}
 			}
 		}
-		if (cm.isBroadcastClearItem) {
-			Bukkit.getServer().broadcastMessage(cm.clearItemBroadcastMessage.replace("%COUNT%", String.valueOf(count)));
+		if (cm.isBroadcastClearItem && count > 0) {
+			NeverLagUtils.broadcastIfOnline(cm.clearItemBroadcastMessage.replace("%COUNT%", String.valueOf(count)));
 		}
 	}
 
@@ -81,7 +81,7 @@ public class ItemCleaner {
 			this.preMessageTime++;
 			int remainSecond = cm.clearItemDelay - this.preMessageTime;
 			if (remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
-				Bukkit.getServer().broadcastMessage(cm.clearItemBroadcastPreMessage.replace("%TIME%", String.valueOf(remainSecond)));
+				NeverLagUtils.broadcastIfOnline(cm.clearItemBroadcastPreMessage.replace("%TIME%", String.valueOf(remainSecond)));
 			}
 			if (remainSecond <= 0) {
 				this.preMessageTime = 0;

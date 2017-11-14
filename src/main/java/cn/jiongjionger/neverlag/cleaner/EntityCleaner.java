@@ -63,8 +63,8 @@ public class EntityCleaner {
 				}
 			}
 		}
-		if (cm.isBroadcastClearEntity) {
-			Bukkit.getServer().broadcastMessage(cm.clearEntityBroadcastMessage.replace("%COUNT%", String.valueOf(count)));
+		if (cm.isBroadcastClearEntity && count > 0) {
+			NeverLagUtils.broadcastIfOnline(cm.clearEntityBroadcastMessage.replace("%COUNT%", String.valueOf(count)));
 		}
 	}
 
@@ -93,7 +93,7 @@ public class EntityCleaner {
 			this.preMessageTime++;
 			int remainSecond = cm.clearMobDelay - this.preMessageTime;
 			if (remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
-				Bukkit.getServer().broadcastMessage(cm.clearEntityBroadcastPreMessage.replace("%TIME%", String.valueOf(remainSecond)));
+				NeverLagUtils.broadcastIfOnline(cm.clearEntityBroadcastPreMessage.replace("%TIME%", String.valueOf(remainSecond)));
 			}
 			if (remainSecond <= 0) {
 				this.preMessageTime = 0;
