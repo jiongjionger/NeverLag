@@ -1,7 +1,7 @@
 package cn.jiongjionger.neverlag.controler;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.EntityUtils;
+import cn.jiongjionger.neverlag.utils.NeverLagUtils;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,7 +17,7 @@ public class ThroughPortalDisabler {
 			return;
 		}
 		Entity entity = e.getEntity();
-		if (entity == null || EntityUtils.checkCustomNpc(entity)) {
+		if (entity == null || NeverLagUtils.checkCustomNpc(entity)) {
 			return;
 		}
 		if ((entity instanceof Monster && cm.isDisableMonsterPortal)

@@ -1,7 +1,7 @@
 package cn.jiongjionger.neverlag.fixer;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.EntityUtils;
+import cn.jiongjionger.neverlag.utils.NeverLagUtils;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
@@ -20,7 +20,7 @@ public class AntiVillagerTrade implements Listener {
 			return;
 		}
 		Entity entity = e.getRightClicked();
-		if (entity == null || EntityUtils.checkCustomNpc(entity)) {
+		if (entity == null || NeverLagUtils.checkCustomNpc(entity)) {
 			return;
 		}
 		World world = entity.getWorld();

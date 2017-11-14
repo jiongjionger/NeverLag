@@ -1,7 +1,7 @@
 package cn.jiongjionger.neverlag.controler;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.PermissionUtils;
+import cn.jiongjionger.neverlag.utils.NeverLagUtils;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -58,7 +58,7 @@ public class TilesLimiter implements Listener {
 			if (p.isOp()) {
 				return;
 			}
-			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.dispenser.");
+			int limit = NeverLagUtils.getMaxPermission(p, "neverlag.limit.dispenser.");
 			if (limit <= 0) {
 				limit = cm.limitTilesDispenserDefault;
 			}
@@ -80,7 +80,7 @@ public class TilesLimiter implements Listener {
 			if (p.isOp()) {
 				return;
 			}
-			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.dropper.");
+			int limit = NeverLagUtils.getMaxPermission(p, "neverlag.limit.dropper.");
 			if (limit <= 0) {
 				limit = cm.limitTilesDropperDefault;
 			}
@@ -103,7 +103,7 @@ public class TilesLimiter implements Listener {
 			if (p.isOp()) {
 				return;
 			}
-			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.hopper.");
+			int limit = NeverLagUtils.getMaxPermission(p, "neverlag.limit.hopper.");
 			if (limit <= 0) {
 				limit = cm.limitTilesHopperDefault;
 			}
@@ -132,7 +132,7 @@ public class TilesLimiter implements Listener {
 			checkType = Material.PISTON_STICKY_BASE;
 		}
 		if (checkType != null) {
-			int limit = PermissionUtils.getMaxPermission(p, "neverlag.limit.piston.");
+			int limit = NeverLagUtils.getMaxPermission(p, "neverlag.limit.piston.");
 			if (limit <= 0) {
 				limit = cm.limitTilesPistonDefault;
 			}

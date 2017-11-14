@@ -53,7 +53,7 @@ public final class PingUtils {
 				pingRecord.put(p.getName(), getPing(p));
 			}
 		}
-		return SortUtils.sortMapByValues(pingRecord);
+		return NeverLagUtils.sortMapByValues(pingRecord);
 	}
 
 	public static void init() {

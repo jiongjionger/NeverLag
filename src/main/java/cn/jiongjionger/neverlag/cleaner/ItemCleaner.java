@@ -2,7 +2,7 @@ package cn.jiongjionger.neverlag.cleaner;
 
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.EntityUtils;
+import cn.jiongjionger.neverlag.utils.NeverLagUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.*;
@@ -26,7 +26,7 @@ public class ItemCleaner {
 						// 判断是否不在清理的物品ID白名单中
 						if (!cm.noClearItemId.contains(item.getItemStack().getTypeId())) {
 							// 玩家附近的时候是否还清理
-							if (!cm.isClearItemPlayerNearby && EntityUtils.hasPlayerNearby(item, cm.clearItemPlayerNearbyDistance)) {
+							if (!cm.isClearItemPlayerNearby && NeverLagUtils.hasPlayerNearby(item, cm.clearItemPlayerNearbyDistance)) {
 								continue;
 							}
 						} else {

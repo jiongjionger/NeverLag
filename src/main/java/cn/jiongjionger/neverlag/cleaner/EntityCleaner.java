@@ -2,7 +2,7 @@ package cn.jiongjionger.neverlag.cleaner;
 
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.EntityUtils;
+import cn.jiongjionger.neverlag.utils.NeverLagUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.*;
@@ -44,10 +44,10 @@ public class EntityCleaner {
 			if (!cm.noClearEntityWorld.contains(world.getName())) {
 				for (LivingEntity entity : world.getLivingEntities()) {
 					// 不清理NPC和Mypet宠物和白名单内的类型
-					if (EntityUtils.checkCustomNpc(entity) || cm.clearEntityTypeWhiteList.contains(entity.getType().getName().toLowerCase())) {
+					if (NeverLagUtils.checkCustomNpc(entity) || cm.clearEntityTypeWhiteList.contains(entity.getType().getName().toLowerCase())) {
 						continue;
 					}
-					if (!cm.isClearEntityPlayerNearby && EntityUtils.hasPlayerNearby(entity, cm.clearEntityPlayerNearbyDistance)) {
+					if (!cm.isClearEntityPlayerNearby && NeverLagUtils.hasPlayerNearby(entity, cm.clearEntityPlayerNearbyDistance)) {
 						continue;
 					}
 					if (entity instanceof Animals) {

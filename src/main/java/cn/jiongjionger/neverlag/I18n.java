@@ -1,6 +1,6 @@
 package cn.jiongjionger.neverlag;
 
-import cn.jiongjionger.neverlag.utils.StringUtils;
+import cn.jiongjionger.neverlag.utils.NeverLagUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,7 +20,7 @@ public class I18n extends ResourceBundle {
 	}
 
 	public static I18n load(File directory, String locale) throws FileNotFoundException {
-		Locale localeObj = StringUtils.toLocale(locale);
+		Locale localeObj = NeverLagUtils.toLocale(locale);
 		File file = new File(directory, localeObj.toString().concat(".yml"));
 		try (InputStream in = I18n.class.getResourceAsStream("/assets/lang/" + file.getName())) {
 			if (!file.isFile()) {

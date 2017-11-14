@@ -1,7 +1,7 @@
 package cn.jiongjionger.neverlag.tweaker;
 
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.EntityUtils;
+import cn.jiongjionger.neverlag.utils.NeverLagUtils;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,7 +18,7 @@ public class RemoveEntityWhenChunkUnload implements Listener {
 			return;
 		}
 		for (Entity entity : e.getChunk().getEntities()) {
-			if (EntityUtils.checkCustomNpc(entity)) {
+			if (NeverLagUtils.checkCustomNpc(entity)) {
 				continue;
 			}
 			if (entity instanceof Monster && cm.removeMonsterWhenChunkUnload) {

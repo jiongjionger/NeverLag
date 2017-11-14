@@ -2,7 +2,7 @@ package cn.jiongjionger.neverlag.cleaner;
 
 import cn.jiongjionger.neverlag.NeverLag;
 import cn.jiongjionger.neverlag.config.ConfigManager;
-import cn.jiongjionger.neverlag.utils.EntityUtils;
+import cn.jiongjionger.neverlag.utils.NeverLagUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.*;
@@ -31,7 +31,7 @@ public class MobFarmCleaner {
 		for (World world : Bukkit.getWorlds()) {
 			for (LivingEntity entity : world.getLivingEntities()) {
 				if (entity instanceof Monster || entity instanceof Animals || entity instanceof Villager || entity.getType() == EntityType.SQUID) {
-					if (EntityUtils.checkCustomNpc(entity)) {
+					if (NeverLagUtils.checkCustomNpc(entity)) {
 						continue;
 					}
 					if (this.getNearbyEntityCount(entity, false) >= cm.checkMobFarmLooseLimit || this.getNearbyEntityCount(entity, true) >= cm.checkMobFarmTinyLimit) {

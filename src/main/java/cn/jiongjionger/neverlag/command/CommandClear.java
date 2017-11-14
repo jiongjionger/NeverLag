@@ -1,7 +1,7 @@
 package cn.jiongjionger.neverlag.command;
 
 
-import cn.jiongjionger.neverlag.utils.EntityUtils;
+import cn.jiongjionger.neverlag.utils.NeverLagUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -44,7 +44,7 @@ public class CommandClear extends AbstractSubCommand {
 		int count = 0;
 		for (World w : Bukkit.getWorlds()) {
 			for (Entity entity : w.getEntities()) {
-				if (entity instanceof Player || EntityUtils.checkCustomNpc(entity)) {
+				if (entity instanceof Player || NeverLagUtils.checkCustomNpc(entity)) {
 					continue;
 				}
 				switch (args[0].toLowerCase()) {
