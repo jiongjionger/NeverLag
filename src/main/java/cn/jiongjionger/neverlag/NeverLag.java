@@ -7,7 +7,6 @@ import cn.jiongjionger.neverlag.gui.GUISortPingListener;
 import cn.jiongjionger.neverlag.monitor.MonitorUtils;
 import cn.jiongjionger.neverlag.system.TpsWatcher;
 import cn.jiongjionger.neverlag.system.WatchDog;
-import cn.jiongjionger.neverlag.utils.PingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -84,11 +83,9 @@ public class NeverLag extends JavaPlugin implements Listener {
 		Bukkit.getScheduler().runTaskTimer(this, tpsWatcher, 1L, 1L);
 		// 开启主线程停顿检测线程
 		watchDog = new WatchDog();
-		// 初始化getPing的反射
-		PingUtils.init();
 		// 初始化防御ALL-U-WANT模组
 		if (isInstallProtocoLib) {
-			AntiAUWMod.init();
+			AntiAUWMod.register();
 		}
 		// TODO 一堆new实例和配置文件
 		this.registerCommand();

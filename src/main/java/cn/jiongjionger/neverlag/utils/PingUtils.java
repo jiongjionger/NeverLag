@@ -11,10 +11,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public final class PingUtils {
+	private static final MethodInvoker method_getHandle;
+	private static final FieldAccessor<Integer> field_ping;
 
-	private static MethodInvoker method_getHandle = null;
-	private static FieldAccessor<Integer> field_ping = null;
-	private static volatile boolean isInit = false;
+	static {
+		method_getHandle = Reflection.getMethod(Reflection.getCraftBukkitClass("entity.CraftEntity"), "getHandle");
+		field_ping = Reflection.getField(Reflection.getMinecraftClass("EntityPlayer"), "ping", int.class);
+	}
 
 	// 给延迟标注颜色
 	public static String colorPing(int ping) {
@@ -34,19 +37,11 @@ public final class PingUtils {
 
 	// 获取玩家网络延迟
 	public static int getPing(Player p) {
-		if (!isInit) {
-			return -1;
-		}
 		return field_ping.get(method_getHandle.invoke(p));
 	}
 
-	private PingUtils() {}
-
 	// 获取全服玩家的延迟并且排序
 	public static LinkedHashMap<String, Integer> getPingAndSort() {
-		if (!isInit) {
-			return null;
-		}
 		HashMap<String, Integer> pingRecord = new HashMap<>();
 		for (World world : Bukkit.getWorlds()) {
 			for (Player p : world.getPlayers()) {
@@ -56,13 +51,5 @@ public final class PingUtils {
 		return NeverLagUtils.sortMapByValues(pingRecord);
 	}
 
-	public static void init() {
-		try {
-			method_getHandle = Reflection.getMethod(Reflection.getCraftBukkitClass("entity.CraftEntity"), "getHandle");
-			field_ping = Reflection.getField(Reflection.getMinecraftClass("EntityPlayer"), "ping", int.class);
-			isInit = true;
-		} catch (Exception e) {
-			isInit = false;
-		}
-	}
+	private PingUtils() {}
 }
