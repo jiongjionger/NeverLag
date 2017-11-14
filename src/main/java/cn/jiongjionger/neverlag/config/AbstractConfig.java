@@ -103,6 +103,10 @@ public abstract class AbstractConfig {
 					v = set;
 				}
 
+				if (v instanceof Double && (f.getType() == float.class || f.getType() == Float.class)) {
+					v = ((Double) v).floatValue();
+				}
+
 				f.set(this, v);
 			} catch (ReflectiveOperationException ex) {
 				LogRecord record = new LogRecord(Level.WARNING, "Unable to update config field: {0}");
