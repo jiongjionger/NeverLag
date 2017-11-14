@@ -51,7 +51,7 @@ public class HighfrequencyRedstoneCleaner implements Listener {
 	 * 
 	 */
 	private void asyncCheckAndRecord(final Location loc, final int typeId) {
-		// 使用自带的任务调度而非Thead避免一些问题
+		// 使用自带的任务调度而非Thread避免一些问题
 		plg.getServer().getScheduler().runTaskAsynchronously(plg, new Runnable() {
 			@Override
 			public void run() {
