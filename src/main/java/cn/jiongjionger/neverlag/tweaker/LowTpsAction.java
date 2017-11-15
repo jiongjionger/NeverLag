@@ -1,8 +1,6 @@
 package cn.jiongjionger.neverlag.tweaker;
 
 import cn.jiongjionger.neverlag.NeverLag;
-import cn.jiongjionger.neverlag.cleaner.EntityCleaner;
-import cn.jiongjionger.neverlag.cleaner.ItemCleaner;
 import cn.jiongjionger.neverlag.config.ConfigManager;
 import org.bukkit.Bukkit;
 
@@ -25,10 +23,11 @@ public class LowTpsAction {
 	private void doAction() {
 		lastActionTime = System.currentTimeMillis();
 		if (cm.lowTPSCleanEntity) {
-			EntityCleaner.doClean();
+			// TODO 重新实现这两个功能
+			// EntityCleaner.doClean();
 		}
 		if (cm.lowTPSCleanItem) {
-			ItemCleaner.doClean();
+			// ItemCleaner.doClean();
 		}
 		for (String command : cm.lowTPSCommand) {
 			Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);

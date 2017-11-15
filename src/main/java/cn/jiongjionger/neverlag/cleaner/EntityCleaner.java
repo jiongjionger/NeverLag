@@ -8,97 +8,241 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 
-public class EntityCleaner {
+import java.util.HashSet;
+import java.util.Set;
 
-	private static final ConfigManager cm = ConfigManager.getInstance();
-	private static final I18n i18n = NeverLag.i18n("cleaner.entity");
-
-	// 外部调用实体清理任务
-	public static void doClean() {
-		doClean(true);
-	}
-
-	/*
-	 * 清理实体任务
-	 * 
-	 * @param forceclean 是否强制清理，无视实体总量是否达到阀值
-	 */
-	@SuppressWarnings("deprecation")
-	private static void doClean(boolean forceclean) {
-		if (!cm.cleanEntity) {
-			return;
-		}
-		if (!forceclean) {
-			if (cm.cleanEntityThreshold > 0) {
-				int num = 0;
-				for (World world : Bukkit.getWorlds()) {
-					num += world.getLivingEntities().size();
-				}
-				// 如果没到阀值直接返回
-				if (num < cm.cleanEntityThreshold) {
-					return;
-				}
-			}
-		}
-		int count = 0;
-		// 循环世界
-		for (World world : Bukkit.getWorlds()) {
-			if (!cm.cleanEntityWorldWhitelist.contains(world.getName())) {
-				for (LivingEntity entity : world.getLivingEntities()) {
-					// 不清理NPC和Mypet宠物和白名单内的类型
-					if (NeverLagUtils.checkCustomNpc(entity) || cm.clearEntityTypeWhiteList.contains(entity.getType().getName().toLowerCase())) {
-						continue;
-					}
-					if (cm.cleanEntityPlayerNearbyDistance > 0 && NeverLagUtils.hasPlayerNearby(entity, cm.cleanEntityPlayerNearbyDistance)) {
-						continue;
-					}
-					if (entity instanceof Animals) {
-					} else if (entity instanceof Monster) {
-					} else if (entity instanceof Squid) {
-					} else if (entity instanceof Villager) {
-					} else if (cm.clearEntityTypeBlackList.contains(entity.getType().getName().toLowerCase())) {
-					} else {
-						continue;
-					}
-					entity.remove();
-					count++;
-				}
-			}
-		}
-		if (cm.cleanEntityBroadcast && count > 0) {
-			NeverLagUtils.broadcastIfOnline(i18n.tr("broadcast", count));
-		}
-	}
-
-	private int preMessageTime = 0;
+@SuppressWarnings({ "RedundantIfStatement", "SimplifiableIfStatement" })
+public class EntityCleaner implements Runnable {
+	private final ConfigManager cm = ConfigManager.getInstance();
+	private final I18n i18n = NeverLag.i18n("cleaner");
 
 	public EntityCleaner() {
-		NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
-			@Override
-			public void run() {
-				doClean();
-			}
-		}, cm.cleanEntityInterval * 20L, cm.cleanEntityInterval * 20L);
-		if (cm.cleanEntityInterval > 60) {
-			NeverLag.getInstance().getServer().getScheduler().runTaskTimer(NeverLag.getInstance(), new Runnable() {
-				@Override
-				public void run() {
-					doPreMessage();
+		// TODO: 重构调度机制
+		Bukkit.getScheduler().runTaskTimer(NeverLag.getInstance(), this, 20L, 20L);
+	}
+
+	private int itemTimeCounter = 0;
+	private int entityTimeCounter = 0;
+
+	@Override
+	public void run() {
+		if (cm.cleanItemEnabled) tickItem();
+		if (cm.cleanEntityEnabled) tickEntity();
+	}
+
+	private void tickItem() {
+		itemTimeCounter++;
+
+		if (cm.cleanItemInterval >= itemTimeCounter) {
+			// 计时器归零操作由 clean 方法执行
+			clean(true, false);
+		} else {
+			int remain = cm.cleanItemInterval - itemTimeCounter;
+			if (cm.cleanItemForenotice) {
+				if (remain == 60 || remain == 30 || remain == 10) {   // TODO: 低优先级: 看看能不能让其可配置
+					NeverLagUtils.broadcastIfOnline(i18n.tr("item.forenotice", remain));
 				}
-			}, 20L, 20L);
+			}
+
+			if (cm.cleanItemHoloMessage) {
+				updateHoloMessage(remain);
+			}
 		}
 	}
 
-	// 提前通知
-	private void doPreMessage() {
-		if (cm.cleanEntity && cm.cleanEntityBroadcast) {
-			this.preMessageTime++;
-			int remainSecond = cm.cleanEntityInterval - this.preMessageTime;
-			if (remainSecond == 60 || remainSecond == 30 || remainSecond == 10) {
-				NeverLagUtils.broadcastIfOnline(i18n.tr("forenotice", remainSecond));
+	private void tickEntity() {
+		entityTimeCounter++;
+
+		if (cm.cleanEntityInterval >= entityTimeCounter) {
+			// 计时器归零操作由 clean 方法执行
+			clean(false, true);
+		}
+	}
+
+	public void clean(boolean cleanItem, boolean cleanEntity) { // TODO: 支持清理阈值与 forceclean
+		if (cleanItem) itemTimeCounter = 0;
+		if (cleanEntity) entityTimeCounter = 0;
+
+		int itemCount = 0, mobCount = 0, entityCount = 0;
+		for (World world : Bukkit.getWorlds()) {
+			String worldName = world.getName();
+			if ((!cleanItem || cm.cleanItemWorldWhitelist.contains(worldName)) &&
+				(!cleanEntity || cm.cleanEntityWorldWhitelist.contains(worldName))) {
+				continue; // 如果这个世界既不允许清理掉落物也不允许清理实体就不浪费时间了
 			}
-			if (remainSecond <= 0) {
-				this.preMessageTime = 0;
+
+			for (Entity entity : world.getEntities()) {
+				if (entity instanceof Item) {
+					// 世界白名单之前检查过了, 没必要再次检查
+					if (canCleanItem((Item) entity, false)) {
+						itemCount++;
+					}
+				} else {
+					if (canClean(entity)) {
+						entity.remove();
+
+						if (entity instanceof LivingEntity) {
+							mobCount++;
+						} else {
+							entityCount++;
+						}
+					}
+				}
+			}
+		}
+
+		if (cm.cleanItemBroadcast && itemCount > 0) {
+			NeverLagUtils.broadcastIfOnline(i18n.tr("item.broadcast", itemCount));
+		}
+
+		if (cm.cleanEntityBroadcast) {
+			if (mobCount > 0) {
+				NeverLagUtils.broadcastIfOnline(i18n.tr("mob", mobCount));
+			}
+			if (entityCount > 0) {
+				NeverLagUtils.broadcastIfOnline(i18n.tr("entity", entityCount));
+			}
+		}
+	}
+
+	/**
+	 * 判断非掉落物的实体能否被清理.
+	 * <p>
+	 * 按以下顺序依次判定, 一旦有一条满足则跳过剩下的步骤:
+	 * <ol>
+	 * <li>如果为掉落物: 抛异常</li>
+	 * <li>不是掉落物, 并且实体清理未开启: 不清理</li>
+	 * <li>所在世界在白名单中: 不清理</li>
+	 * <li>距离判定开启并符合条件: 不清理</li>
+	 * <li>实体类型在排除列表中: 不清理</li>
+	 * <li>实体类型在包含列表中: 清理</li>
+	 * <li>
+	 * 是{@linkplain LivingEntity 生物}:
+	 * <ol>
+	 * <li>是动物且清理动物: 清理</li>
+	 * <li>是怪物且清理怪物: 清理</li>
+	 * <li>是鱿鱼且清理鱿鱼: 清理</li>
+	 * <li>否则: 不清理</li>
+	 * </ol>
+	 * </li>
+	 * <li>是{@linkplain Projectile 弹射物}: 如果清理弹射物则清理</li>
+	 * <li>否则: 不清理</li>
+	 * </ol>
+	 */
+	public boolean canClean(Entity entity) {
+		if (entity instanceof Item) {
+			throw new AssertionError("此方法不能判定掉落物");
+		}
+
+		if (!cm.cleanEntityEnabled) {
+			return false; // 除了掉落物外的所有实体都按实体对待
+		}
+
+		if (cm.cleanEntityWorldWhitelist.contains(entity.getWorld().getName())) {
+			return false;
+		}
+
+		if (cm.cleanEntityPlayerNearbyDistance > 0 &&
+			NeverLagUtils.hasPlayerNearby(entity, cm.cleanEntityPlayerNearbyDistance)) {
+			return false;
+		}
+
+		String type = entity.getType().toString();
+		if (cm.cleanEntityExcludeList.contains(type)) {
+			return false;
+		}
+
+		if (cm.cleanEntityIncludeList.contains(type)) {
+			return true;
+		}
+
+		if (entity instanceof LivingEntity) {
+			return canCleanLivingEntity(((LivingEntity) entity));
+		}
+
+		if (entity instanceof Projectile) {
+			return canCleanProjectile(((Projectile) entity));
+		}
+
+		return false;
+	}
+
+	@SuppressWarnings("deprecation")
+	public boolean canCleanItem(Item item, boolean checkWorldWhitelist) {
+		if (!cm.cleanItemEnabled) {
+			return false;
+		}
+		if (checkWorldWhitelist && cm.cleanItemWorldWhitelist.contains(item.getWorld().getName())) {
+			return false;
+		}
+		if (cm.cleanItemIdWhitelist.contains(item.getItemStack().getTypeId())) {
+			return false;
+		}
+		if (cm.cleanItemPlayerNearbyDistance > 0 &&
+			NeverLagUtils.hasPlayerNearby(item, cm.cleanItemPlayerNearbyDistance)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean canCleanLivingEntity(LivingEntity entity) {
+		if (entity instanceof Animals && cm.cleanEntityIncludeAnimals) {
+			return true;
+		}
+
+		if (entity instanceof Monster && cm.cleanEntityIncludeMonsters) {
+			return true;
+		}
+
+		if (entity instanceof Squid && cm.cleanEntityIncludeSquids) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean canCleanProjectile(Projectile projectile) {
+		return cm.cleanEntityIncludeProjectiles;
+	}
+
+	private final Set<Item> holoMessage = new HashSet<>();
+
+	/**
+	 * @param remain 小于 0 则为清除
+	 */
+	private void updateHoloMessage(int remain) {
+		String message = remain > 0 ? i18n.tr("item.holoTitle", remain) : null;
+		for (World world : Bukkit.getWorlds()) {
+			if (cm.cleanItemWorldWhitelist.contains(world.getName())) {
+				continue;
+			}
+
+			for (Item item : world.getEntitiesByClass(Item.class)) {
+				// 当前是否已经在显示倒计时
+				boolean displaying = holoMessage.contains(item);
+
+				if (canCleanItem(item, false)) {
+					/*
+						只有满足了如下条件之一才显示倒计时:
+						1. 已在显示倒计时的
+						2. custom name 未被设置的 (与其他插件兼容)
+					*/
+					if (displaying || (item.getCustomName() == null || !item.isCustomNameVisible())) {
+						item.setCustomName(message);
+						item.setCustomNameVisible(message != null);
+
+						// 更新记录
+						if (message != null) {
+							if (!displaying) holoMessage.add(item);
+						} else {
+							if (displaying) holoMessage.remove(item);
+						}
+					}
+				} else if (displaying) { // 如果之前在显示倒计时, 但现在不再满足显示条件了
+					item.setCustomName(null);
+					holoMessage.remove(item);
+				}
 			}
 		}
 	}

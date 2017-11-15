@@ -21,91 +21,71 @@ public class ConfigManager extends AbstractConfig {
 	@F("lang")
 	public String lang = Locale.getDefault().toString();
 
-	// 是否开启清理掉落物功能
-	@F("Cleaner.Item.Enabled")
-	public boolean cleanItemEnabled = false;
-	// 掉落物清理间隔
-	@F("Cleaner.Item.Interval")
-	public int cleanItemInterval = 600;
-	// 不清除物品的世界列表
-	@F("Cleaner.Item.WorldWhitelist")
-	public Set<String> cleanItemWorldWhitelist = Collections.emptySet();
-	// 不清理的物品ID
-	@F("Cleaner.Item.IdWhitelist")
-	public Set<Integer> cleanItemIdWhitelist = Collections.emptySet();
-	// 在玩家距离掉落物多少格距离的时候，不清理这个物品。小于0则为禁用
-	@F("Cleaner.Item.DontCleanIfPlayerNearerThan")
-	public int cleanItemPlayerNearbyDistance = 10;
-	// 清理物品的时候是否公告
-	@F("Cleaner.Item.Broadcast")
-	public boolean cleanItemBroadcast = true;
-	// 清理物品是否提前通知
-	@F("Cleaner.Item.BroadcastForenotice")
-	public boolean cleanItemForenotice = true;
-	// 是否开启清理前60秒在物品上显示悬浮的倒计时
-	@F("Cleaner.Item.HoloForenotice")
-	public boolean cleanItemHoloForenotice = false;
+	// TODO: 让各种世界名列表啊, 物品ID列表啊变成它们应该有的类型
 
-	// 是否清理实体
+	// 是否开启实体清理功能
 	@F("Cleaner.Entity.Enabled")
-	public boolean cleanEntity = false;
-	// 实体清理周期
+	public boolean cleanEntityEnabled = false;
+	// 实体清理间隔
 	@F("Cleaner.Entity.Interval")
-	public int cleanEntityInterval = 1200;
-	// 不清除实体的世界列表
+	public int cleanEntityInterval = 120;
+	// 实体清理阈值。小于 0 则为禁用
+	@F("Cleaner.Entity.Threshold")
+	public int cleanEntityThreshold = 500;
+	// 不清理哪些世界的实体
 	@F("Cleaner.Entity.WorldWhitelist")
 	public Set<String> cleanEntityWorldWhitelist = Collections.emptySet();
-	// 在玩家距离实体多少格距离的时候，不清理这个实体
+	// 在玩家距离实体多少格距离的时候，不清理这个实体。小于 0 则为禁用
 	@F("Cleaner.Entity.DontCleanIfPlayerNearerThan")
 	public int cleanEntityPlayerNearbyDistance = 10;
-	// 实体清理阀值
-	@F("Cleaner.Entity.CleanThreshold")
-	public int cleanEntityThreshold = 300;
-	// 清理实体的时候是否公告
+	// 清理后是否公告
 	@F("Cleaner.Entity.Broadcast")
 	public boolean cleanEntityBroadcast = true;
-	// 是否清除展示框
-	@F("Cleaner.Entity.Type.ItemFrame")
-	public boolean cleanEntityItemFrame = false;
-	// 是否清除船
-	@F("Cleaner.Entity.Type.Boat")
-	public boolean cleanEntityBoat = false;
-	// 是否清除经验球
-	@F("Cleaner.Entity.Type.ExpBall")
-	public boolean cleanEntityExpBall = true;
-	// 是否清除正在掉落的物品
-	@F("Cleaner.Entity.Type.FallingBlock")
-	public boolean cleanEntityFallingBlock = false;
-	// 是否清除画
-	@F("Cleaner.Entity.Type.Painting")
-	public boolean cleanEntityPainting = false;
-	// 是否清理矿车
-	@F("Cleaner.Entity.Type.Minecart")
-	public boolean cleanEntityMinecart = false;
-	// 是否清理地上的箭头
-	@F("Cleaner.Entity.Type.Arrow")
-	public boolean cleanEntityArrow = true;
-	// 是否清理地上的雪球
-	@F("Cleaner.Entity.Type.Snowball")
-	public boolean cleanEntitySnowBall = false;
-	// 是否清理动物
-	@F("Cleaner.Entity.Type.Animal")
-	public boolean cleanEntityAnimals = false;
-	// 是否清理怪物
-	@F("Cleaner.Entity.Type.Monster")
-	public boolean cleanEntityMonster = false;
-	// 是否清理乌贼
-	@F("Cleaner.Entity.Type.Squid")
-	public boolean cleanEntitySquid = false;
-	// 是否清理村民
-	@F("Cleaner.Entity.Type.Villager")
-	public boolean cleanEntityVillager = false;
-	// 清理实体的黑名单
-	@F("Cleaner.Entity.Type.Blacklist")
-	public Set<String> clearEntityTypeBlackList = Collections.emptySet();
-	// 清理实体的白名单
-	@F("Cleaner.Entity.Type.Whitelist")
-	public Set<String> clearEntityTypeWhiteList = Collections.emptySet();
+
+	// 清理种类是否包括所有动物
+	@F("Cleaner.Entity.Included.Animals")
+	public boolean cleanEntityIncludeAnimals = false;
+	// 清理种类是否包括所有怪物
+	@F("Cleaner.Entity.Included.Monsters")
+	public boolean cleanEntityIncludeMonsters = false;
+	// 清理种类是否包括鱿鱼
+	@F("Cleaner.Entity.Included.Squids")
+	public boolean cleanEntityIncludeSquids = true;
+	// 清理种类是否包括抛射物（箭、雪球等）
+	@F("Cleaner.Entity.Included.Projectiles")
+	public boolean cleanEntityIncludeProjectiles = true;
+	// 其他需要清理的种类
+	@F("Cleaner.Entity.Included.Others")
+	public Set<String> cleanEntityIncludeList = Collections.emptySet();
+
+	// 需要从 include 设定里排除的种类
+	@F("Cleaner.Entity.Excluded")
+	public Set<String> cleanEntityExcludeList = Collections.emptySet();
+
+	// 是否清理掉落物
+	@F("Cleaner.DropItem.Enabled")
+	public boolean cleanItemEnabled = true;
+	// 物品清理间隔
+	@F("Cleaner.DropItem.Interval")
+	public int cleanItemInterval = 300;
+	// 不清理哪些世界的掉落物
+	@F("Cleaner.DropItem.WorldWhitelist")
+	public Set<String> cleanItemWorldWhitelist = Collections.emptySet();
+	// 不清理哪些类型的掉落物
+	@F("Cleaner.DropItem.IdWhitelist")
+	public Set<Integer> cleanItemIdWhitelist = Collections.emptySet();
+	// 在玩家距离掉落物多少格距离的时候，不清理这个物品。小于 0 则为禁用
+	@F("Cleaner.DropItem.DontCleanIfPlayerNearerThan")
+	public int cleanItemPlayerNearbyDistance = 10;
+	// 清理后是否公告
+	@F("Cleaner.DropItem.Broadcast")
+	public boolean cleanItemBroadcast = true;
+	// 清理前是否预告
+	@F("Cleaner.DropItem.Forenotice")
+	public boolean cleanItemForenotice = true;
+	// 清理前是否在物品之上悬浮显示倒计时
+	@F("Cleaner.DropItem.HoloMessage")
+	public boolean cleanItemHoloMessage = false;
 
 	// 是否检测超频红石
 	@F("Redstone.Enabled")

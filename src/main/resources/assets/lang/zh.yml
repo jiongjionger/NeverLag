@@ -79,13 +79,12 @@ gui:
         previous: "上一页"
         next: "下一页"
 cleaner:
-    entity:
-        broadcast: "本次清理了 {0} 个实体"
-        forenotice: "即将在 {0} 秒后清理实体"
     item:
         broadcast: "本次清理了 {0} 个掉落物"
         forenotice: "即将在 {0} 秒后清理掉落物"
         holoTitle: "{0} 秒后清理"
+    mob: "清理了 {0} 个生物"
+    entity: "清理了 {0} 个实体"
 cooldown:
     command: "命令冷却中, 请等待 {0} 秒后再试"
     chat: "请等待 {0} 秒后再试"
