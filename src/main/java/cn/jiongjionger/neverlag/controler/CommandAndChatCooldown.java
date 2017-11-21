@@ -32,7 +32,7 @@ public class CommandAndChatCooldown implements Listener {
 			return;
 		}
 		// 忽略免检权限
-		if (p.hasPermission("ChatCommandRate.Pass")) {
+		if (p.hasPermission("neverlag.bypass.cooldown.chat")) {
 			return;
 		}
 		// 判断间隔时间
@@ -59,7 +59,7 @@ public class CommandAndChatCooldown implements Listener {
 			return;
 		}
 		// 忽略免检权限
-		if (p.hasPermission("ChatCommandRate.Pass")) {
+		if (p.hasPermission("neverlag.bypass.cooldown.command")) {
 			return;
 		}
 		// 命令白名单

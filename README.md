@@ -66,5 +66,7 @@ A plugin that focuses on optimizing Minecraft server performance, reducing serve
 - neverlag.limit.dispenser.<数量>
 - neverlag.limit.piston.<数量>
 - neverlag.limit.dropper.<数量>
+- neverlag.bypass.cooldown.chat
+- neverlag.bypass.cooldown.command
 ## 联系方式
 Email: [17jiong@gmail.com](mailto:17jiong@gmail.com)
