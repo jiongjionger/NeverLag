@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.jiongjionger</groupId>
-    <artifactId>NeverLag</artifactId>
+    <artifactId>neverLag</artifactId>
     <version>2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -61,6 +61,7 @@
 
     <build>
         <defaultGoal>clean package</defaultGoal>
+        <finalName>${project.name}-${project.version}.jar</finalName>
         <resources>
             <resource>
                 <filtering>true</filtering>
